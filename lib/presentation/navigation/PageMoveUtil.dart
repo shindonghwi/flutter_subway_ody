@@ -19,13 +19,18 @@ PageRouteBuilder nextSlideScreen(String route, {dynamic parameter}) {
 
 PageRouteBuilder nextFadeInOutScreen(String route, {dynamic parameter}) {
   return PageRouteBuilder(
-    transitionDuration: const Duration(milliseconds: 250),
+    transitionDuration: const Duration(milliseconds: 600),
     pageBuilder: (context, animation, secondaryAnimation) =>
         RoutingScreen.getScreen(route, parameter: parameter),
-    reverseTransitionDuration: const Duration(milliseconds: 250),
+    reverseTransitionDuration: const Duration(milliseconds: 600),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      final curvedAnimation = CurvedAnimation(
+        parent: animation,
+        curve: Curves.easeIn,
+        reverseCurve: Curves.easeOut,
+      );
       return FadeTransition(
-        opacity: animation,
+        opacity: curvedAnimation,
         child: child,
       );
     },
