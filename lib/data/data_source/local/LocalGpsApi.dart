@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:subway_ody/data/data_source/local/SharedKey.dart';
+import 'package:subway_ody/domain/models/LatLng.dart';
 
 class LocalGpsApi {
   LocalGpsApi();
@@ -32,6 +33,17 @@ class LocalGpsApi {
 
       return true;
     }
+  }
+
+  /// 현재 위치 정보 반환
+  Future<LatLng> getLatLng() async {
+    Location location = Location();
+    return await location.getLocation().then(
+          (value) => LatLng(
+            value.latitude,
+            value.longitude,
+          ),
+        );
   }
 
   /// 자동 새로고침 여부 저장

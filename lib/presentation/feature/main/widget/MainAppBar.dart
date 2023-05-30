@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get_it/get_it.dart';
+import 'package:subway_ody/domain/models/LatLng.dart';
+import 'package:subway_ody/domain/usecases/local/GetLatLngUseCase.dart';
 import 'package:subway_ody/presentation/feature/main/widget/bottom_sheet/BottomSheetUtil.dart';
 import 'package:subway_ody/presentation/navigation/PageMoveUtil.dart';
 import 'package:subway_ody/presentation/navigation/Route.dart';
@@ -12,6 +15,17 @@ class MainAppBar extends HookWidget with PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final currentLatLng = useState<LatLng>(LatLng(0,0));
+
+    useEffect(() {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        GetIt.instance<GetLatLngCallUseCase>().call().then((value) {
+          currentLatLng.value = value;
+        });
+      });
+    },[]);
+
     return AppBar(
       backgroundColor: const Color(0xFFFDFDFD),
       bottomOpacity: 0.0,
