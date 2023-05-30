@@ -1,12 +1,10 @@
 enum SharedKey {
-  APP_USE_POLICY, // 앱 사용 약관 동의
-  SOCIAL_ACCESS_TOKEN, // 소셜 토큰
+  AUTO_REFRESH_CALL, // 자동 새로고침 여부
 }
 
 class SharedKeyHelper {
   static const Map<SharedKey, String> _stringToEnum = {
-    SharedKey.APP_USE_POLICY: "APP_USE_POLICY",
-    SharedKey.SOCIAL_ACCESS_TOKEN: "SOCIAL_ACCESS_TOKEN",
+    SharedKey.AUTO_REFRESH_CALL: "AUTO_REFRESH_CALL",
   };
 
   static String fromString(SharedKey key) => _stringToEnum[key]!;

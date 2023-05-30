@@ -23,7 +23,7 @@ enum RoutingScreen {
   }
 
   static getScreen(String route, {dynamic parameter}) {
-    debugPrint("getScreen : parameter: $parameter");
+    debugPrint("getScreen: $route | parameter: $parameter");
     switch (route) {
       case "/splash":
         return const SplashScreen();

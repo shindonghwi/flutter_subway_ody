@@ -1,5 +1,5 @@
 import 'package:get_it/get_it.dart';
-import 'package:subway_ody/domain/repositories/local/gps/LocalGpsRepository.dart';
+import 'package:subway_ody/domain/repositories/local/LocalGpsRepository.dart';
 
 class GetLocationPermissionUseCase {
   GetLocationPermissionUseCase();
