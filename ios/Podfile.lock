@@ -1,5 +1,9 @@
 PODS:
+  - "app_settings (3.0.0+1)":
+    - Flutter
   - Flutter (1.0.0)
+  - flutter_exit_app (1.1.2):
+    - Flutter
   - flutter_native_splash (0.0.1):
     - Flutter
   - location (0.0.1):
@@ -9,14 +13,20 @@ PODS:
     - FlutterMacOS
 
 DEPENDENCIES:
+  - app_settings (from `.symlinks/plugins/app_settings/ios`)
   - Flutter (from `Flutter`)
+  - flutter_exit_app (from `.symlinks/plugins/flutter_exit_app/ios`)
   - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
   - location (from `.symlinks/plugins/location/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/ios`)
 
 EXTERNAL SOURCES:
+  app_settings:
+    :path: ".symlinks/plugins/app_settings/ios"
   Flutter:
     :path: Flutter
+  flutter_exit_app:
+    :path: ".symlinks/plugins/flutter_exit_app/ios"
   flutter_native_splash:
     :path: ".symlinks/plugins/flutter_native_splash/ios"
   location:
@@ -25,7 +35,9 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/shared_preferences_foundation/ios"
 
 SPEC CHECKSUMS:
+  app_settings: d103828c9f5d515c4df9ee754dabd443f7cedcf3
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  flutter_exit_app: f2e47c6d0b9c5137c33fab74bc4a9d5d54113bdc
   flutter_native_splash: 52501b97d1c0a5f898d687f1646226c1f93c56ef
   location: 3a2eed4dd2fab25e7b7baf2a9efefe82b512d740
   shared_preferences_foundation: e2dae3258e06f44cc55f49d42024fd8dd03c590c

@@ -1,5 +1,9 @@
+import 'dart:io';
+
+import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_exit_app/flutter_exit_app.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -41,7 +45,13 @@ class SplashScreen extends HookConsumerWidget {
           ),
           actions: [
             TextButton(
-              onPressed: () => SystemNavigator.pop(animated: true),
+              onPressed: () {
+                if (Platform.isAndroid) {
+                  SystemNavigator.pop(animated: true);
+                } else {
+                  FlutterExitApp.exitApp(iosForceExit: true);
+                }
+              },
               child: Text(
                 '종료하기',
                 style: getTextTheme(context).medium.copyWith(
@@ -53,16 +63,20 @@ class SplashScreen extends HookConsumerWidget {
             TextButton(
               onPressed: () async {
                 Navigator.of(ctx).pop(true);
-                GetIt.instance<GetLocationPermissionUseCase>().call().then((value) {
-                  if (value) {
-                    moveMainPage();
-                  } else {
-                    showExitPopup();
-                  }
-                });
+                if (Platform.isAndroid) {
+                  GetIt.instance<GetLocationPermissionUseCase>().call().then((value) {
+                    if (value) {
+                      moveMainPage();
+                    } else {
+                      showExitPopup();
+                    }
+                  });
+                } else {
+                  AppSettings.openAppSettings();
+                }
               },
               child: Text(
-                '요청하기',
+                Platform.isAndroid ? '요청하기' : '설정하기',
                 style: getTextTheme(ctx).medium.copyWith(
                       color: getColorScheme(ctx).colorPrimary,
                       fontSize: 12,
@@ -86,6 +100,7 @@ class SplashScreen extends HookConsumerWidget {
     }
 
     useEffect(() {
+      debugPrint("SplashScreen useEffect");
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         // 새로고침 여부 가져오기
         await GetIt.instance<GetAutoRefreshCallUseCase>().call().then((value) {
@@ -101,11 +116,73 @@ class SplashScreen extends HookConsumerWidget {
     return Container(
       color: getColorScheme(context).colorPrimary,
       padding: const EdgeInsets.symmetric(horizontal: 50.0),
-      child: Center(
-        child: Image.asset(
-          "assets/imgs/splash_image.png",
-          fit: BoxFit.cover,
-        ),
+      child: LifecycleWatcher(
+        onLifeCycleChanged: (state) {
+          if (state == AppLifecycleState.resumed) {
+            requestGpsPermission();
+          }
+        },
+      ),
+    );
+  }
+}
+
+class LifecycleWatcher extends StatefulWidget {
+  final Function(dynamic state) onLifeCycleChanged;
+
+  const LifecycleWatcher({
+    Key? key,
+    required this.onLifeCycleChanged,
+  }) : super(key: key);
+
+  @override
+  State<LifecycleWatcher> createState() => _LifecycleWatcherState();
+}
+
+class _LifecycleWatcherState extends State<LifecycleWatcher> with WidgetsBindingObserver {
+  late AppLifecycleState _lastLifecycleState;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.detached:
+        print("## detached");
+        break;
+      case AppLifecycleState.inactive:
+        print("## inactive");
+        break;
+      case AppLifecycleState.paused:
+        print("## paused");
+        break;
+      case AppLifecycleState.resumed:
+        print("## resumed");
+        break;
+    }
+
+    setState(() {
+      widget.onLifeCycleChanged(state);
+      _lastLifecycleState = state;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Image.asset(
+        "assets/imgs/splash_image.png",
+        fit: BoxFit.cover,
       ),
     );
   }
