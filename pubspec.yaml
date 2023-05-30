@@ -27,6 +27,7 @@ dependencies:
   shared_preferences: ^2.1.1
   flutter_exit_app: ^1.1.2
   app_settings: ^4.2.0
+  package_info_plus: ^4.0.2
 
 dev_dependencies:
   flutter_test:

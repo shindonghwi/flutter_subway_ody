@@ -16,8 +16,7 @@ class Environment {
 
   static BuildType get buildType => _instance._buildType;
 
-  static String get apiUrl =>
-      _instance._buildType == BuildType.dev ? '' : ''; // api 주소
+  static String get apiUrl => _instance._buildType == BuildType.dev ? '' : ''; // api 주소
 
   static String get apiVersion =>
       _instance._buildType == BuildType.dev ? 'v1' : 'v1'; // api Version
@@ -29,7 +28,11 @@ class Environment {
 
   bool get isDebuggable => _buildType == BuildType.dev;
 
-  void run() async{
+  static String get kakaoRestApiKey => _instance._buildType == BuildType.dev
+      ? '06de5b28e76880404c369fcb6a81c230'
+      : '9672018471d87420b9bc260308a8bc9c';
+
+  void run() async {
     SystemChrome.setEnabledSystemUIMode(
       SystemUiMode.manual,
       overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom],
@@ -42,6 +45,5 @@ class Environment {
     initServiceLocator();
 
     runApp(const ProviderScope(child: SubwayOdyApp()));
-
   }
 }

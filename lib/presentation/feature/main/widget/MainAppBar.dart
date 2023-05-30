@@ -1,30 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get_it/get_it.dart';
-import 'package:subway_ody/domain/models/LatLng.dart';
-import 'package:subway_ody/domain/usecases/local/GetLatLngUseCase.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:subway_ody/presentation/feature/main/widget/bottom_sheet/BottomSheetUtil.dart';
+import 'package:subway_ody/presentation/feature/provider/CurrentRegionNotifier.dart';
 import 'package:subway_ody/presentation/navigation/PageMoveUtil.dart';
 import 'package:subway_ody/presentation/navigation/Route.dart';
 import 'package:subway_ody/presentation/ui/typography.dart';
 import 'package:subway_ody/presentation/utils/Common.dart';
 
-class MainAppBar extends HookWidget with PreferredSizeWidget {
+class MainAppBar extends HookConsumerWidget with PreferredSizeWidget {
   const MainAppBar({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-
-    final currentLatLng = useState<LatLng>(LatLng(0,0));
-
-    useEffect(() {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        GetIt.instance<GetLatLngCallUseCase>().call().then((value) {
-          currentLatLng.value = value;
-        });
-      });
-    },[]);
+  Widget build(BuildContext context, WidgetRef ref) {
 
     return AppBar(
       backgroundColor: const Color(0xFFFDFDFD),
@@ -32,16 +20,7 @@ class MainAppBar extends HookWidget with PreferredSizeWidget {
       elevation: 1.0,
       shadowColor: const Color(0xFFEDEDED),
       automaticallyImplyLeading: false,
-      title: Text(
-        "군자동 134-26",
-        style: getTextTheme(context).medium.copyWith(
-              color: const Color(0xFF2F2F2F),
-              fontSize: 18,
-              height: 1.28,
-            ),
-        textAlign: TextAlign.left,
-        overflow: TextOverflow.ellipsis,
-      ),
+      title: const _RegionText(),
       centerTitle: false,
       actions: [
         Align(
@@ -92,4 +71,26 @@ class MainAppBar extends HookWidget with PreferredSizeWidget {
 
   showDistanceEditBottomSheet(BuildContext context) =>
       BottomSheetUtil.showDistanceBottomSheet(context);
+}
+
+class _RegionText extends HookConsumerWidget {
+
+  const _RegionText({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+
+    final region = ref.watch(currentRegionProvider);
+
+    return Text(
+      region,
+      style: getTextTheme(context).medium.copyWith(
+            color: const Color(0xFF2F2F2F),
+            fontSize: 18,
+            height: 1.28,
+          ),
+      textAlign: TextAlign.left,
+      overflow: TextOverflow.ellipsis,
+    );
+  }
 }

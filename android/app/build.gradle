@@ -42,6 +42,28 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
     }
 
+    def keystoreProperties = new Properties()
+    def keystorePropertiesFile = rootProject.file('signing/keystore.properties')
+    if (keystorePropertiesFile.exists()) {
+        keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+    }
+
+    signingConfigs {
+        debug {
+            keyAlias keystoreProperties['devKeyAlias']
+            keyPassword keystoreProperties['devKeyPassword']
+            storeFile file(keystoreProperties['devStoreFile'])
+            storePassword keystoreProperties['devStorePassword']
+        }
+
+        release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
+    }
+
     defaultConfig {
         applicationId "com.orot.subway_ody"
         minSdkVersion 26
@@ -51,8 +73,14 @@ android {
     }
 
     buildTypes {
-        release {
+        debug {
+            debuggable true
             signingConfig signingConfigs.debug
+        }
+
+        release {
+            debuggable false
+            signingConfig signingConfigs.release
         }
     }
 }
