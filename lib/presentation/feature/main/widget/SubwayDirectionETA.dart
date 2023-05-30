@@ -29,7 +29,7 @@ class SubwayDirectionETA extends StatelessWidget {
           width: 8,
         ),
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           decoration: BoxDecoration(
             color: getColorScheme(context).white,
             borderRadius: BorderRadius.circular(5),

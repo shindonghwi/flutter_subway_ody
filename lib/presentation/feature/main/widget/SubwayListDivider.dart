@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:subway_ody/app/SubwayOdyApp.dart';
+import 'package:subway_ody/presentation/feature/main/widget/SubwayPositionList.dart';
 import 'package:subway_ody/presentation/ui/colors.dart';
 import 'package:subway_ody/presentation/ui/typography.dart';
 import 'package:subway_ody/presentation/utils/Common.dart';
@@ -19,81 +21,31 @@ class SubwayListDivider extends StatelessWidget {
       "영등포구청",
     ];
 
-    final subwayList2 = [
-      "마곡나루",
-      "개봉",
-      "동대문역사문화공원",
-      "영등포구청",
-    ];
-
-    final subwayList3 = [
-      "마곡나루",
-      "개봉",
-      "영등포구청",
-    ];
-
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 47),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            mainAxisSize: MainAxisSize.max,
-            children: List.generate(subwayList.length * 2 - 1, (index) {
-              return Text("$index", style: getTextTheme(context).medium,);
-            }).toList(),
+    return Column(
+      children: [
+        SizedBox(
+          width: double.infinity,
+          height: 56,
+          child: SubwayPositionList(
+            subwayList: subwayList,
+            mainColor: getColorScheme(context).colorLine8,
+            isSubwayDirectionLeft: true,
           ),
-          SizedBox(
-            width: double.infinity,
-            height: 8,
-            child: CustomPaint(
-              painter: SubwayDividerAndNamePainter(
-                subwayList: subwayList,
-                mainColor: getColorScheme(context).colorLine8,
-                isSubwayDirectionLeft: true,
-              ),
+        ),
+        const SizedBox(height: 10),
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 55),
+          width: double.infinity,
+          height: 8,
+          child: CustomPaint(
+            painter: SubwayDividerAndNamePainter(
+              subwayList: subwayList,
+              mainColor: getColorScheme(context).colorLine8,
+              isSubwayDirectionLeft: true,
             ),
           ),
-          SizedBox(height: 72,),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            mainAxisSize: MainAxisSize.max,
-            children: List.generate(subwayList2.length * 2 - 1, (index) {
-              return Text("$index", style: getTextTheme(context).medium,);
-            }).toList(),
-          ),
-          SizedBox(
-            width: double.infinity,
-            height: 8,
-            child: CustomPaint(
-              painter: SubwayDividerAndNamePainter(
-                subwayList: subwayList2,
-                mainColor: getColorScheme(context).colorLine4,
-                isSubwayDirectionLeft: true,
-              ),
-            ),
-          ),
-          SizedBox(height: 72,),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            mainAxisSize: MainAxisSize.max,
-            children: List.generate(subwayList3.length * 2 - 1, (index) {
-              return Text("$index", style: getTextTheme(context).medium,);
-            }).toList(),
-          ),
-          SizedBox(
-            width: double.infinity,
-            height: 8,
-            child: CustomPaint(
-              painter: SubwayDividerAndNamePainter(
-                subwayList: subwayList3,
-                mainColor: getColorScheme(context).colorLine4,
-                isSubwayDirectionLeft: true,
-              ),
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
@@ -123,7 +75,7 @@ class SubwayDividerAndNamePainter extends CustomPainter {
   }
 
   @override
-  void paint(Canvas canvas, Size size) {
+  Future<void> paint(Canvas canvas, Size size) async {
     final paint = Paint()
       ..color = mainColor
       ..strokeWidth = size.height
@@ -183,6 +135,14 @@ class SubwayDividerAndNamePainter extends CustomPainter {
       final textY = circleInnerCenter.dy + radius + 10;
       textPainter.paint(canvas, Offset(textX, textY));
     }
+  }
+
+  Future<SvgPicture> loadSvgImage(String imagePath) async {
+    final svgString = await DefaultAssetBundle.of(context).loadString(imagePath);
+    return SvgPicture.string(
+      svgString,
+      fit: BoxFit.contain, // Adjust the fit as per your requirements
+    );
   }
 
   @override
