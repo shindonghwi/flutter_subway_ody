@@ -7,7 +7,7 @@
 
    <application
         android:label="subway_ody"
-        android:name="${applicationName}"
+        android:name="지하철오디"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
