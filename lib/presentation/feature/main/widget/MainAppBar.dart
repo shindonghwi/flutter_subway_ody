@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:subway_ody/presentation/feature/main/widget/showDistanceBottomSheet.dart';
 import 'package:subway_ody/presentation/ui/typography.dart';
 import 'package:subway_ody/presentation/utils/Common.dart';
 
@@ -32,7 +33,7 @@ class MainAppBar extends HookWidget with PreferredSizeWidget {
           child: Container(
             margin: const EdgeInsets.only(right: 0),
             child: InkWell(
-              onTap: () {},
+              onTap: () => showDistanceEditBottomSheet(context),
               child: Padding(
                 padding: const EdgeInsets.all(14.0),
                 child: SvgPicture.asset(
@@ -67,4 +68,7 @@ class MainAppBar extends HookWidget with PreferredSizeWidget {
 
   @override
   Size get preferredSize => const Size(double.infinity, 56);
+
+  showDistanceEditBottomSheet(BuildContext context) =>
+      BottomSheetUtil.showDistanceBottomSheet(context);
 }

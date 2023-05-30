@@ -15,20 +15,36 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const MainAppBar(),
-      body: Column(
-        children:   const [
-          SizedBox(height: 32),
-          SubwayTitle(),
-          SizedBox(height: 22),
-          SubwayDirectionETA(),
-          SizedBox(height: 28),
-          SubwayListDivider(),
-          SizedBox(height: 74),
-          SubwayDirectionETA(),
-          SizedBox(height: 28),
-          SubwayListDivider(),
-          AdvertiseContainer(),
-        ],
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        padding: const EdgeInsets.only(bottom: 120),
+        child: Column(
+          children:   const [
+            SizedBox(height: 32),
+            SubwayTitle(),
+            SizedBox(height: 22),
+            SubwayDirectionETA(),
+            SizedBox(height: 28),
+            SubwayListDivider(),
+            SizedBox(height: 74),
+            SubwayDirectionETA(),
+            SizedBox(height: 28),
+            SubwayListDivider(),
+            AdvertiseContainer(),
+
+            SizedBox(height: 32),
+            SubwayTitle(),
+            SizedBox(height: 22),
+            SubwayDirectionETA(),
+            SizedBox(height: 28),
+            SubwayListDivider(),
+            SizedBox(height: 74),
+            SubwayDirectionETA(),
+            SizedBox(height: 28),
+            SubwayListDivider(),
+            AdvertiseContainer(),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
