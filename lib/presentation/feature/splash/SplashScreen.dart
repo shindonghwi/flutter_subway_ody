@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:get_it/get_it.dart';
+import 'package:subway_ody/domain/usecases/local/app/GetLocationPermissionUseCase.dart';
 import 'package:subway_ody/presentation/navigation/PageMoveUtil.dart';
 import 'package:subway_ody/presentation/navigation/Route.dart';
 import 'package:subway_ody/presentation/ui/colors.dart';
@@ -10,14 +12,29 @@ class SplashScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    useEffect(
+      () {
+        useEffect(() {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            GetIt.instance<GetLocationPermissionUseCase>().call().then((value) {
+                if (value) {
+                  Future.delayed(const Duration(milliseconds: 1000), () {
+                    Navigator.pushReplacement(
+                      context,
+                      nextFadeInOutScreen(RoutingScreen.Main.route),
+                    );
+                  });
+                } else {
+                  // 위치 권한이 없을 경우
+                }
+            });
+          });
+        }, []);
+      },
+    );
+
     useEffect(() {
-      // 1초뒤에 화면이동
-      Future.delayed(const Duration(milliseconds: 1500), () {
-        Navigator.pushReplacement(
-          context,
-          nextFadeInOutScreen(RoutingScreen.Main.route),
-        );
-      });
+
     }, []);
 
     return Container(

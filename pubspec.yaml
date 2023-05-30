@@ -19,11 +19,12 @@ dependencies:
   riverpod: ^2.3.2
   flutter_svg: ^2.0.5
   hooks_riverpod: ^2.3.2
+  json_annotation: ^4.8.1
+  flutter_launcher_icons: ^0.13.1
+  location: ^4.4.0
   get_it: ^7.6.0
   http: ^0.13.6
   shared_preferences: ^2.1.1
-  json_annotation: ^4.8.1
-  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:

@@ -17,7 +17,7 @@ enum RoutingScreen {
   static Map<String, WidgetBuilder> getAppRoutes() {
     return {
       RoutingScreen.Splash.route: (context) => const SplashScreen(),
-      RoutingScreen.Main.route: (context) => const MainScreen(),
+      RoutingScreen.Main.route: (context) => MainScreen(),
       RoutingScreen.Setting.route: (context) => const SettingScreen(),
     };
   }
@@ -28,7 +28,7 @@ enum RoutingScreen {
       case "/splash":
         return const SplashScreen();
       case "/main":
-        return const MainScreen();
+        return MainScreen();
       case "/setting":
         return const SettingScreen();
       default: // default는 무조건 splash로 이동

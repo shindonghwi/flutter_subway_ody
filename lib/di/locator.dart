@@ -1,4 +1,8 @@
 import 'package:get_it/get_it.dart';
+import 'package:subway_ody/data/data_source/local/gps/LocalGpsApi.dart';
+import 'package:subway_ody/data/repositories/local/app/LocalAppRepositoryImpl.dart';
+import 'package:subway_ody/domain/repositories/local/gps/LocalGpsRepository.dart';
+import 'package:subway_ody/domain/usecases/local/app/GetLocationPermissionUseCase.dart';
 
 final serviceLocator = GetIt.instance;
 
@@ -14,28 +18,15 @@ void initServiceLocator() {
   /// -------
 
   // //app
-  // GetIt.instance.registerLazySingleton<GetAppPolicyCheckUseCase>(() => GetAppPolicyCheckUseCase());
-  // GetIt.instance.registerLazySingleton<GetAppPolicyUpdateUseCase>(() => GetAppPolicyUpdateUseCase());
-  // GetIt.instance.registerLazySingleton<PostGoogleSignInUseCase>(() => PostGoogleSignInUseCase());
-  // GetIt.instance.registerLazySingleton<PostSocialLoginInUseCase>(() => PostSocialLoginInUseCase());
-  // GetIt.instance.registerLazySingleton<GetMeInfoUseCase>(() => GetMeInfoUseCase());
-  // GetIt.instance.registerLazySingleton<PatchMeGenderUseCase>(() => PatchMeGenderUseCase());
-  // GetIt.instance.registerLazySingleton<PatchMeBirthdayUseCase>(() => PatchMeBirthdayUseCase());
-  // GetIt.instance.registerLazySingleton<PatchMeHeightUseCase>(() => PatchMeHeightUseCase());
-  // GetIt.instance.registerLazySingleton<PatchMeWeightUseCase>(() => PatchMeWeightUseCase());
-  // GetIt.instance.registerLazySingleton<PatchMeDiseasesUseCase>(() => PatchMeDiseasesUseCase());
+  GetIt.instance.registerLazySingleton<GetLocationPermissionUseCase>(() => GetLocationPermissionUseCase());
 
   /// -------
   /// repository
   /// -------
-  // GetIt.instance.registerLazySingleton<LocalAppRepository>(() => LocalAppRepositoryImpl());
-  // GetIt.instance.registerLazySingleton<RemoteAuthRepository>(() => RemoteAuthRepositoryImpl());
-  // GetIt.instance.registerLazySingleton<RemoteMeRepository>(() => RemoteMeRepositoryImpl());
+  GetIt.instance.registerLazySingleton<LocalGpsRepository>(() => LocalGpsRepositoryImpl());
 
   /// -------
   /// api
   /// -------
-  // GetIt.instance.registerLazySingleton<LocalAppApi>(() => LocalAppApi());
-  // GetIt.instance.registerLazySingleton<RemoteAuthApi>(() => RemoteAuthApi());
-  // GetIt.instance.registerLazySingleton<RemoteMeApi>(() => RemoteMeApi());
+  GetIt.instance.registerLazySingleton<LocalGpsApi>(() => LocalGpsApi());
 }
