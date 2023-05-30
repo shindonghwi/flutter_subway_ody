@@ -6,7 +6,7 @@ import 'package:subway_ody/presentation/feature/splash/SplashScreen.dart';
 enum RoutingScreen {
   Splash(route: "/splash"), // 스플래시
   Main(route: "/main"), // 메인
-  Setting(route: "/settting"); // 설정
+  Setting(route: "/setting"); // 설정
 
   final String route;
 

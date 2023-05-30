@@ -66,9 +66,9 @@ class BottomSheetUtil {
           Text(
             "범위 조절을 통해 거리 영역을 설정할 수 있습니다",
             style: getTextTheme(context).regular.copyWith(
-                  color: const Color(0xFF7C7C7C),
-                  fontSize: 12,
-                ),
+              color: const Color(0xFF7C7C7C),
+              fontSize: 12,
+            ),
             textAlign: TextAlign.center,
             overflow: TextOverflow.ellipsis,
           ),
@@ -85,9 +85,9 @@ class BottomSheetUtil {
         Text(
           "거리 설정",
           style: getTextTheme(context).bold.copyWith(
-                color: const Color(0xFF2F2F2F),
-                fontSize: 16,
-              ),
+            color: const Color(0xFF2F2F2F),
+            fontSize: 16,
+          ),
           textAlign: TextAlign.center,
           overflow: TextOverflow.ellipsis,
         ),
@@ -107,9 +107,9 @@ class BottomSheetUtil {
           child: Text(
             isCanceled ? "취소" : "확인",
             style: getTextTheme(context).medium.copyWith(
-                  color: isCanceled ? const Color(0xFF7C7C7C) : const Color(0xFF2F2F2F),
-                  fontSize: 16,
-                ),
+              color: isCanceled ? const Color(0xFF7C7C7C) : const Color(0xFF2F2F2F),
+              fontSize: 16,
+            ),
             textAlign: TextAlign.center,
             overflow: TextOverflow.ellipsis,
           ),
