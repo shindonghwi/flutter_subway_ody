@@ -10,10 +10,15 @@ import 'package:subway_ody/domain/usecases/local/GetLatLngUseCase.dart';
 import 'package:subway_ody/domain/usecases/local/GetLocationPermissionUseCase.dart';
 import 'package:subway_ody/domain/usecases/local/PostAutoRefreshCallUseCase.dart';
 import 'package:subway_ody/domain/usecases/remote/GetKakaoLatlngToRegionUseCase.dart';
+import 'package:subway_ody/presentation/utils/Common.dart';
 
 final serviceLocator = GetIt.instance;
 
 void initServiceLocator() {
+
+  GetIt.instance.registerLazySingleton<AppLocalization>(() => AppLocalization());
+
+
   /// -------
   /// usecase
   /// -------

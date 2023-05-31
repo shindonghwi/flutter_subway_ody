@@ -4,13 +4,12 @@ part 'Meta.g.dart';
 
 @JsonSerializable()
 class Meta {
-  int totalCount;
+  int total_count;
 
-  Meta({required this.totalCount});
+  Meta({required this.total_count});
 
-  factory Meta.fromJson(Map<String, dynamic> json) {
-    return Meta(
-      totalCount: json['total_count'],
-    );
-  }
+
+  factory Meta.fromJson(Map<String, dynamic> json) => _$MetaFromJson(json);
+
+  Map<String, dynamic> toJson() => _$MetaToJson(this);
 }

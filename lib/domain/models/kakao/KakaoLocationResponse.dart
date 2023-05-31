@@ -11,11 +11,8 @@ class KakaoLocationResponse {
 
   KakaoLocationResponse({required this.meta, required this.documents});
 
-  factory KakaoLocationResponse.fromJson(Map<String, dynamic> json) {
-    return KakaoLocationResponse(
-      meta: Meta.fromJson(json['meta']),
-      documents: List<Document>.from(json['documents'].map((x) => Document.fromJson(x))),
-    );
-  }
+  factory KakaoLocationResponse.fromJson(Map<String, dynamic> json) => _$KakaoLocationResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$KakaoLocationResponseToJson(this);
 }
 

@@ -12,4 +12,8 @@ class LatLng{
   String toString() {
     return 'LatLng{latitude: $latitude, longitude: $longitude}';
   }
+
+  factory LatLng.fromJson(Map<String, dynamic> json) => _$LatLngFromJson(json);
+
+  Map<String, dynamic> toJson() => _$LatLngToJson(this);
 }

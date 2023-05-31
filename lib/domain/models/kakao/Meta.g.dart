@@ -7,9 +7,9 @@ part of 'Meta.dart';
 // **************************************************************************
 
 Meta _$MetaFromJson(Map<String, dynamic> json) => Meta(
-      totalCount: json['totalCount'] as int,
+      total_count: json['total_count'] as int,
     );
 
 Map<String, dynamic> _$MetaToJson(Meta instance) => <String, dynamic>{
-      'totalCount': instance.totalCount,
+      'total_count': instance.total_count,
     };
