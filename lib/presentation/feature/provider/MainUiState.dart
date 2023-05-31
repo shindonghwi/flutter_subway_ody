@@ -2,7 +2,8 @@ import 'package:get_it/get_it.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:subway_ody/domain/usecases/local/GetLatLngUseCase.dart';
 import 'package:subway_ody/domain/usecases/local/GetLocationPermissionUseCase.dart';
-import 'package:subway_ody/domain/usecases/remote/GetKakaoLatlngToRegionUseCase.dart';
+import 'package:subway_ody/domain/usecases/remote/GetKakaoLatLngToRegionUseCase.dart';
+import 'package:subway_ody/domain/usecases/remote/GetNearBySubwayStationUseCase.dart';
 import 'package:subway_ody/presentation/feature/main/MainIntent.dart';
 import 'package:subway_ody/presentation/models/UiState.dart';
 
@@ -21,8 +22,14 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
 
   GetLatLngCallUseCase get _getLatLng => GetIt.instance<GetLatLngCallUseCase>();
 
-  GetKakaoLatlngToRegionUseCase get _getKakaoLatLngToRegion =>
-      GetIt.instance<GetKakaoLatlngToRegionUseCase>();
+  GetKakaoLatLngToRegionUseCase get _getKakaoLatLngToRegion =>
+      GetIt.instance<GetKakaoLatLngToRegionUseCase>();
+
+  GetNearBySubwayStationUseCase get _getNearBySubwayStation =>
+      GetIt.instance<GetNearBySubwayStationUseCase>();
+
+  static String subwayLine = "";
+  static List<String> addressList = [];
 
   void _changeUiState(UIState<MainIntent> s) => state = s;
 
@@ -40,26 +47,28 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
           if (gps.latitude == null || gps.longitude == null) {
             _changeUiState(Failure(ErrorType.gps_error.name));
           } else {
+            _getNearBySubwayStation.call(gps, 500).then((value) {
+              subwayLine = value.data?.documents?.first.place_name.split(" ").last ?? "";
+              if (subwayLine.isNotEmpty && addressList.isNotEmpty) {
+                getSubwayInfo();
+              }
+            }).catchError((e) {
+              _changeUiState(Failure(e.toString()));
+            });
+
             _getKakaoLatLngToRegion.call(gps).then((value) {
               // 현재 위치를 주소로 변환
               if (value.status == 200) {
+                String? address1 =
+                    value.data?.documents?.first.address?.region_3depth_name;
+                String? address2 = value.data?.documents?.first.road_address?.road_name;
 
-                final regionAddress = [
-                  value.data?.documents?.first.address?.region_3depth_name ?? "",
-                  value.data?.documents?.first.road_address?.road_name ?? ""
-                ];
-                
-                final isAllEmptyOrNull = regionAddress.every((text) => text.isEmpty);
+                address1 != null ? addressList.add(address1) : null;
+                address2 != null ? addressList.add(address2) : null;
 
-                _changeUiState(
-                  Success(
-                    MainIntent(
-                      region: isAllEmptyOrNull
-                          ? "지역 정보 없음"
-                          : regionAddress.join(" ")
-                    ),
-                  ),
-                );
+                if (subwayLine.isNotEmpty && addressList.isNotEmpty) {
+                  getSubwayInfo();
+                }
               } else {
                 _changeUiState(Failure(ErrorType.not_available.name));
               }
@@ -70,5 +79,9 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
     }).catchError((e) {
       _changeUiState(Failure(e.toString()));
     });
+  }
+
+  getSubwayInfo() {
+    _changeUiState(Success(MainIntent(region: addressList.join(" "))));
   }
 }

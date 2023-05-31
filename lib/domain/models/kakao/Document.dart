@@ -8,10 +8,12 @@ part 'Document.g.dart';
 class Document {
   DocumentRoadAddress? road_address;
   DocumentAddress? address;
+  String place_name;
 
   Document({
     required this.road_address,
     required this.address,
+    required this.place_name,
   });
 
   factory Document.fromJson(Map<String, dynamic> json) => _$DocumentFromJson(json);

@@ -4,8 +4,8 @@ import 'package:subway_ody/domain/models/LatLng.dart';
 import 'package:subway_ody/domain/models/kakao/KakaoLocationResponse.dart';
 import 'package:subway_ody/domain/repositories/remote/KakaoGpsRepository.dart';
 
-class GetKakaoLatlngToRegionUseCase {
-  GetKakaoLatlngToRegionUseCase();
+class GetKakaoLatLngToRegionUseCase {
+  GetKakaoLatLngToRegionUseCase();
 
   final KakaoGpsRepository _kakaoGpsRepository = GetIt.instance<KakaoGpsRepository>();
 
