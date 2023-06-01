@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:subway_ody/domain/models/kakao/Document.dart';
-import 'package:subway_ody/domain/models/kakao/Meta.dart';
+import 'Document.dart';
+import 'Meta.dart';
 
 part 'KakaoLocationResponse.g.dart';
 

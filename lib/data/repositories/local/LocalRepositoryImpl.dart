@@ -1,6 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:subway_ody/data/data_source/local/LocalApi.dart';
-import 'package:subway_ody/domain/models/LatLng.dart';
+import 'package:subway_ody/domain/models/local/LatLng.dart';
 import 'package:subway_ody/domain/repositories/local/LocalRepository.dart';
 
 class LocalRepositoryImpl implements LocalRepository {

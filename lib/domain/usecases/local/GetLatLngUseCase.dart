@@ -1,5 +1,5 @@
 import 'package:get_it/get_it.dart';
-import 'package:subway_ody/domain/models/LatLng.dart';
+import 'package:subway_ody/domain/models/local/LatLng.dart';
 import 'package:subway_ody/domain/repositories/local/LocalRepository.dart';
 
 class GetLatLngCallUseCase {

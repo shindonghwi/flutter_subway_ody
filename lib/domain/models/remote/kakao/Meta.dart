@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:subway_ody/domain/models/kakao/MetaSameName.dart';
+
+import 'MetaSameName.dart';
 
 part 'Meta.g.dart';
 

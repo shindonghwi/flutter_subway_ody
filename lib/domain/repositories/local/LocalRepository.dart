@@ -1,4 +1,4 @@
-import 'package:subway_ody/domain/models/LatLng.dart';
+import 'package:subway_ody/domain/models/local/LatLng.dart';
 
 abstract class LocalRepository {
   Future<bool> getLocationPermission(); // location 권한 요청

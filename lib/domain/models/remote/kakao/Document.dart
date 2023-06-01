@@ -1,6 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:subway_ody/domain/models/kakao/DocumentAddress.dart';
-import 'package:subway_ody/domain/models/kakao/DocumentRoadAddress.dart';
+
+import 'DocumentAddress.dart';
+import 'DocumentRoadAddress.dart';
 
 part 'Document.g.dart';
 

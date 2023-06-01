@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:subway_ody/data/data_source/local/SharedKey.dart';
-import 'package:subway_ody/domain/models/LatLng.dart';
+import 'package:subway_ody/domain/models/local/LatLng.dart';
 
 class LocalApi {
   LocalApi();

@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:subway_ody/domain/models/LatLng.dart';
+import 'package:subway_ody/domain/models/local/LatLng.dart';
 import 'package:subway_ody/domain/usecases/local/GetLatLngUseCase.dart';
 import 'package:subway_ody/domain/usecases/local/GetLocationPermissionUseCase.dart';
 import 'package:subway_ody/domain/usecases/remote/GetKakaoLatLngToRegionUseCase.dart';
 import 'package:subway_ody/domain/usecases/remote/GetNearBySubwayStationUseCase.dart';
+import 'package:subway_ody/domain/usecases/remote/GetSubwayArrivalUseCase.dart';
 import 'package:subway_ody/presentation/feature/main/MainIntent.dart';
 import 'package:subway_ody/presentation/feature/main/models/NearByStation.dart';
 import 'package:subway_ody/presentation/models/UiState.dart';
@@ -42,6 +43,12 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
         await _requestLatLngToRegion();
         await _requestNearByStation();
         if (addressList.isNotEmpty && nearByStationList.isNotEmpty) {
+
+          for (var element in nearByStationList) {
+            final arrivalInfo = GetIt.instance<GetSubwayArrivalUseCase>().call(element.subwayName);
+            debugPrint("$element arrivalInfo : $arrivalInfo");
+          }
+
           _changeUiState(Success(MainIntent(region: addressList.join(" "))));
         }else{
           _changeUiState(Failure(ErrorType.not_available.name));
