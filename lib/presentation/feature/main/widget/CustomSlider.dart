@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:get_it/get_it.dart';
+import 'package:subway_ody/domain/usecases/local/GetUserDistanceUseCase.dart';
 import 'package:subway_ody/presentation/ui/colors.dart';
 import 'package:subway_ody/presentation/ui/typography.dart';
 import 'package:subway_ody/presentation/utils/Common.dart';
 
 class CustomSlider extends HookWidget {
-  const CustomSlider({Key? key}) : super(key: key);
+  Function(int) onSliderChanged;
+
+  CustomSlider({
+    Key? key,
+    required this.onSliderChanged,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +39,14 @@ class CustomSlider extends HookWidget {
       return value.round();
     }
 
-    final ValueNotifier<double> sliderValue =
-        useState(calculateSliderValue(1000).toDouble());
+    final ValueNotifier<double> sliderValue = useState(calculateSliderValue(300).toDouble());
+
+    useEffect(() {
+      GetIt.instance<GetUserDistanceUseCase>().call().then((value) {
+        sliderValue.value = calculateSliderValue(value).toDouble();
+      });
+    },[]);
+
 
     return Container(
       margin: const EdgeInsets.only(top: 40),
@@ -69,6 +82,7 @@ class CustomSlider extends HookWidget {
               max: sliderMax,
               onChanged: (double newValue) {
                 sliderValue.value = newValue;
+                onSliderChanged(calculateSliderDistance(newValue.round()));
               },
             ),
           ),

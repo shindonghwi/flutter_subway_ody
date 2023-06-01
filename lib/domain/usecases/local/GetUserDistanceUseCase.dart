@@ -1,12 +1,12 @@
 import 'package:get_it/get_it.dart';
 import 'package:subway_ody/domain/repositories/local/LocalRepository.dart';
 
-class PostAutoRefreshCallUseCase {
-  PostAutoRefreshCallUseCase();
+class GetUserDistanceUseCase {
+  GetUserDistanceUseCase();
 
   final LocalRepository _localRepository = GetIt.instance<LocalRepository>();
 
-  Future<bool> call(bool isEnabled) async {
-    return await _localRepository.saveAutoRefreshCall(isEnabled);
+  Future<int> call() async {
+    return await _localRepository.getUserDistance();
   }
 }

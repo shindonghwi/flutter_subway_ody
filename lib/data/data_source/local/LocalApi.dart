@@ -4,11 +4,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:subway_ody/data/data_source/local/SharedKey.dart';
 import 'package:subway_ody/domain/models/LatLng.dart';
 
-class LocalGpsApi {
-  LocalGpsApi();
+class LocalApi {
+  LocalApi();
 
-  final String autoRefreshCallKey =
-      SharedKeyHelper.fromString(SharedKey.AUTO_REFRESH_CALL);
+  final String autoRefreshCallKey = SharedKeyHelper.fromString(SharedKey.AUTO_REFRESH_CALL);
+  final String distanceKey = SharedKeyHelper.fromString(SharedKey.DISTANCE);
 
   /// 위치 권한 요청
   Future<bool> getLocationPermission() async {
@@ -50,7 +50,7 @@ class LocalGpsApi {
   Future<bool> saveAutoRefreshCall(bool isEnabled) async {
     final prefs = await SharedPreferences.getInstance();
     final isComplete = await prefs.setBool(autoRefreshCallKey, isEnabled).then((value) {
-      debugPrint("LocalGpsApi - saveAutoRefreshCall : $value");
+      debugPrint("LocalApi - saveAutoRefreshCall : $value");
       return value;
     }).onError((error, stackTrace) {
       return false;
@@ -62,7 +62,31 @@ class LocalGpsApi {
   Future<bool> getAutoRefreshCall() async {
     final prefs = await SharedPreferences.getInstance();
     final mode = prefs.getBool(autoRefreshCallKey) ?? false;
-    debugPrint("LocalGpsApi - getAutoRefreshCall : $mode");
+    debugPrint("LocalApi - getAutoRefreshCall : $mode");
     return mode;
   }
+
+
+  /// 사용자가 설정한 거리 저장
+  Future<bool> saveUserDistance(int distance) async {
+    final prefs = await SharedPreferences.getInstance();
+    final isComplete = await prefs.setInt(distanceKey, distance).then((value) {
+      debugPrint("LocalApi - saveDistance : $value");
+      return value;
+    }).onError((error, stackTrace) {
+      return false;
+    });
+    return isComplete;
+  }
+
+
+  /// 사용자가 설정한 거리 반환
+  Future<int> getUserDistance() async {
+    final prefs = await SharedPreferences.getInstance();
+    final distance = prefs.getInt(distanceKey) ?? 300;
+    debugPrint("LocalApi - getUserDistance : $distance");
+    return distance;
+  }
+
+
 }
