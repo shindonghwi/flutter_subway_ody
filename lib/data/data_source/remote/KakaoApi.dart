@@ -72,6 +72,9 @@ class KakaoApi {
       'x': parseFixNumber(latLng.longitude.toString()),
       'y': parseFixNumber(latLng.latitude.toString()),
       'radius': distance.toString(),
+      'query': '역',
+      'category_group_code': 'SW8',
+      'sort': 'distance',
     };
 
     final uri = Uri.https(
@@ -80,7 +83,8 @@ class KakaoApi {
       params,
     );
 
-    debugPrint('request Url: $uri');
+    debugPrint('request url: $uri');
+    debugPrint('request params: $params');
 
     final response = await http.get(uri, headers: headers);
     debugPrint('response auth: ${Environment.kakaoRestApiKey}');

@@ -50,7 +50,4 @@ class SettingAppBar extends HookWidget with PreferredSizeWidget {
 
   @override
   Size get preferredSize => const Size(double.infinity, 56);
-
-  showDistanceEditBottomSheet(BuildContext context) =>
-      BottomSheetUtil.showDistanceBottomSheet(context);
 }

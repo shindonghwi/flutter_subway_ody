@@ -28,7 +28,7 @@ class MainAppBar extends HookConsumerWidget with PreferredSizeWidget {
           child: Container(
             margin: const EdgeInsets.only(right: 0),
             child: InkWell(
-              onTap: () => showDistanceEditBottomSheet(context),
+              onTap: () => BottomSheetUtil.showDistanceBottomSheet(context),
               child: Padding(
                 padding: const EdgeInsets.all(14.0),
                 child: SvgPicture.asset(
@@ -69,8 +69,6 @@ class MainAppBar extends HookConsumerWidget with PreferredSizeWidget {
   @override
   Size get preferredSize => const Size(double.infinity, 56);
 
-  showDistanceEditBottomSheet(BuildContext context) =>
-      BottomSheetUtil.showDistanceBottomSheet(context);
 }
 
 class _RegionText extends HookConsumerWidget {
