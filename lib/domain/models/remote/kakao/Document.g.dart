@@ -15,10 +15,12 @@ Document _$DocumentFromJson(Map<String, dynamic> json) => Document(
           ? null
           : DocumentAddress.fromJson(json['address'] as Map<String, dynamic>),
       place_name: json['place_name'] as String,
+      distance: json['distance'] as String,
     );
 
 Map<String, dynamic> _$DocumentToJson(Document instance) => <String, dynamic>{
       'road_address': instance.road_address,
       'address': instance.address,
       'place_name': instance.place_name,
+      'distance': instance.distance,
     };

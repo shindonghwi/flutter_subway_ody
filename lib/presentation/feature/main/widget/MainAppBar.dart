@@ -13,7 +13,6 @@ class MainAppBar extends HookConsumerWidget with PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
     return AppBar(
       backgroundColor: const Color(0xFFFDFDFD),
       bottomOpacity: 0.0,
@@ -68,16 +67,13 @@ class MainAppBar extends HookConsumerWidget with PreferredSizeWidget {
 
   @override
   Size get preferredSize => const Size(double.infinity, 56);
-
 }
 
 class _RegionText extends HookConsumerWidget {
-
   const _RegionText({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
     final region = ref.watch(currentRegionProvider);
 
     return Text(

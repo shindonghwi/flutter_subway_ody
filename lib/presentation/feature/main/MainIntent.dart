@@ -1,15 +1,11 @@
-class BaseIntent {
-  String errorMessage = "";
-
-  BaseIntent({
-    errorMessage,
-  });
-}
+import 'package:subway_ody/presentation/feature/main/models/SubwayModel.dart';
 
 class MainIntent{
-  final String region;
+  final String userRegion;
+  final List<SubwayModel> subwayItems;
 
   MainIntent({
-    required this.region,
+    required this.userRegion,
+    required this.subwayItems,
   });
 }

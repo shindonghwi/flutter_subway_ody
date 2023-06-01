@@ -23,6 +23,8 @@ class MainScreen extends HookConsumerWidget {
     final uiStateRead = ref.read(mainUiStateProvider.notifier);
     final currentRegionRead = ref.read(currentRegionProvider.notifier);
 
+    final subwayData = useState(uiState);
+
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         uiStateRead.getSubwayData();
@@ -33,7 +35,7 @@ class MainScreen extends HookConsumerWidget {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         uiState.when(
           success: (event) async {
-            currentRegionRead.setRegion(event.value.region);
+            currentRegionRead.setRegion(event.value.userRegion);
           },
         );
         (uiState is Failure);
@@ -44,7 +46,8 @@ class MainScreen extends HookConsumerWidget {
       appBar: const MainAppBar(),
       body: Stack(
         children: [
-          const ActiveContent(),
+          if (uiState is Success<MainIntent>)
+            ActiveContent(subwayModel: uiState.value),
           if (uiState is Failure<MainIntent>)
             uiState.errorMessage == ErrorType.gps_error.name
                 ? const ErrorGpsContent()
