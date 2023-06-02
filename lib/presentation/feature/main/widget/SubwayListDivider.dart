@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:subway_ody/app/SubwayOdyApp.dart';
+import 'package:subway_ody/presentation/feature/main/models/SubwayModel.dart';
 import 'package:subway_ody/presentation/feature/main/widget/SubwayPositionList.dart';
 import 'package:subway_ody/presentation/ui/colors.dart';
 import 'package:subway_ody/presentation/ui/typography.dart';
 import 'package:subway_ody/presentation/utils/Common.dart';
 
 class SubwayListDivider extends StatelessWidget {
+  final SubwayDirectionStationModel stationInfo;
+  final Color mainColor;
+
   const SubwayListDivider({
     super.key,
+    required this.stationInfo,
+    required this.mainColor,
   });
 
   @override
   Widget build(BuildContext context) {
-    final subwayList = [
-      "마곡나루",
-      "개봉",
-      "동대문역사문화공원",
-      "장한평",
-      "영등포구청",
-    ];
+    final subwayList = stationInfo.subwayNameList;
+    final positionList = stationInfo.subwayPositionList;
 
     return Column(
       children: [
@@ -28,8 +29,9 @@ class SubwayListDivider extends StatelessWidget {
           height: 56,
           child: SubwayPositionList(
             subwayList: subwayList,
-            mainColor: getColorScheme(context).colorLine8,
-            isSubwayDirectionLeft: true,
+            positionList: positionList,
+            mainColor: mainColor,
+            isUp: stationInfo.ordkey.startsWith("0"),
           ),
         ),
         const SizedBox(height: 10),
@@ -40,8 +42,8 @@ class SubwayListDivider extends StatelessWidget {
           child: CustomPaint(
             painter: SubwayDividerAndNamePainter(
               subwayList: subwayList,
-              mainColor: getColorScheme(context).colorLine8,
-              isSubwayDirectionLeft: true,
+              mainColor: mainColor,
+              isUp: stationInfo.ordkey.startsWith("0"),
             ),
           ),
         ),
@@ -53,14 +55,14 @@ class SubwayListDivider extends StatelessWidget {
 class SubwayDividerAndNamePainter extends CustomPainter {
   final List<String> subwayList;
   final Color mainColor;
-  final bool isSubwayDirectionLeft;
+  final bool isUp;
   final double radius = 4;
   final context = SubwayOdyGlobalVariable.naviagatorState.currentContext as BuildContext;
 
   SubwayDividerAndNamePainter({
     required this.subwayList,
     required this.mainColor,
-    required this.isSubwayDirectionLeft,
+    required this.isUp,
   });
 
   String insertNewlineAfterFirstThreeCharacters(String text) {
@@ -114,18 +116,18 @@ class SubwayDividerAndNamePainter extends CustomPainter {
       final textPainter = TextPainter(
         text: TextSpan(
           text: insertNewlineAfterFirstThreeCharacters(subwayList[index]),
-          style: isSubwayDirectionLeft && index == 0 ||
-                  !isSubwayDirectionLeft && index == subwayList.length - 1
+          style: isUp && index == subwayList.length - 1 ||
+              !isUp && index == 0
               ? getTextTheme(context).bold.copyWith(
-                    color: const Color(0xFF2F2F2F),
-                    fontSize: 14,
-                    height: 1.42,
-                  )
+            color: const Color(0xFF2F2F2F),
+            fontSize: 14,
+            height: 1.42,
+          )
               : getTextTheme(context).medium.copyWith(
-                    color: const Color(0xFFD6D6D6),
-                    fontSize: 14,
-                    height: 1.42,
-                  ),
+            color: const Color(0xFFD6D6D6),
+            fontSize: 14,
+            height: 1.42,
+          ),
         ),
         textAlign: TextAlign.center,
         textDirection: TextDirection.ltr,

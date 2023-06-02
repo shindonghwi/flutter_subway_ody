@@ -32,7 +32,6 @@ class SubwayApi {
 
     final response = await http.get(uri, headers: headers);
     debugPrint('request Url: $uri');
-    debugPrint('request Url: ${response.request?.url}');
     debugPrint('response statusCode: ${response.statusCode}');
     debugPrint('response body: ${response.body}');
     debugPrint('response headers: ${response.headers}');

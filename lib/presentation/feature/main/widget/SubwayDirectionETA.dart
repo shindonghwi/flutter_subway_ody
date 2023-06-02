@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:subway_ody/domain/models/remote/subway/SubwayRealTimeArrival.dart';
+import 'package:subway_ody/presentation/feature/main/models/SubwayModel.dart';
 import 'package:subway_ody/presentation/ui/colors.dart';
 import 'package:subway_ody/presentation/ui/typography.dart';
 import 'package:subway_ody/presentation/utils/Common.dart';
 
 /// 지하철 방향 및 도착 예정 시간
 class SubwayDirectionETA extends StatelessWidget {
-  final SubwayRealTimeArrival arrivalItem;
+  final SubwayDirectionStationModel stationInfo;
 
   const SubwayDirectionETA({
     super.key,
-    required this.arrivalItem,
+    required this.stationInfo,
   });
 
   @override
@@ -20,7 +20,7 @@ class SubwayDirectionETA extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
-          arrivalItem.trainLineNm.split("-").first.trim(),
+          "${stationInfo.destination}(${stationInfo.nextStation})",
           style: getTextTheme(context).medium.copyWith(
                 color: const Color(0xFF676767),
                 fontSize: 16,
@@ -43,7 +43,7 @@ class SubwayDirectionETA extends StatelessWidget {
             ),
           ),
           child: Text(
-            arrivalItem.trainLineNm.split("-").last.trim(),
+            stationInfo.arvlMsg2,
             style: getTextTheme(context).bold.copyWith(
                   color: getColorScheme(context).colorPrimary,
                   fontSize: 12,

@@ -6,18 +6,22 @@ import 'package:subway_ody/presentation/utils/SubwayUtil.dart';
 
 /// 지하철역 타이틀 및 지하철역 까지 거리
 class SubwayTitle extends StatelessWidget {
-  final NearByStation nearByStation;
+  final String subwayLine;
+  final String subwayName;
+  final String distance;
   final Color mainColor;
 
   const SubwayTitle({
     super.key,
-    required this.nearByStation,
+    required this.subwayLine,
+    required this.subwayName,
+    required this.distance,
     required this.mainColor,
   });
 
   @override
   Widget build(BuildContext context) {
-    final hoSun = SubwayUtil.parseSubwayHoSun(nearByStation.subwayLine);
+    final hoSun = SubwayUtil.parseSubwayHoSun(subwayLine);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -36,7 +40,7 @@ class SubwayTitle extends StatelessWidget {
           ),
           child: Center(
             child: Text(
-              SubwayUtil.parseSubwayHoSun(nearByStation.subwayLine),
+              SubwayUtil.parseSubwayHoSun(subwayLine),
               style: getTextTheme(context).bold.copyWith(
                     color: Colors.white,
                     fontSize: 16,
@@ -49,7 +53,7 @@ class SubwayTitle extends StatelessWidget {
           width: 8,
         ),
         Text(
-          nearByStation.subwayName,
+          subwayName,
           style: getTextTheme(context).bold.copyWith(
                 color: const Color(0xFF2F2F2F),
                 fontSize: 18,
@@ -60,7 +64,7 @@ class SubwayTitle extends StatelessWidget {
           width: 4,
         ),
         Text(
-          "${nearByStation.distance}m",
+          "${distance}m",
           style: getTextTheme(context).medium.copyWith(
                 color: const Color(0xFF7C7C7C),
                 fontSize: 16,

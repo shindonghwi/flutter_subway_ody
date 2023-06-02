@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -13,6 +14,7 @@ import 'package:subway_ody/presentation/feature/main/MainIntent.dart';
 import 'package:subway_ody/presentation/feature/main/models/NearByStation.dart';
 import 'package:subway_ody/presentation/feature/main/models/SubwayModel.dart';
 import 'package:subway_ody/presentation/models/UiState.dart';
+import 'package:subway_ody/presentation/utils/SubwayUtil.dart';
 
 enum ErrorType { gps_error, not_available }
 
@@ -33,7 +35,7 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
   void _changeUiState(UIState<MainIntent> s) => state = s;
 
   /// 지하철 정보 요청 API 호출
-  getSubwayData() async {
+  getSubwayData(BuildContext context) async {
     _changeUiState(Loading());
 
     final isPermissionGranted = await _checkLocationPermission();
@@ -52,23 +54,93 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
               element.subwayName,
             );
 
-            if (arrivalInfo.data?.realtimeArrivalList != null) {
+            // 지하철 번호로 그룹화 하고, 상/하행 으로 다시 그룹화한 리스트
+            List<SubwayRealTimeArrival> subwayArrivalList =
+                arrivalInfo.data!.realtimeArrivalList!;
+
+            var groupedBySubwayId =
+                groupBy(subwayArrivalList, (arrival) => arrival.subwayId);
+
+            groupedBySubwayId.forEach((subwayId, arrivalsBySubwayId) {
+              var groupedByUpdnLine =
+                  groupBy(arrivalsBySubwayId, (arrival) => arrival.updnLine);
+
+              List<SubwayDirectionStationModel> stationModelList = [];
+
+              groupedByUpdnLine.forEach((updnLine, arrivalsByUpdnLine) {
+                // 지하철역명 리스트는 첫번쨰 기준으로만 뽑으면됨.
+                final subwayNameList = SubwayUtil.findSubwayNameList(
+                  subwayId: subwayId,
+                  currentSubwayId: arrivalsByUpdnLine.first.statnId,
+                  preSubwayId: arrivalsByUpdnLine.first.statnFid,
+                  nextSubwayId: arrivalsByUpdnLine.first.statnTid,
+                  isUp: arrivalsByUpdnLine.first.ordkey.startsWith("0"),
+                );
+
+
+                debugPrint("@@@@@@@@@@: $subwayNameList");
+
+                final List<int> subwayPositionList = [];
+                for (var arrival in arrivalsByUpdnLine) {
+                  final subwayIndex = subwayNameList.indexOf(arrival.arvlMsg3) == 0
+                      ? 0
+                      : !subwayNameList.contains(arrival.arvlMsg3)
+                          ? -1
+                  :subwayNameList.indexOf(arrival.arvlMsg3) * 2;
+                          // : (subwayNameList.indexOf(arrival.arvlMsg3) * 2) +
+                          //     (arrival.arvlCd == "99"
+                          //         ? (arrival.ordkey.startsWith("0") ? -1 : 1)
+                          //         : 0);
+
+                  subwayPositionList.add(subwayIndex);
+
+                  debugPrint('subwayId: $subwayId '
+                      'updnLine: ${updnLine} '
+                      'ordkey: ${arrival.ordkey} '
+                      'stainId: ${arrival.statnId} '
+                      'statnNm: ${arrival.statnNm} '
+                      'arvlMsg2: ${arrival.arvlMsg2} '
+                      'trainLineNm: ${arrival.trainLineNm}'
+                      ' arvlMsg3: ${arrival.arvlMsg3}'
+                      ' arvlCd: ${arrival.arvlCd}'
+                      ' subwayNameList: $subwayNameList'
+                      ' findIndex: ${subwayNameList.indexOf(arrival.arvlMsg3)}'
+                      ' subwayPositionList: ${subwayPositionList}');
+                }
+                debugPrint("--------------------------");
+
+                stationModelList.add(SubwayDirectionStationModel(
+                  subwayNameList: subwayNameList,
+                  destination: arrivalsByUpdnLine.first.trainLineNm
+                      .split("-")
+                      .first
+                      .trim()
+                      .toString(),
+                  nextStation: arrivalsByUpdnLine.first.trainLineNm
+                      .split("-")
+                      .last
+                      .trim()
+                      .toString(),
+                  subwayPositionList: subwayPositionList,
+                  updnLine: arrivalsByUpdnLine.first.updnLine,
+                  arvlMsg3: arrivalsByUpdnLine.first.arvlMsg3,
+                  arvlMsg2: arrivalsByUpdnLine.first.arvlMsg2,
+                  arvlCd: arrivalsByUpdnLine.first.arvlCd,
+                  ordkey: arrivalsByUpdnLine.first.ordkey,
+                ));
+              });
+
               subwayDataList.add(
                 SubwayModel(
-                  nearByStation: element,
-                  subwayArrivalList: arrivalInfo.data!.realtimeArrivalList!,
+                  subwayName: element.subwayName,
+                  subwayLine: element.subwayLine,
+                  distance: element.distance,
+                  mainColor: SubwayUtil.getMainColor(context, subwayId.toString()),
+                  stationInfoList: stationModelList,
                 ),
               );
-            }
-            // /// 1001:1호선 1002:2호선 1003:3호선, 1004:4호선,1005:5호선, 1006:6호선,1007:7호선, 1008:8호선, 1009:9호선,
-            // /// 1061:중앙선 1063:경의중앙선, 1065:공항철도, 1067:경춘선, 1075:수의분당선 1077:신분당선, 1092:우이신설선
-            // final String subwayId; //
-            //
-            // final String updnLine; // 0: 상행/내선, 1: 하행/외선
-            // final String trainLineNm; // 성수행(목적지역) - 구로디지털단지방면(다음역)
-            // final String statnNm; // 지하철 역 명 (예: 홍대입구)
-            // final String btrainSttus; // 급행, ITX, 일반
-            // final String arvlMsg2; // 첫번째 도착 메새지
+            });
+
             debugPrint("$element arrivalInfo : $arrivalInfo");
           }
           _changeUiState(

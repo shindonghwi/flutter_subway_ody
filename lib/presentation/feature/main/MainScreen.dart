@@ -23,11 +23,9 @@ class MainScreen extends HookConsumerWidget {
     final uiStateRead = ref.read(mainUiStateProvider.notifier);
     final currentRegionRead = ref.read(currentRegionProvider.notifier);
 
-    final subwayData = useState(uiState);
-
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        uiStateRead.getSubwayData();
+        uiStateRead.getSubwayData(context);
       });
     }, []);
 
