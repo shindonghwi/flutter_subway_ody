@@ -5,7 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:subway_ody/domain/usecases/local/PostSaveUserDistanceUseCase.dart';
 import 'package:subway_ody/presentation/feature/main/widget/CustomSlider.dart';
-import 'package:subway_ody/presentation/feature/provider/MainUiState.dart';
+import 'package:subway_ody/presentation/ui/colors.dart';
 import 'package:subway_ody/presentation/ui/typography.dart';
 import 'package:subway_ody/presentation/utils/Common.dart';
 
@@ -17,6 +17,7 @@ class BottomSheetUtil {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      backgroundColor: getColorScheme(context).light,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(16),

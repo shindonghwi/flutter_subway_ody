@@ -3,6 +3,8 @@ import 'package:subway_ody/presentation/feature/setting/widget/EtcContainer.dart
 import 'package:subway_ody/presentation/feature/setting/widget/GeneralContainer.dart';
 import 'package:subway_ody/presentation/feature/setting/widget/InquireContainer.dart';
 import 'package:subway_ody/presentation/feature/setting/widget/SettingAppBar.dart';
+import 'package:subway_ody/presentation/ui/colors.dart';
+import 'package:subway_ody/presentation/utils/Common.dart';
 
 class SettingScreen extends StatelessWidget {
   const SettingScreen({Key? key}) : super(key: key);
@@ -11,6 +13,7 @@ class SettingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const SettingAppBar(),
+      backgroundColor: getColorScheme(context).light,
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(

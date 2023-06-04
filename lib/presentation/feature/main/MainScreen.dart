@@ -45,6 +45,7 @@ class MainScreen extends HookConsumerWidget {
 
     return Scaffold(
       appBar: const MainAppBar(),
+      backgroundColor: getColorScheme(context).light,
       body: Stack(
         children: [
           mainIntentData.value == null

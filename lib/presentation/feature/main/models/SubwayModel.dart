@@ -24,6 +24,7 @@ class SubwayDirectionStationModel {
   final String destination; // 인천행
   final String nextStation; // 가좌방면
   final String arvlMsg2; // 3분뒤 도착
+  final String btrainSttus; // 급행 여부
 
   final List<int> subwayPositionList; // 지하철 위치 정보
 
@@ -36,6 +37,7 @@ class SubwayDirectionStationModel {
     required this.subwayNameList, // 현재역에서 realtimeSubwayInfo 기준으로 5개 찾아야함.
     required this.destination,
     required this.nextStation,
+    required this.btrainSttus,
     required this.arvlMsg2,
     required this.subwayPositionList,
     required this.updnLine,

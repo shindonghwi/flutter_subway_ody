@@ -21,6 +21,7 @@ class SubwayListDivider extends StatelessWidget {
   Widget build(BuildContext context) {
     final subwayList = stationInfo.subwayNameList;
     final positionList = stationInfo.subwayPositionList;
+    final destination = "${stationInfo.destination}(${stationInfo.btrainSttus})";
 
     return Column(
       children: [
@@ -32,11 +33,12 @@ class SubwayListDivider extends StatelessWidget {
             positionList: positionList,
             mainColor: mainColor,
             isUp: stationInfo.ordkey.startsWith("0"),
+            destination: destination,
           ),
         ),
         const SizedBox(height: 10),
         Container(
-          margin: const EdgeInsets.symmetric(horizontal: 55),
+          margin: const EdgeInsets.symmetric(horizontal: 40),
           width: double.infinity,
           height: 8,
           child: CustomPaint(
@@ -116,18 +118,17 @@ class SubwayDividerAndNamePainter extends CustomPainter {
       final textPainter = TextPainter(
         text: TextSpan(
           text: insertNewlineAfterFirstThreeCharacters(subwayList[index]),
-          style: !isUp && index == subwayList.length - 1 ||
-              isUp && index == 0
+          style: !isUp && index == subwayList.length - 1 || isUp && index == 0
               ? getTextTheme(context).bold.copyWith(
-            color: const Color(0xFF2F2F2F),
-            fontSize: 14,
-            height: 1.42,
-          )
+                    color: const Color(0xFF2F2F2F),
+                    fontSize: 14,
+                    height: 1.42,
+                  )
               : getTextTheme(context).medium.copyWith(
-            color: const Color(0xFFD6D6D6),
-            fontSize: 14,
-            height: 1.42,
-          ),
+                    color: const Color(0xFFD6D6D6),
+                    fontSize: 14,
+                    height: 1.42,
+                  ),
         ),
         textAlign: TextAlign.center,
         textDirection: TextDirection.ltr,
@@ -137,14 +138,6 @@ class SubwayDividerAndNamePainter extends CustomPainter {
       final textY = circleInnerCenter.dy + radius + 10;
       textPainter.paint(canvas, Offset(textX, textY));
     }
-  }
-
-  Future<SvgPicture> loadSvgImage(String imagePath) async {
-    final svgString = await DefaultAssetBundle.of(context).loadString(imagePath);
-    return SvgPicture.string(
-      svgString,
-      fit: BoxFit.contain, // Adjust the fit as per your requirements
-    );
   }
 
   @override

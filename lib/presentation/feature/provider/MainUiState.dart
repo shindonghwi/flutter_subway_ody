@@ -131,6 +131,7 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
                   subwayNameList: nameList,
                   destination: data.trainLineNm.split("-").first.trim().toString(),
                   nextStation: data.trainLineNm.split("-").last.trim().toString(),
+                  btrainSttus: data.btrainSttus.split("-").last.trim().toString(),
                   subwayPositionList: subwayPositionList,
                   updnLine: data.updnLine,
                   arvlMsg3: data.arvlMsg3,

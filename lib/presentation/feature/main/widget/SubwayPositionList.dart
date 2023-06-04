@@ -12,11 +12,13 @@ class SubwayPositionList extends HookWidget {
     required this.positionList,
     required this.mainColor,
     required this.isUp,
+    required this.destination,
   });
 
   final List<String> subwayList;
   final List<int> positionList;
   final Color mainColor;
+  final String destination;
   final bool isUp;
 
   @override
@@ -30,42 +32,28 @@ class SubwayPositionList extends HookWidget {
             children: List.generate(subwayList.length * 2 - 1, (index) {
               positionList.removeWhere((element) => element == -1);
               return positionList.contains(index) && index % 2 == 0
-                  ? Flexible(
-                      flex: 1,
-                      fit: FlexFit.tight,
-                      child: SubwayPositionItem(
-                        mainColor: mainColor,
-                        isUp: isUp,
-                      ),
+                  ? SubwayPositionItem(
+                      mainColor: mainColor,
+                      isUp: isUp,
+                      destination: destination,
                     )
-                  : const Flexible(
-                      flex: 1,
-                      fit: FlexFit.tight,
-                      child: SizedBox(),
-                    );
+                  : const SizedBox();
             }),
           ),
         ),
         Container(
-          margin: const EdgeInsets.symmetric(horizontal: 60),
+          margin: const EdgeInsets.symmetric(horizontal: 40),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: List.generate(subwayList.length * 2 - 1, (index) {
               positionList.removeWhere((element) => element == -1);
               return positionList.contains(index) && index % 2 == 1
-                  ? Flexible(
-                      flex: 1,
-                      fit: FlexFit.tight,
-                      child: SubwayPositionItem(
-                        mainColor: mainColor,
-                        isUp: isUp,
-                      ),
+                  ? SubwayPositionItem(
+                      mainColor: mainColor,
+                      isUp: isUp,
+                      destination: destination,
                     )
-                  : const Flexible(
-                      flex: 1,
-                      fit: FlexFit.tight,
-                      child: SizedBox(),
-                    );
+                  : const SizedBox();
             }),
           ),
         ),
@@ -78,13 +66,14 @@ class SubwayPositionList extends HookWidget {
         //           ? SubwayPositionItem(
         //               mainColor: mainColor,
         //               isUp: isUp,
-        //             )
+        //           destination: "test",
+        //       )
         //           : const SizedBox();
         //     }),
         //   ),
         // ),
         // Container(
-        //   margin: const EdgeInsets.symmetric(horizontal: 60),
+        //   margin: const EdgeInsets.symmetric(horizontal: 40),
         //   child: Row(
         //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
         //     children: List.generate(subwayList.length * 2 - 1, (index) {
@@ -92,6 +81,7 @@ class SubwayPositionList extends HookWidget {
         //           ? SubwayPositionItem(
         //               mainColor: mainColor,
         //               isUp: isUp,
+        //         destination: "test",
         //             )
         //           : const SizedBox();
         //     }),
@@ -105,11 +95,13 @@ class SubwayPositionList extends HookWidget {
 class SubwayPositionItem extends StatelessWidget {
   final Color mainColor;
   final bool isUp;
+  final String destination;
 
   const SubwayPositionItem({
     Key? key,
     required this.mainColor,
     required this.isUp,
+    required this.destination,
   }) : super(key: key);
 
   @override
@@ -124,7 +116,7 @@ class SubwayPositionItem extends StatelessWidget {
             color: const Color(0xFFF5F5F5),
             borderRadius: BorderRadius.circular(5),
           ),
-          child: Text("동인천급행",
+          child: Text(destination,
               style: getTextTheme(context).bold.copyWith(
                     color: const Color(0xFF2F2F2F),
                     fontSize: 12,
