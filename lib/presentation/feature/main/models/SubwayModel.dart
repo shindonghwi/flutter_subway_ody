@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class SubwayModel {
   final String subwayName; // 홍대입구
-  final String subwayId; // 1001
+  final String subwayLine; // 1호선
   final String distance; // 거리
   final Color mainColor; // 지하철 컬러
 
@@ -10,7 +10,7 @@ class SubwayModel {
 
   SubwayModel({
     required this.subwayName,
-    required this.subwayId,
+    required this.subwayLine,
     required this.distance,
     required this.mainColor,
     required this.stationInfoList,

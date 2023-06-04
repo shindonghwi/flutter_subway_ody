@@ -22,21 +22,24 @@ class ActiveContent extends HookWidget {
             children: [
               const SizedBox(height: 32),
               SubwayTitle(
-                subwayId: model.subwayId,
+                subwayLine: model.subwayLine,
                 subwayName: model.subwayName,
                 distance: model.distance,
                 mainColor: model.mainColor,
               ),
-              const SizedBox(height: 22),
-              SubwayDirectionETA(stationInfo: model.stationInfoList.first),
-              const SizedBox(height: 28),
-              SubwayListDivider(stationInfo: model.stationInfoList.first, mainColor: model.mainColor,),
-              const SizedBox(height: 74),
-              SubwayDirectionETA(stationInfo: model.stationInfoList.last),
-              const SizedBox(height: 28),
-              SubwayListDivider(stationInfo: model.stationInfoList.last, mainColor: model.mainColor,),
-              const SizedBox(height: 74),
-
+              Column(
+                children: model.stationInfoList.map((e) {
+                  return Column(
+                    children: [
+                      const SizedBox(height: 22),
+                      SubwayDirectionETA(stationInfo: e),
+                      const SizedBox(height: 28),
+                      SubwayListDivider(stationInfo: e, mainColor: model.mainColor,),
+                      const SizedBox(height: 74),
+                    ],
+                  );
+                }).toList(),
+              )
               // AdvertiseContainer(),
             ],
           );

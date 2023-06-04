@@ -53,110 +53,105 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
 
         if (!CollectionUtil.isNullorEmpty(addressList) &&
             !CollectionUtil.isNullorEmpty(nearByStationList)) {
-          final List<Pair<NearByStation, SubwayResponse>> arrivalInfoList = [];
           for (var element in nearByStationList!) {
+            List<SubwayDirectionStationModel> stationModelList = [];
+            final subwayName = element.subwayName;
+            final subwayLine = element.subwayLine;
+            final distance = element.distance;
+
             final arrivalRes = await GetIt.instance<GetSubwayArrivalUseCase>().call(
-              element.subwayName,
+              subwayName,
             );
-            debugPrint('element: ${element.subwayLine}');
-            debugPrint('element: ${element.subwayName}');
 
             if (arrivalRes.status == 200) {
-              arrivalInfoList.add(Pair(element, arrivalRes.data!));
+              var arrivalInfo = arrivalRes.data;
+
+              List<SubwayRealTimeArrival>? subwayArrivalList =
+                  arrivalInfo?.realtimeArrivalList!;
+
+              // 근처 지하철 id를 찾았는데, 실시간 지하철 목록과 비교하여 같은 호선만 찾는다.
+              var groupedBySubwayId =
+                  groupBy(subwayArrivalList!, (arrival) => arrival.subwayId);
+              List<String> subwayIdList = [];
+              for (var subwayIdGroupData in groupedBySubwayId.entries) {
+                String subwayId = subwayIdGroupData.key;
+                if (subwayId != SubwayUtil.subwayLineToId(subwayLine)) {
+                  continue;
+                } else {
+                  subwayIdList.add(subwayId);
+                }
+              }
+
+              var resultMap = <String, Pair<SubwayRealTimeArrival, List<String>>>{};
+              subwayIdList.forEach((element) {
+                groupedBySubwayId.entries.forEach((groupData) {
+                  var groupedByUpdnLine =
+                      groupBy(groupData.value, (arrival) => arrival.updnLine);
+                  for (var upDownLineMap in groupedByUpdnLine.entries) {
+                    // 상행 리스트 또는 하행 리스트
+                    final isUp = upDownLineMap.key;
+                    // 지하철 이름별로 묶기
+                    var groupedByStatnNm =
+                        groupBy(upDownLineMap.value, (arrival) => arrival.statnNm);
+                    groupedByStatnNm.forEach((key, value) {
+                      var firstValue = value.first;
+                      var nameList = SubwayUtil.findSubwayNameList(
+                        subwayId: firstValue.subwayId,
+                        currentStatnId: firstValue.statnId,
+                        preStatnId: firstValue.statnFid,
+                        nextStatnId: firstValue.statnTid,
+                        isUp: firstValue.ordkey.startsWith("0"),
+                      );
+                      resultMap["$key||$isUp"] = Pair(firstValue, nameList);
+                    });
+                  }
+                });
+              });
+
+              for (var element in resultMap.entries) {
+                final nameKey = element.key; // 군자(능동)||상행
+                final data = element.value.first; // 지하철 실시간 도착 정보
+                final nameList = element.value.second; // 지하철 역 리스트 정보
+
+                final List<int> subwayPositionList = [];
+
+                for (var arrival in subwayArrivalList) {
+                  final subwayIndex = nameList.indexOf(arrival.arvlMsg3) == 0
+                      ? 0
+                      : !nameList.contains(arrival.arvlMsg3)
+                          ? -1
+                          : (nameList.indexOf(arrival.arvlMsg3) * 2) +
+                              (arrival.arvlCd == "99"
+                                  ? (arrival.ordkey.startsWith("0") ? 1 : -1)
+                                  : 0);
+                  subwayPositionList.add(subwayIndex);
+                }
+
+                stationModelList.add(SubwayDirectionStationModel(
+                  subwayNameList: nameList,
+                  destination: data.trainLineNm.split("-").first.trim().toString(),
+                  nextStation: data.trainLineNm.split("-").last.trim().toString(),
+                  subwayPositionList: subwayPositionList,
+                  updnLine: data.updnLine,
+                  arvlMsg3: data.arvlMsg3,
+                  arvlMsg2: data.arvlMsg2,
+                  arvlCd: data.arvlCd,
+                  ordkey: data.ordkey,
+                ));
+              }
             }
+            subwayDataList.add(
+              SubwayModel(
+                subwayLine: subwayLine,
+                subwayName: subwayName,
+                distance: distance,
+                mainColor: SubwayUtil.getMainColor(context, subwayLine),
+                stationInfoList: stationModelList,
+              ),
+            );
           }
 
-          if (arrivalInfoList.isNotEmpty) {
-            for (var index = 0; index < arrivalInfoList.length; index++) {
-              var arrivalInfo = arrivalInfoList[index];
-
-              debugPrint('arrivalInfo: ${arrivalInfo.first.subwayLine}');
-              debugPrint('arrivalInfo: ${arrivalInfo.first.subwayName}');
-
-              // 지하철 번호로 그룹화 하고, 상/하행 으로 다시 그룹화한 리스트
-              List<SubwayRealTimeArrival> subwayArrivalList =
-                  arrivalInfo.second.realtimeArrivalList!;
-
-              var groupedBySubwayId =
-                  groupBy(subwayArrivalList, (arrival) => arrival.subwayId);
-
-              groupedBySubwayId.forEach((subwayId, arrivalsBySubwayId) {
-                var groupedByUpdnLine =
-                    groupBy(arrivalsBySubwayId, (arrival) => arrival.updnLine);
-
-                List<SubwayDirectionStationModel> stationModelList = [];
-
-                groupedByUpdnLine.forEach((updnLine, arrivalsByUpdnLine) {
-                  // 지하철역명 리스트는 첫번쨰 기준으로만 뽑으면됨.
-                  final subwayNameList = SubwayUtil.findSubwayNameList(
-                    subwayId: subwayId,
-                    currentSubwayId: arrivalsByUpdnLine.first.statnId,
-                    preSubwayId: arrivalsByUpdnLine.first.statnFid,
-                    nextSubwayId: arrivalsByUpdnLine.first.statnTid,
-                    isUp: arrivalsByUpdnLine.first.ordkey.startsWith("0"),
-                  );
-
-                  final List<int> subwayPositionList = [];
-
-                  for (var arrival in arrivalsByUpdnLine) {
-                    final subwayIndex = subwayNameList.indexOf(arrival.arvlMsg3) == 0
-                        ? 0
-                        : !subwayNameList.contains(arrival.arvlMsg3)
-                            ? -1
-                            : (subwayNameList.indexOf(arrival.arvlMsg3) * 2) +
-                                (arrival.arvlCd == "99"
-                                    ? (arrival.ordkey.startsWith("0") ? 1 : -1)
-                                    : 0);
-
-                    subwayPositionList.add(subwayIndex);
-
-                    debugPrint('subwayId: $subwayId '
-                        'updnLine: ${updnLine} '
-                        'ordkey: ${arrival.ordkey} '
-                        'stainId: ${arrival.statnId} '
-                        'statnNm: ${arrival.statnNm} '
-                        'arvlMsg2: ${arrival.arvlMsg2} '
-                        'trainLineNm: ${arrival.trainLineNm}'
-                        ' arvlMsg3: ${arrival.arvlMsg3}'
-                        ' arvlCd: ${arrival.arvlCd}'
-                        ' subwayNameList: $subwayNameList'
-                        ' findIndex: ${subwayNameList.indexOf(arrival.arvlMsg3)}'
-                        ' subwayPositionList: ${subwayPositionList}');
-                  }
-                  debugPrint("--------------------------");
-
-                  stationModelList.add(SubwayDirectionStationModel(
-                    subwayNameList: subwayNameList,
-                    destination: arrivalsByUpdnLine.first.trainLineNm
-                        .split("-")
-                        .first
-                        .trim()
-                        .toString(),
-                    nextStation: arrivalsByUpdnLine.first.trainLineNm
-                        .split("-")
-                        .last
-                        .trim()
-                        .toString(),
-                    subwayPositionList: subwayPositionList,
-                    updnLine: arrivalsByUpdnLine.first.updnLine,
-                    arvlMsg3: arrivalsByUpdnLine.first.arvlMsg3,
-                    arvlMsg2: arrivalsByUpdnLine.first.arvlMsg2,
-                    arvlCd: arrivalsByUpdnLine.first.arvlCd,
-                    ordkey: arrivalsByUpdnLine.first.ordkey,
-                  ));
-                });
-
-                subwayDataList.add(
-                  SubwayModel(
-                    subwayId: subwayId,
-                    subwayName: arrivalInfo.first.subwayName,
-                    distance: arrivalInfo.first.distance,
-                    mainColor: SubwayUtil.getMainColor(context, subwayId.toString()),
-                    stationInfoList: stationModelList,
-                  ),
-                );
-              });
-            }
+          if (!CollectionUtil.isNullorEmpty(subwayDataList)) {
             _changeUiState(
               Success(
                 MainIntent(
@@ -234,6 +229,8 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
           subwayLine: element.place_name.split(" ").last,
           distance: element.distance));
     });
+
+    debugPrint("_requestNearByStation nearByStationList : $nearByStationList");
 
     return nearByStationList;
   }

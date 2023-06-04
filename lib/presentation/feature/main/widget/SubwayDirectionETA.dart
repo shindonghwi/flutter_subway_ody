@@ -19,19 +19,30 @@ class SubwayDirectionETA extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text(
-          "${stationInfo.destination}(${stationInfo.nextStation})",
-          style: getTextTheme(context).medium.copyWith(
-                color: const Color(0xFF676767),
-                fontSize: 16,
-              ),
-          textAlign: TextAlign.center,
+        Column(
+          children: [
+            Text(
+              "${stationInfo.updnLine} - (${stationInfo.nextStation})",
+              style: getTextTheme(context).medium.copyWith(
+                    color: const Color(0xFF2F2F2F),
+                    fontSize: 14,
+                  ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 6),
+            Text(
+              stationInfo.destination,
+              style: getTextTheme(context).medium.copyWith(
+                    color: const Color(0xFF676767),
+                    fontSize: 12,
+                  ),
+              textAlign: TextAlign.center,
+            ),
+          ],
         ),
 
         /// 여기 아래는 도착예정 정보가 있으면 표시
-        const SizedBox(
-          width: 8,
-        ),
+        const SizedBox(width: 8),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           decoration: BoxDecoration(
