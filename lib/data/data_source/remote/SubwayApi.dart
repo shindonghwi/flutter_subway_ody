@@ -43,12 +43,18 @@ class SubwayApi {
         data: null,
       );
     } else {
+
+
+      final body = SubwayResponse.fromJson(jsonDecode(response.body));
+      debugPrint('response body: ${body.status == null}');
+      debugPrint('response body: ${body.status == "null"}');
+      debugPrint('response body: ${body.errorMessage!.status}');
+      debugPrint('response body: ${body.status}');
+      debugPrint('response body: ${body.status != null ? body.status! : body.errorMessage!.status}');
       return ApiResponse(
-        status: response.statusCode,
+        status: body.status != null ? body.status! : body.errorMessage!.status,
         message: _getAppLocalization.get().message_api_success,
-        data: SubwayResponse.fromJson(
-          jsonDecode(response.body),
-        ),
+        data: body,
       );
     }
   }

@@ -8,6 +8,12 @@ part of 'SubwayResponse.dart';
 
 SubwayResponse _$SubwayResponseFromJson(Map<String, dynamic> json) =>
     SubwayResponse(
+      status: json['status'] as int?,
+      code: json['code'] as String?,
+      message: json['message'] as String?,
+      link: json['link'] as String?,
+      developerMessage: json['developerMessage'] as String?,
+      total: json['total'] as int?,
       errorMessage: json['errorMessage'] == null
           ? null
           : SubwayErrorMessage.fromJson(
@@ -20,6 +26,12 @@ SubwayResponse _$SubwayResponseFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$SubwayResponseToJson(SubwayResponse instance) =>
     <String, dynamic>{
+      'status': instance.status,
+      'code': instance.code,
+      'message': instance.message,
+      'link': instance.link,
+      'developerMessage': instance.developerMessage,
+      'total': instance.total,
       'errorMessage': instance.errorMessage,
       'realtimeArrivalList': instance.realtimeArrivalList,
     };

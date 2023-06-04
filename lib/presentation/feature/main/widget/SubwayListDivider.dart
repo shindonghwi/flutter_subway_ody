@@ -116,8 +116,8 @@ class SubwayDividerAndNamePainter extends CustomPainter {
       final textPainter = TextPainter(
         text: TextSpan(
           text: insertNewlineAfterFirstThreeCharacters(subwayList[index]),
-          style: isUp && index == subwayList.length - 1 ||
-              !isUp && index == 0
+          style: !isUp && index == subwayList.length - 1 ||
+              isUp && index == 0
               ? getTextTheme(context).bold.copyWith(
             color: const Color(0xFF2F2F2F),
             fontSize: 14,

@@ -21,7 +21,6 @@ class SubwayPositionList extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Stack(
       children: [
         Container(
@@ -31,11 +30,42 @@ class SubwayPositionList extends HookWidget {
             children: List.generate(subwayList.length * 2 - 1, (index) {
               positionList.removeWhere((element) => element == -1);
               return positionList.contains(index) && index % 2 == 0
-                  ? SubwayPositionItem(
-                      mainColor: mainColor,
-                      isUp: isUp,
+                  ? Flexible(
+                      flex: 1,
+                      fit: FlexFit.tight,
+                      child: SubwayPositionItem(
+                        mainColor: mainColor,
+                        isUp: isUp,
+                      ),
                     )
-                  : const SizedBox();
+                  : const Flexible(
+                      flex: 1,
+                      fit: FlexFit.tight,
+                      child: SizedBox(),
+                    );
+            }),
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 60),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: List.generate(subwayList.length * 2 - 1, (index) {
+              positionList.removeWhere((element) => element == -1);
+              return positionList.contains(index) && index % 2 == 1
+                  ? Flexible(
+                      flex: 1,
+                      fit: FlexFit.tight,
+                      child: SubwayPositionItem(
+                        mainColor: mainColor,
+                        isUp: isUp,
+                      ),
+                    )
+                  : const Flexible(
+                      flex: 1,
+                      fit: FlexFit.tight,
+                      child: SizedBox(),
+                    );
             }),
           ),
         ),
@@ -44,8 +74,7 @@ class SubwayPositionList extends HookWidget {
         //   child: Row(
         //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
         //     children: List.generate(subwayList.length * 2 - 1, (index) {
-        //       positionList.removeWhere((element) => element == -1);
-        //       return positionList.contains(index) && index % 2 == 1
+        //       return index % 2 == 0
         //           ? SubwayPositionItem(
         //               mainColor: mainColor,
         //               isUp: isUp,
@@ -58,7 +87,7 @@ class SubwayPositionList extends HookWidget {
         //   margin: const EdgeInsets.symmetric(horizontal: 60),
         //   child: Row(
         //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //     children: List.generate(positionList.length * 2 - 1, (index) {
+        //     children: List.generate(subwayList.length * 2 - 1, (index) {
         //       return index % 2 == 1
         //           ? SubwayPositionItem(
         //               mainColor: mainColor,

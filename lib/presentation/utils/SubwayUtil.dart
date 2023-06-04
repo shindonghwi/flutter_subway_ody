@@ -57,6 +57,30 @@ class SubwayUtil {
     }
   }
 
+  static String findSubwayName({
+    required String subwayName,
+    required String subwayLine,
+  }) {
+    List<Map<String, String>> subwayListFromHosun = realtimeSubwayInfo
+        .where((element) => element["hosunName"]!.contains(subwayLine))
+        .toList();
+
+    final nm = subwayName.trim().endsWith("역")
+        ? subwayName.trim().substring(0, subwayName.length - 1)
+        : subwayName;
+
+    for (var info in subwayListFromHosun) {
+      final statnName = info["statnName"].toString();
+      final a = statnName.contains(nm);
+      final b = nm.contains(statnName);
+
+      if (a || b){
+        return statnName;
+      }
+    }
+    return "";
+  }
+
   static List<String> findSubwayNameList({
     required String subwayId,
     required String currentSubwayId,
@@ -68,7 +92,7 @@ class SubwayUtil {
     final List<String> subwayNameList = [];
 
     List<Map<String, String>> subwayListFromHosun =
-    realtimeSubwayInfo.where((element) => element["subwayId"] == subwayId).toList();
+        realtimeSubwayInfo.where((element) => element["subwayId"] == subwayId).toList();
 
     // x호선 데이터 정보
     final Map<String, Map<String, String>> subwayInfoMap = {}; // Map<호선, 지하철정보>
@@ -81,18 +105,20 @@ class SubwayUtil {
     }
 
     if (subwayInfoMap.containsKey(currentSubwayId)) {
-      List<MapEntry<String, Map<String, String>>> entries = subwayInfoMap.entries.toList();
+      List<MapEntry<String, Map<String, String>>> entries =
+          subwayInfoMap.entries.toList();
       int currentIndex = entries.indexWhere((entry) => entry.key == currentSubwayId);
 
       if (currentIndex != -1) {
-
         List<MapEntry<String, Map<String, String>>> nextEntries;
         int endIndex = currentIndex - 4 < 0 ? 0 : currentIndex - 4;
         if (!isUp) {
           nextEntries = entries.sublist(endIndex, currentIndex + 1).toList();
           debugPrint("isUp nextEntries: $nextEntries");
         } else {
-          endIndex = currentIndex + 4 > entries.length - 1 ? entries.length - 1 : currentIndex + 4;
+          endIndex = currentIndex + 4 > entries.length - 1
+              ? entries.length - 1
+              : currentIndex + 4;
           nextEntries = entries.sublist(currentIndex, endIndex + 1);
           debugPrint("!isUp nextEntries: $nextEntries");
         }
@@ -107,11 +133,6 @@ class SubwayUtil {
     } else {
       // print("currentSubwayId가 subwayInfoMap에 없습니다.");
     }
-
-    if (!isUp){
-      return subwayNameList.reversed.toList();
-    }else{
-      return subwayNameList;
-    }
+    return subwayNameList.toList();
   }
 }
