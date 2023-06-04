@@ -52,7 +52,6 @@ class MainScreen extends HookConsumerWidget {
                   ? ActiveContent(subwayModel: uiState.value)
                   : const SizedBox()
               : ActiveContent(subwayModel: mainIntentData.value!),
-          if (uiState is Success<MainIntent>) ActiveContent(subwayModel: uiState.value),
           if (uiState is Failure<MainIntent>)
             uiState.errorMessage == ErrorType.gps_error.name
                 ? const ErrorGpsContent()
