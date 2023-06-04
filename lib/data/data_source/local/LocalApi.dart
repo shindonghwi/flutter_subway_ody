@@ -83,7 +83,7 @@ class LocalApi {
   /// 사용자가 설정한 거리 반환
   Future<int> getUserDistance() async {
     final prefs = await SharedPreferences.getInstance();
-    final distance = prefs.getInt(distanceKey) ?? 300;
+    final distance = prefs.getInt(distanceKey) ?? 800;
     debugPrint("LocalApi - getUserDistance : $distance");
     return distance;
   }

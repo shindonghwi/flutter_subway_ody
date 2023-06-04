@@ -18,12 +18,11 @@ class ActiveContent extends HookWidget {
         padding: const EdgeInsets.only(bottom: 120),
         child: Column(
             children: subwayModel.subwayItems.map((model) {
-
           return Column(
             children: [
               const SizedBox(height: 32),
               SubwayTitle(
-                subwayLine: model.subwayLine,
+                subwayId: model.subwayId,
                 subwayName: model.subwayName,
                 distance: model.distance,
                 mainColor: model.mainColor,

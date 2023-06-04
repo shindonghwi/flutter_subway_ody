@@ -7,6 +7,7 @@ class SubwayUtil {
   /// 1001:1호선 1002:2호선 1003:3호선, 1004:4호선,1005:5호선, 1006:6호선,1007:7호선, 1008:8호선, 1009:9호선,
   /// 1063:경의중앙선, 1065:공항철도, 1067:경춘선, 1075:수의분당선 1077:신분당선, 1092:우이신설선
   static Color getMainColor(BuildContext context, String subwayLine) {
+    debugPrint("@@@@ subwayLine: $subwayLine");
     if (subwayLine == "1001") {
       return getColorScheme(context).colorLine1;
     } else if (subwayLine.contains("1002")) {
@@ -42,19 +43,42 @@ class SubwayUtil {
     return const Color(0xFFB6B6B6);
   }
 
-  static String parseSubwayHoSun(String subwayName) {
-    bool isNumeric(String s) {
-      if (s == null) {
-        return false;
-      }
-      return double.tryParse(s) != null;
+  /// 1001:1호선 1002:2호선 1003:3호선, 1004:4호선,1005:5호선, 1006:6호선,1007:7호선, 1008:8호선, 1009:9호선,
+  /// 1063:경의중앙선, 1065:공항철도, 1067:경춘선, 1075:수인분당선 1077:신분당선, 1092:우이신설선
+  static String getSubwayHosun(String subwayId) {
+    debugPrint("@@@@ getSubwayHosun: $subwayId");
+    if (subwayId == "1001") {
+      return "1";
+    }else if(subwayId == "1002") {
+      return "2";
+    }else if(subwayId == "1003") {
+      return "3";
+    }else if(subwayId == "1004") {
+      return "4";
+    }else if(subwayId == "1005") {
+      return "5";
+    }else if(subwayId == "1006") {
+      return "6";
+    }else if(subwayId == "1007") {
+      return "7";
+    }else if(subwayId == "1008") {
+      return "8";
+    }else if(subwayId == "1009") {
+      return "9";
+    }else if(subwayId == "1063") {
+      return "경의중앙선";
+    }else if(subwayId == "1065") {
+      return "공항철도";
+    }else if(subwayId == "1067") {
+      return "경춘선";
+    }else if(subwayId == "1075") {
+      return "수인분당선";
+    }else if(subwayId == "1077") {
+      return "신분당선";
+    }else if(subwayId == "1092") {
+      return "우이신설선";
     }
-
-    if (isNumeric(subwayName[0])) {
-      return subwayName[0];
-    } else {
-      return subwayName;
-    }
+    return "----";
   }
 
   static String findSubwayName({

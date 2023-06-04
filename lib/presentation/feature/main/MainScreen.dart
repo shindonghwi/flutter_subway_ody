@@ -25,7 +25,7 @@ class MainScreen extends HookConsumerWidget {
 
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        uiStateRead.getSubwayData(context);
+        uiStateRead.getSubwayData(context, null);
       });
     }, []);
 
@@ -56,9 +56,7 @@ class MainScreen extends HookConsumerWidget {
       floatingActionButton: (uiState is Success)
           ? FloatingActionButton(
               backgroundColor: getColorScheme(context).colorPrimary,
-              onPressed: () {
-                // uiState.value == UiState.SUCCESS ? ;
-              },
+              onPressed: () => uiStateRead.getSubwayData(context, null),
               child: SvgPicture.asset('assets/imgs/refresh.svg'))
           : const SizedBox(),
     );

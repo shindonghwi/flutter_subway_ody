@@ -6,14 +6,14 @@ import 'package:subway_ody/presentation/utils/SubwayUtil.dart';
 
 /// 지하철역 타이틀 및 지하철역 까지 거리
 class SubwayTitle extends StatelessWidget {
-  final String subwayLine;
+  final String subwayId;
   final String subwayName;
   final String distance;
   final Color mainColor;
 
   const SubwayTitle({
     super.key,
-    required this.subwayLine,
+    required this.subwayId,
     required this.subwayName,
     required this.distance,
     required this.mainColor,
@@ -21,17 +21,16 @@ class SubwayTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hoSun = SubwayUtil.parseSubwayHoSun(subwayLine);
-
+    final String hosun = SubwayUtil.getSubwayHosun(subwayId).toString();
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Container(
-          width: hoSun.length == 1 ? 30 : 100,
+          width: hosun.length == 1 ? 30 : 100,
           height: 30,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(hoSun.length == 1 ? 100 : 14),
+            borderRadius: BorderRadius.circular(hosun.length == 1 ? 100 : 14),
             border: Border.all(
               color: mainColor,
               width: 1,
@@ -40,7 +39,7 @@ class SubwayTitle extends StatelessWidget {
           ),
           child: Center(
             child: Text(
-              SubwayUtil.parseSubwayHoSun(subwayLine),
+              hosun,
               style: getTextTheme(context).bold.copyWith(
                     color: Colors.white,
                     fontSize: 16,

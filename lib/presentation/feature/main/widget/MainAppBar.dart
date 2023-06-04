@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get_it/get_it.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:subway_ody/domain/usecases/local/PostSaveUserDistanceUseCase.dart';
 import 'package:subway_ody/presentation/feature/main/widget/bottom_sheet/BottomSheetUtil.dart';
 import 'package:subway_ody/presentation/feature/provider/CurrentRegionNotifier.dart';
+import 'package:subway_ody/presentation/feature/provider/MainUiState.dart';
 import 'package:subway_ody/presentation/navigation/PageMoveUtil.dart';
 import 'package:subway_ody/presentation/navigation/Route.dart';
 import 'package:subway_ody/presentation/ui/typography.dart';
@@ -27,7 +30,13 @@ class MainAppBar extends HookConsumerWidget with PreferredSizeWidget {
           child: Container(
             margin: const EdgeInsets.only(right: 0),
             child: InkWell(
-              onTap: () => BottomSheetUtil.showDistanceBottomSheet(context),
+              onTap: () => BottomSheetUtil.showDistanceBottomSheet(
+                context,
+                onComplete: (value) {
+                  GetIt.instance<PostSaveUserDistanceUseCase>().call(value);
+                  ref.read(mainUiStateProvider.notifier).getSubwayData(context, value);
+                },
+              ),
               child: Padding(
                 padding: const EdgeInsets.all(14.0),
                 child: SvgPicture.asset(

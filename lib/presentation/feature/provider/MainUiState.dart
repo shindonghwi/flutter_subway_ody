@@ -16,6 +16,7 @@ import 'package:subway_ody/presentation/feature/main/MainIntent.dart';
 import 'package:subway_ody/presentation/feature/main/models/NearByStation.dart';
 import 'package:subway_ody/presentation/feature/main/models/SubwayModel.dart';
 import 'package:subway_ody/presentation/models/UiState.dart';
+import 'package:subway_ody/presentation/utils/CollectionUtil.dart';
 import 'package:subway_ody/presentation/utils/SubwayUtil.dart';
 import 'package:subway_ody/presentation/utils/dto/Pair.dart';
 
@@ -29,17 +30,15 @@ final mainUiStateProvider =
 class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
   MainUiStateNotifier() : super(Loading());
 
-  static List<NearByStation> nearByStationList = [];
-  static LatLng? latLng;
-  static List<String> addressList = [];
-  static List<SubwayRealTimeArrival> subwayArrivalList = [];
-  static List<SubwayModel> subwayDataList = [];
+  LatLng? latLng;
 
   void _changeUiState(UIState<MainIntent> s) => state = s;
 
   /// 지하철 정보 요청 API 호출
-  getSubwayData(BuildContext context) async {
+  getSubwayData(BuildContext context, int? distance) async {
     _changeUiState(Loading());
+
+    List<SubwayModel> subwayDataList = [];
 
     final isPermissionGranted = await _checkLocationPermission();
 
@@ -49,30 +48,41 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
       if (latLng == null) {
         _changeUiState(Failure(ErrorType.gps_error.name));
       } else {
-        await _requestLatLngToRegion();
-        await _requestNearByStation();
-        if (addressList.isNotEmpty && nearByStationList.isNotEmpty) {
+        List<String>? addressList = await _requestLatLngToRegion();
+        List<NearByStation>? nearByStationList = await _requestNearByStation(distance);
+
+        if (!CollectionUtil.isNullorEmpty(addressList) &&
+            !CollectionUtil.isNullorEmpty(nearByStationList)) {
           final List<Pair<NearByStation, SubwayResponse>> arrivalInfoList = [];
-          for (var element in nearByStationList) {
+          for (var element in nearByStationList!) {
             final arrivalRes = await GetIt.instance<GetSubwayArrivalUseCase>().call(
               element.subwayName,
             );
-            if(arrivalRes.status == 200){
+            debugPrint('element: ${element.subwayLine}');
+            debugPrint('element: ${element.subwayName}');
+
+            if (arrivalRes.status == 200) {
               arrivalInfoList.add(Pair(element, arrivalRes.data!));
             }
           }
 
-          if (arrivalInfoList.isNotEmpty){
-            for (var arrivalInfo in arrivalInfoList) {
+          if (arrivalInfoList.isNotEmpty) {
+            for (var index = 0; index < arrivalInfoList.length; index++) {
+              var arrivalInfo = arrivalInfoList[index];
+
+              debugPrint('arrivalInfo: ${arrivalInfo.first.subwayLine}');
+              debugPrint('arrivalInfo: ${arrivalInfo.first.subwayName}');
+
               // 지하철 번호로 그룹화 하고, 상/하행 으로 다시 그룹화한 리스트
-              List<SubwayRealTimeArrival> subwayArrivalList = arrivalInfo.second.realtimeArrivalList!;
+              List<SubwayRealTimeArrival> subwayArrivalList =
+                  arrivalInfo.second.realtimeArrivalList!;
 
               var groupedBySubwayId =
-              groupBy(subwayArrivalList, (arrival) => arrival.subwayId);
+                  groupBy(subwayArrivalList, (arrival) => arrival.subwayId);
 
               groupedBySubwayId.forEach((subwayId, arrivalsBySubwayId) {
                 var groupedByUpdnLine =
-                groupBy(arrivalsBySubwayId, (arrival) => arrival.updnLine);
+                    groupBy(arrivalsBySubwayId, (arrival) => arrival.updnLine);
 
                 List<SubwayDirectionStationModel> stationModelList = [];
 
@@ -86,20 +96,17 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
                     isUp: arrivalsByUpdnLine.first.ordkey.startsWith("0"),
                   );
 
-
-                  debugPrint("@@@@@@@@@@: $subwayNameList");
-
                   final List<int> subwayPositionList = [];
+
                   for (var arrival in arrivalsByUpdnLine) {
                     final subwayIndex = subwayNameList.indexOf(arrival.arvlMsg3) == 0
                         ? 0
                         : !subwayNameList.contains(arrival.arvlMsg3)
-                        ? -1
-                        :subwayNameList.indexOf(arrival.arvlMsg3) * 2;
-                    // : (subwayNameList.indexOf(arrival.arvlMsg3) * 2) +
-                    //     (arrival.arvlCd == "99"
-                    //         ? (arrival.ordkey.startsWith("0") ? -1 : 1)
-                    //         : 0);
+                            ? -1
+                            : (subwayNameList.indexOf(arrival.arvlMsg3) * 2) +
+                                (arrival.arvlCd == "99"
+                                    ? (arrival.ordkey.startsWith("0") ? 1 : -1)
+                                    : 0);
 
                     subwayPositionList.add(subwayIndex);
 
@@ -141,8 +148,8 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
 
                 subwayDataList.add(
                   SubwayModel(
+                    subwayId: subwayId,
                     subwayName: arrivalInfo.first.subwayName,
-                    subwayLine: arrivalInfo.first.subwayLine,
                     distance: arrivalInfo.first.distance,
                     mainColor: SubwayUtil.getMainColor(context, subwayId.toString()),
                     stationInfoList: stationModelList,
@@ -152,10 +159,13 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
             }
             _changeUiState(
               Success(
-                MainIntent(userRegion: addressList.join(" "), subwayItems: subwayDataList),
+                MainIntent(
+                  userRegion: addressList!.join(" "),
+                  subwayItems: subwayDataList,
+                ),
               ),
             );
-          }else{
+          } else {
             debugPrint("arrivalInfoList is empty");
             _changeUiState(Failure(ErrorType.not_available.name));
           }
@@ -183,9 +193,10 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
   }
 
   /// 현재 위치를 주소로 변환
-  _requestLatLngToRegion() async {
+  Future<List<String>?> _requestLatLngToRegion() async {
+    List<String> addressList = [];
     debugPrint("_requestLatLngToRegion latLng : $latLng");
-    if (latLng == null) return;
+    if (latLng == null) return Future(() => null);
     final response = await GetIt.instance<GetKakaoLatLngToRegionUseCase>().call(latLng!);
 
     if (response.status == 200) {
@@ -194,21 +205,26 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
       address1 != null ? addressList.add(address1) : null;
       address2 != null ? addressList.add(address2) : null;
     }
+
+    return addressList;
   }
 
   /// 현재 위치에서 가장 가까운 지하철역 정보 가져오기
-  _requestNearByStation() async {
+  Future<List<NearByStation>?> _requestNearByStation(int? distance) async {
+    List<NearByStation> nearByStationList = [];
+
     debugPrint("_requestNearByStation latLng : $latLng");
-    if (latLng == null) return;
-    int distance = await GetIt.instance<GetUserDistanceUseCase>().call();
+    if (latLng == null) return Future(() => null);
+
+    final tempDistance =
+        distance ?? await GetIt.instance<GetUserDistanceUseCase>().call();
+
     final stationInfo = await GetIt.instance<GetNearBySubwayStationUseCase>().call(
       latLng!,
-      distance,
+      tempDistance,
     );
 
-
     stationInfo.data?.documents?.forEach((element) {
-
       final sn = element.place_name.split(" ").first;
       final sl = element.place_name.split(" ").last;
       final findSn = SubwayUtil.findSubwayName(subwayName: sn, subwayLine: sl);
@@ -218,5 +234,7 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
           subwayLine: element.place_name.split(" ").last,
           distance: element.distance));
     });
+
+    return nearByStationList;
   }
 }

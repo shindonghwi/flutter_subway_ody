@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:subway_ody/domain/usecases/local/PostSaveUserDistanceUseCase.dart';
 import 'package:subway_ody/presentation/feature/main/widget/CustomSlider.dart';
+import 'package:subway_ody/presentation/feature/provider/MainUiState.dart';
 import 'package:subway_ody/presentation/ui/typography.dart';
 import 'package:subway_ody/presentation/utils/Common.dart';
 
 class BottomSheetUtil {
-  static void showDistanceBottomSheet(BuildContext context) {
+  static void showDistanceBottomSheet(
+    BuildContext context, {
+    required Function(int) onComplete,
+  }) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -17,9 +23,8 @@ class BottomSheetUtil {
           topRight: Radius.circular(16),
         ),
       ),
-      builder: (BuildContext context) {
-        var currentDistance = 0;
-
+      builder: (context) => HookBuilder(builder: (BuildContext context) {
+        final currentDistance = useState(0);
         return SingleChildScrollView(
           child: SafeArea(
             child: Container(
@@ -28,20 +33,19 @@ class BottomSheetUtil {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _appbar(
-                    context,
-                    () {
-                      GetIt.instance<PostSaveUserDistanceUseCase>().call(
-                        currentDistance,
-                      );
-                    },
+                  DistanceSettingAppBar(
+                    distance: currentDistance.value == 0 ? 800 : currentDistance.value,
+                    onComplete: onComplete,
                   ),
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 8),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        CustomSlider(onSliderChanged: (value) => currentDistance = value),
+                        CustomSlider(onSliderChanged: (value) {
+                          debugPrint("value: $value");
+                          currentDistance.value = value;
+                        }),
                         _distanceDescription(context),
                       ],
                     ),
@@ -51,7 +55,8 @@ class BottomSheetUtil {
             ),
           ),
         );
-      },
+      }),
+      // builder: HookBuilder(builder: builder)
     );
   }
 
@@ -87,8 +92,20 @@ class BottomSheetUtil {
       ),
     );
   }
+}
 
-  static Row _appbar(BuildContext context, VoidCallback onComplete) {
+class DistanceSettingAppBar extends HookConsumerWidget {
+  final int distance;
+  final Function(int) onComplete;
+
+  const DistanceSettingAppBar({
+    Key? key,
+    required this.distance,
+    required this.onComplete,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -103,14 +120,14 @@ class BottomSheetUtil {
           overflow: TextOverflow.ellipsis,
         ),
         _buttonText(context, () {
-          onComplete();
           Navigator.pop(context);
+          onComplete.call(distance);
         }, false),
       ],
     );
   }
 
-  static Widget _buttonText(BuildContext context, Function() onTap, bool isCanceled) {
+  Widget _buttonText(BuildContext context, Function() onTap, bool isCanceled) {
     return Material(
       color: Colors.transparent,
       child: InkWell(
