@@ -6,7 +6,7 @@ class GetUserDistanceUseCase {
 
   final LocalRepository _localRepository = GetIt.instance<LocalRepository>();
 
-  Future<int> call() async {
+  Future<int?> call() async {
     return await _localRepository.getUserDistance();
   }
 }

@@ -11,5 +11,5 @@ abstract class LocalRepository {
 
   Future<bool> saveUserDistance(int distance); // 사용자가 설정한 거리 저장
 
-  Future<int> getUserDistance(); // 사용자가 설정한 거리 반환
+  Future<int?> getUserDistance(); // 사용자가 설정한 거리 반환
 }

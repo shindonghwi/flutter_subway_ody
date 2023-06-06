@@ -34,7 +34,7 @@ class LocalRepositoryImpl implements LocalRepository {
   }
 
   @override
-  Future<int> getUserDistance() async {
+  Future<int?> getUserDistance() async {
     LocalApi localApi = GetIt.instance<LocalApi>();
     return await localApi.getUserDistance();
   }

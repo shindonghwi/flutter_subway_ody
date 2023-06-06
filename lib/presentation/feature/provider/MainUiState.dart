@@ -193,7 +193,7 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
     if (latLng == null) return Future(() => null);
 
     final tempDistance =
-        distance ?? await GetIt.instance<GetUserDistanceUseCase>().call();
+        distance ?? await GetIt.instance<GetUserDistanceUseCase>().call() ?? 800;
 
     final stationInfo = await GetIt.instance<GetNearBySubwayStationUseCase>().call(
       latLng!,

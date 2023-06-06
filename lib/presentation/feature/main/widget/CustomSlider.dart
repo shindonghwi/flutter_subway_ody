@@ -45,9 +45,7 @@ class CustomSlider extends HookWidget {
     useEffect(() {
       GetIt.instance<GetUserDistanceUseCase>().call().then((value) {
         debugPrint("value1: $value");
-        debugPrint("value2: ${calculateSliderDistance(800).toDouble()}");
-        debugPrint("value3: ${calculateSliderValue(value).toDouble()}");
-        sliderValue.value = value < calculateSliderDistance(800)
+        sliderValue.value = value == null
             ? calculateSliderValue(800).toDouble()
             : calculateSliderValue(value).toDouble();
       });
