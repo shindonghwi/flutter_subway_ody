@@ -28,7 +28,7 @@ class ActiveContent extends HookWidget {
                 mainColor: model.mainColor,
               ),
               Column(
-                children: model.stationInfoList.map((e) {
+                children: model.stations.map((e) {
                   return Column(
                     children: [
                       const SizedBox(height: 22),

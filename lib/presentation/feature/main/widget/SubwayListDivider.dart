@@ -19,7 +19,7 @@ class SubwayListDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final subwayList = stationInfo.subwayNameList;
+    final subwayList = stationInfo.nameList;
     final positionList = stationInfo.subwayPositionList;
     final destination = "${stationInfo.destination}(${stationInfo.btrainSttus})";
 
@@ -38,7 +38,9 @@ class SubwayListDivider extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         Container(
-          margin: const EdgeInsets.symmetric(horizontal: 40),
+          margin: EdgeInsets.symmetric(
+            horizontal: getMediaQuery(context).size.width * 0.141,
+          ),
           width: double.infinity,
           height: 8,
           child: CustomPaint(

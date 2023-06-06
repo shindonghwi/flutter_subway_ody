@@ -29,7 +29,8 @@ class Environment {
   bool get isDebuggable => _buildType == BuildType.dev;
 
   static String get kakaoRestApiKey => _instance._buildType == BuildType.dev
-      ? '06de5b28e76880404c369fcb6a81c230'
+      ? '06de5b28e76880404c369fcb6a81c230' // dev
+      // ? 'f530105b5b52ed538b03582ee0a54f11' // dev
       : '9672018471d87420b9bc260308a8bc9c';
 
   void run() async {
