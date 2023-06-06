@@ -53,14 +53,14 @@ run-prod-rebuild:
 
 # android apk-release create
 create-apk-prod:
-	flutter build apk --release --flavor prod --no-tree-shake-icons --no-sound-null-safety -t lib/app/env/prod.dart
+	flutter build apk --release --no-tree-shake-icons --no-sound-null-safety -t lib/app/env/prod.dart
 
 # android apk-debug create
 create-apk-dev:
-	flutter build apk --debug --flavor dev --no-tree-shake-icons --no-sound-null-safety -t lib/app/env/dev.dart
+	flutter build apk --debug --no-tree-shake-icons --no-sound-null-safety -t lib/app/env/dev.dart
 
 # android aab-prod create
 create-aab-prod:
-	flutter build appbundle --release --flavor prod --no-tree-shake-icons --no-sound-null-safety -t lib/app/env/prod.dart
+	flutter build appbundle --release --no-tree-shake-icons --no-sound-null-safety -t lib/app/env/prod.dart
 
 
