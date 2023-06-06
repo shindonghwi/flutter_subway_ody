@@ -7,6 +7,7 @@ import 'package:subway_ody/presentation/ui/theme.dart';
 
 class SubwayOdyApp extends StatelessWidget {
   static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  static Locale currentLocale = Locale('ko');
   const SubwayOdyApp({super.key});
 
   @override
@@ -17,12 +18,8 @@ class SubwayOdyApp extends StatelessWidget {
           return FutureBuilder(
             future: GetIt.instance<GetLanguageUseCase>().call(),
             builder: (context, snapshot) {
-
-              debugPrint("snapshot: $snapshot");
-              debugPrint("snapshot: ${snapshot.data as Locale}");
-              debugPrint("asdads: ${(snapshot.data as Locale) == Locale('en')}");
-
               if (snapshot.hasData) {
+                currentLocale = snapshot.data as Locale;
                 return MaterialApp(
                   // app default option
                   onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,

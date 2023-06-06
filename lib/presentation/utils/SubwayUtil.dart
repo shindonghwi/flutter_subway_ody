@@ -188,19 +188,49 @@ class SubwayUtil {
 
   static String findLanguageSubwayName(
     String targetValue, {
+    bool isDestination = false,
+    bool isPositionData = false,
     required LanguageType languageType,
   }) {
     if (languageType == LanguageType.KOR) {
       return targetValue;
     }
 
+    var value = targetValue.replaceAll("방면", "").split("(").first;
+
+    // 전처리
+    if (isDestination) {
+      value = value.endsWith("행") ? value.substring(0, value.length - 1) : value;
+    }
+
     String? findText = targetValue;
     for (var mapData in languageData) {
-      if (targetValue.contains(mapData["station_nm"].toString())) {
-        findText = mapData["station_nm_eng"];
+      if (value == (mapData["station_nm"].toString().split("(").first)) {
+        if (LanguageType.ENG == languageType) {
+          findText = mapData["station_nm_eng"];
+        } else if (LanguageType.CHN == languageType) {
+          findText = mapData["station_nm_chn"];
+        } else if (LanguageType.JPN == languageType) {
+          findText = mapData["station_nm_jpn"];
+        }
+        if (findText.toString().isEmpty){
+          findText = mapData["station_nm"];
+        }
         break;
       }
     }
+
+    // 후처리
+    if (isDestination && !isPositionData) {
+      if (LanguageType.ENG == languageType) {
+        findText = "Towards $findText";
+      } else if (LanguageType.CHN == languageType) {
+        findText = "$findText方面";
+      } else if (LanguageType.JPN == languageType) {
+        findText = "$findTextほうめん";
+      }
+    }
+
     return findText ?? targetValue;
   }
 }

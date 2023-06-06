@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:subway_ody/app/SubwayOdyApp.dart';
 import 'package:subway_ody/presentation/constant/language.dart';
 import 'package:subway_ody/presentation/feature/main/models/NearByStation.dart';
 import 'package:subway_ody/presentation/feature/setting/models/LanguageType.dart';
 import 'package:subway_ody/presentation/ui/typography.dart';
 import 'package:subway_ody/presentation/utils/Common.dart';
 import 'package:subway_ody/presentation/utils/SubwayUtil.dart';
+import 'package:subway_ody/presentation/utils/SystemUtil.dart';
 
 /// 지하철역 타이틀 및 지하철역 까지 거리
 class SubwayTitle extends StatelessWidget {
@@ -56,7 +58,7 @@ class SubwayTitle extends StatelessWidget {
         Text(
           SubwayUtil.findLanguageSubwayName(
             subwayName,
-            languageType: LanguageType.KOR,
+            languageType: SystemUtil.getLanguageType(SubwayOdyApp.currentLocale),
           ),
           style: getTextTheme(context).bold.copyWith(
                 color: const Color(0xFF2F2F2F),

@@ -20,8 +20,8 @@
 
     "change_language_dialog_body": "确定要更改为选中的语言吗？\n（重新启动应用程序）",
 
-    "common_confirm": "确认",
-    "common_cancel": "取消",
+    "commonConfirm": "确认",
+    "commonCancel": "取消",
 
 
 

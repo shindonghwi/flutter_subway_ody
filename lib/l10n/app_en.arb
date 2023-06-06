@@ -10,7 +10,7 @@
     "settingTitle": "Setting",
     "settingMenuGeneral": "General",
     "settingMenuGeneralRefresh": "Refresh",
-    "settingMenuGeneralRefreshDescription": "When the button is activated, the information is refreshed every 10 seconds",
+    "settingMenuGeneralRefreshDescription": "When the button is activated,\nthe information is refreshed every 10 seconds",
     "settingMenuEtc": "Etc",
     "settingMenuEtcLanguage": "Language",
     "settingMenuEtcVersion": "Version",
@@ -18,7 +18,7 @@
     "settingMenuEtcCS": "Inquire about the subway ody",
     "settingMenuEtcCSDescription": "For additional functional or other inquiries\nLet me know through here",
 
-    "change_language_dialog_body": "Do you want to change to the selected language?\n(App will restart)",
+    "change_language_dialog_body": "Do you want to change\nto the selected language?\n(App will restart)",
 
     "commonConfirm": "check",
     "commonCancel": "cancel",

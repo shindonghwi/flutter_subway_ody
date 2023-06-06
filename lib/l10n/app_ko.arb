@@ -20,8 +20,8 @@
 
     "change_language_dialog_body": "선택한 언어로 변경하시겠습니까?\n(앱이 재시작됩니다)",
 
-    "common_confirm": "확인",
-    "common_cancel": "취소",
+    "commonConfirm": "확인",
+    "commonCancel": "취소",
 
 
 

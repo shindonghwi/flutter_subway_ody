@@ -59,7 +59,7 @@ class InquireContainer extends StatelessWidget {
             style: getTextTheme(context).regular.copyWith(
               color: const Color(0xFFB1B1B1),
               fontSize: 12,
-              height: 1.3,
+              height: 1.18,
             ),
           ),
         ],

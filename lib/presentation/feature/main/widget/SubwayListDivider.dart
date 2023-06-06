@@ -6,6 +6,8 @@ import 'package:subway_ody/presentation/feature/main/widget/SubwayPositionList.d
 import 'package:subway_ody/presentation/ui/colors.dart';
 import 'package:subway_ody/presentation/ui/typography.dart';
 import 'package:subway_ody/presentation/utils/Common.dart';
+import 'package:subway_ody/presentation/utils/SubwayUtil.dart';
+import 'package:subway_ody/presentation/utils/SystemUtil.dart';
 
 class SubwayListDivider extends StatelessWidget {
   final SubwayDirectionStationModel stationInfo;
@@ -72,25 +74,57 @@ class SubwayDividerAndNamePainter extends CustomPainter {
   });
 
   String insertNewlineAfterFirstThreeCharacters(String text) {
-    String parseText = text;
-
-    if (parseText.contains("(")) {
-      final mainText = text.substring(0, text.indexOf("("));
-      final detailText = text.substring(text.indexOf("(")).length > 7
-          ? "${text.substring(text.indexOf("(")).substring(0, 7)}\n${text.substring(text.indexOf("(")).substring(7)}"
-          : text.substring(text.indexOf("("));
-      parseText = "$mainText\n$detailText";
-      return parseText;
+    var lineLimit = 7;
+    var firstLineLimit = 5;
+    switch (SubwayOdyApp.currentLocale.languageCode) {
+      case "ko":
+        lineLimit = 7;
+        firstLineLimit = 5;
+        break;
+      case "en":
+        lineLimit = 6;
+        firstLineLimit = 8;
+        break;
+      case "ja":
+        lineLimit = 6;
+        firstLineLimit = 5;
+        break;
+      case "zh":
+        lineLimit = 6;
+        firstLineLimit = 5;
+        break;
     }
 
-    if (text.length <= 5) {
+    String parseText = text;
+
+    if (text.length <= firstLineLimit) {
       return text;
     }
 
-    final firstThreeCharacters = text.substring(0, 4);
-    final remainingCharacters = text.substring(4);
+    if (parseText.contains("(")) {
+      final mainText = text.substring(0, text.indexOf("("));
+      var detailText = text.substring(text.indexOf("(")).length > lineLimit
+          ? "${text.substring(text.indexOf("(")).substring(0, lineLimit)}\n${text.substring(text.indexOf("(")).substring(lineLimit)}"
+          : text.substring(text.indexOf("("));
 
-    return '$firstThreeCharacters\n$remainingCharacters';
+      final secondText = detailText.split("\n").last;
+
+      if (secondText.length >= lineLimit){
+        detailText = "${secondText.substring(0, lineLimit)}\n${secondText.substring(lineLimit)}";
+      }
+      parseText = "$mainText\n$detailText";
+      return parseText;
+    }else{
+      final firstThreeCharacters = text.substring(0, firstLineLimit - 1);
+      var remainingCharacters = text.substring(firstLineLimit - 1);
+
+      final secondText = remainingCharacters.split("\n").last;
+      if (secondText.length >= lineLimit){
+        remainingCharacters = "${secondText.substring(0, lineLimit)}\n${secondText.substring(lineLimit)}";
+      }
+
+      return '$firstThreeCharacters\n$remainingCharacters';
+    }
   }
 
   @override
@@ -130,9 +164,15 @@ class SubwayDividerAndNamePainter extends CustomPainter {
       canvas.drawCircle(circleBorderCenter, radius + 2, circleBorderPaint);
       canvas.drawCircle(circleInnerCenter, radius, circleInnerPaint);
 
+      final stationName = insertNewlineAfterFirstThreeCharacters(
+          SubwayUtil.findLanguageSubwayName(subwayList[index],
+              languageType: SystemUtil.getLanguageType(
+                SubwayOdyApp.currentLocale,
+              )));
+
       final textPainter = TextPainter(
         text: TextSpan(
-          text: insertNewlineAfterFirstThreeCharacters(subwayList[index]),
+          text: stationName,
           style: !isUp && index == subwayList.length - 1 || isUp && index == 0
               ? getTextTheme(context).bold.copyWith(
                     color: const Color(0xFF2F2F2F),

@@ -138,8 +138,8 @@ class DistanceSettingAppBar extends HookConsumerWidget {
           padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
           child: Text(
             isCanceled
-                ? getAppLocalizations(context).common_cancel
-                : getAppLocalizations(context).common_confirm,
+                ? getAppLocalizations(context).commonCancel
+                : getAppLocalizations(context).commonConfirm,
             style: getTextTheme(context).medium.copyWith(
                   color: isCanceled ? const Color(0xFF7C7C7C) : const Color(0xFF2F2F2F),
                   fontSize: 16,

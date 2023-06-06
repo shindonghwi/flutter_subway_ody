@@ -3,9 +3,13 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:subway_ody/app/SubwayOdyApp.dart';
 import 'package:subway_ody/presentation/feature/main/models/SubwayModel.dart';
+import 'package:subway_ody/presentation/feature/setting/models/LanguageType.dart';
 import 'package:subway_ody/presentation/ui/typography.dart';
 import 'package:subway_ody/presentation/utils/Common.dart';
+import 'package:subway_ody/presentation/utils/SubwayUtil.dart';
+import 'package:subway_ody/presentation/utils/SystemUtil.dart';
 import 'package:subway_ody/presentation/utils/dto/Pair.dart';
 
 class SubwayPositionList extends HookWidget {
@@ -41,15 +45,15 @@ class SubwayPositionList extends HookWidget {
                   alignment: Alignment.centerLeft,
                   child: positionList[index].first != -1
                       ? SizedBox(
-                          width:
-                              getMediaQuery(context).size.width * 0.174, // 첫 번째 아이템의 넓이
-                          child: SubwayPositionItem(
-                            mainColor: mainColor,
-                            isUp: isUp,
-                            destination: destination,
-                            btrainSttus: btrainSttus,
-                          ),
-                        )
+                    width:
+                    getMediaQuery(context).size.width * 0.174, // 첫 번째 아이템의 넓이
+                    child: SubwayPositionItem(
+                      mainColor: mainColor,
+                      isUp: isUp,
+                      destination: destination,
+                      btrainSttus: btrainSttus,
+                    ),
+                  )
                       : const SizedBox(),
                 ),
               );
@@ -73,7 +77,39 @@ class SubwayPositionItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    LanguageType type = SystemUtil.getLanguageType(SubwayOdyApp.currentLocale);
+    debugPrint("destination: $destination");
+
+    final languageDestination = SubwayUtil.findLanguageSubwayName(
+      destination,
+      isDestination: true,
+      isPositionData: true,
+      languageType: type,
+    );
+
+    var languageBtrainStttus = btrainSttus;
+
+    if (type == LanguageType.ENG) {
+      if (btrainSttus == "급행") {
+        languageBtrainStttus = "express";
+      } else if (btrainSttus == "일반") {
+        languageBtrainStttus = "normal";
+      }
+    } else if (type == LanguageType.JPN) {
+      if (btrainSttus == "급행") {
+        languageBtrainStttus = "急行";
+      } else if (btrainSttus == "일반") {
+        languageBtrainStttus = "普通";
+      }
+    } else if (type == LanguageType.CHN) {
+      if (btrainSttus == "급행") {
+        languageBtrainStttus = "快车";
+      } else if (btrainSttus == "일반") {
+        languageBtrainStttus = "普通";
+      }
+    }
+
+      return Column(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -86,22 +122,23 @@ class SubwayPositionItem extends StatelessWidget {
           ),
           child: Column(
             children: [
-              Text(destination,
+              Text(languageDestination,
                   style: getTextTheme(context).bold.copyWith(
-                        color: const Color(0xFF2F2F2F),
-                        fontSize: 12,
-                      )),
+                    color: const Color(0xFF2F2F2F),
+                    fontSize: 12,
+                  )),
               const SizedBox(height: 4),
-              Text("($btrainSttus)",
+              Text("($languageBtrainStttus)",
                   style: getTextTheme(context).medium.copyWith(
-                        color: const Color(0xFF2F2F2F),
-                        fontSize: 8,
-                      )),
+                    color: const Color(0xFF2F2F2F),
+                    fontSize: 8,
+                  )),
             ],
           ),
         ),
         Transform(
-          transform: Matrix4.identity()..scale(isUp ? 1.0 : -1.0, 1.0, 1.0),
+          transform: Matrix4.identity()
+            ..scale(isUp ? 1.0 : -1.0, 1.0, 1.0),
           alignment: Alignment.center,
           child: SvgPicture.asset(
             'assets/imgs/subway.svg',

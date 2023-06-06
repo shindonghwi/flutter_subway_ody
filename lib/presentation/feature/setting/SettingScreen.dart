@@ -18,8 +18,8 @@ class SettingScreen extends StatelessWidget {
         physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
-            const GeneralContainer(),
-            _divider(context),
+            // const GeneralContainer(),
+            // _divider(context),
             const EtcContainer(),
             _divider(context),
             const InquireContainer(),

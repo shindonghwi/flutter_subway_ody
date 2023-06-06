@@ -11,6 +11,7 @@ import 'package:subway_ody/presentation/navigation/Route.dart';
 import 'package:subway_ody/presentation/ui/colors.dart';
 import 'package:subway_ody/presentation/ui/typography.dart';
 import 'package:subway_ody/presentation/utils/Common.dart';
+import 'package:subway_ody/presentation/utils/SystemUtil.dart';
 import 'package:subway_ody/presentation/utils/dto/Pair.dart';
 
 class EtcContainer extends StatelessWidget {
@@ -78,7 +79,7 @@ class LanguageSelector extends HookWidget {
             TextButton(
               onPressed: () => callback.call(false),
               child: Text(
-                getAppLocalizations(context).common_cancel,
+                getAppLocalizations(context).commonCancel,
                 style: getTextTheme(ctx).medium.copyWith(
                       color: const Color(0xFF7C7C7C),
                       fontSize: 12,
@@ -88,7 +89,7 @@ class LanguageSelector extends HookWidget {
             TextButton(
               onPressed: () => callback.call(true),
               child: Text(
-                getAppLocalizations(context).common_confirm,
+                getAppLocalizations(context).commonConfirm,
                 style: getTextTheme(context).medium.copyWith(
                       color: getColorScheme(ctx).colorPrimary,
                       fontSize: 12,
@@ -104,17 +105,9 @@ class LanguageSelector extends HookWidget {
 
     useEffect(() {
       initLanguage() async {
-        Locale locale = await GetIt.instance<GetLanguageUseCase>().call();
-
-        if (locale.languageCode == "ko") {
-          selectedLanguageIndex.value = LanguageType.KOR;
-        } else if (locale.languageCode == "en") {
-          selectedLanguageIndex.value = LanguageType.ENG;
-        } else if (locale.languageCode == "ja") {
-          selectedLanguageIndex.value = LanguageType.JPN;
-        } else if (locale.languageCode == "zh") {
-          selectedLanguageIndex.value = LanguageType.CHN;
-        }
+        selectedLanguageIndex.value = SystemUtil.getLanguageType(
+          SubwayOdyApp.currentLocale,
+        );
       }
 
       initLanguage();
