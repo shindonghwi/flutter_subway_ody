@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:subway_ody/presentation/feature/setting/models/LanguageType.dart';
+import 'package:subway_ody/presentation/navigation/Route.dart';
 import 'package:subway_ody/presentation/ui/colors.dart';
 import 'package:subway_ody/presentation/ui/typography.dart';
 import 'package:subway_ody/presentation/utils/Common.dart';
+import 'package:subway_ody/presentation/utils/dto/Pair.dart';
 
 class EtcContainer extends StatelessWidget {
   const EtcContainer({
@@ -39,20 +42,59 @@ class EtcContainer extends StatelessWidget {
   }
 }
 
-
 class LanguageSelector extends HookWidget {
   const LanguageSelector({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final languageList = [
-      "한국어",
-      "English",
-      "日本語",
-      "中文",
+    final List<Pair<String, LanguageType>> languageList = [
+      Pair("한국어", LanguageType.KOR),
+      Pair("English", LanguageType.ENG),
+      Pair("日本語", LanguageType.JPN),
+      Pair("中文", LanguageType.CHN),
     ];
 
-    final selectedLanguageIndex = useState<String>(languageList.first);
+    showChangeLanguagePopUp(Function(bool) callback) {
+      showDialog(
+        barrierDismissible: true,
+        context: context,
+        builder: (ctx) => AlertDialog(
+          backgroundColor: getColorScheme(ctx).light,
+          content: Text(
+            '선택한 언어로 변경하시겠습니까?\n(앱이 재시작됩니다)',
+            style: getTextTheme(context).regular.copyWith(
+                  color: const Color(0xFF2F2F2F),
+                  fontSize: 14,
+                  height: 1.4,
+                ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => callback.call(false),
+              child: Text(
+                '아니오',
+                style: getTextTheme(ctx).medium.copyWith(
+                      color: const Color(0xFF7C7C7C),
+                      fontSize: 12,
+                    ),
+              ),
+            ),
+            TextButton(
+              onPressed: () => callback.call(true),
+              child: Text(
+                '네',
+                style: getTextTheme(context).medium.copyWith(
+                      color: getColorScheme(ctx).colorPrimary,
+                      fontSize: 12,
+                    ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    final selectedLanguageIndex = useState<LanguageType>(languageList.first.second);
 
     return Container(
       margin: const EdgeInsets.only(top: 16),
@@ -60,11 +102,12 @@ class LanguageSelector extends HookWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: languageList.asMap().entries.map((e) {
           int index = e.key;
-          String value = e.value;
+          String value = e.value.first;
+          LanguageType type = e.value.second;
 
           return Container(
             decoration: BoxDecoration(
-              color: selectedLanguageIndex.value == e.value
+              color: selectedLanguageIndex.value == e.value.second
                   ? getColorScheme(context).colorPrimary
                   : const Color(0xFFF5F5F5),
               borderRadius: BorderRadius.circular(100),
@@ -73,7 +116,17 @@ class LanguageSelector extends HookWidget {
               color: Colors.transparent,
               child: InkWell(
                 onTap: () {
-                  selectedLanguageIndex.value = value;
+                  showChangeLanguagePopUp((callback) {
+                    Navigator.of(context).pop(true);
+                    if (callback) {
+                      selectedLanguageIndex.value = type;
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        RoutingScreen.Splash.route,
+                        (Route<dynamic> route) => false,
+                      );
+                    }
+                  });
                 },
                 borderRadius: BorderRadius.circular(100),
                 child: Padding(
@@ -81,7 +134,7 @@ class LanguageSelector extends HookWidget {
                   child: Text(
                     value,
                     style: getTextTheme(context).medium.copyWith(
-                          color: selectedLanguageIndex.value == e.value
+                          color: selectedLanguageIndex.value == e.value.second
                               ? getColorScheme(context).white
                               : const Color(0xFFB1B1B1),
                           fontSize: 14,
@@ -115,16 +168,16 @@ class VersionText extends StatelessWidget {
           Text(
             "버전",
             style: getTextTheme(context).regular.copyWith(
-              color: const Color(0xFF2F2F2F),
-              fontSize: 16,
-            ),
+                  color: const Color(0xFF2F2F2F),
+                  fontSize: 16,
+                ),
           ),
           Text(
             "1.0.0",
             style: getTextTheme(context).medium.copyWith(
-              color: getColorScheme(context).colorPrimary,
-              fontSize: 14,
-            ),
+                  color: getColorScheme(context).colorPrimary,
+                  fontSize: 14,
+                ),
           ),
         ],
       ),

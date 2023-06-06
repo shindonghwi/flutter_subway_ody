@@ -1,5 +1,10 @@
+import 'dart:collection';
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
+import 'package:subway_ody/presentation/constant/language.dart';
 import 'package:subway_ody/presentation/constant/subway.dart';
+import 'package:subway_ody/presentation/feature/setting/models/LanguageType.dart';
 import 'package:subway_ody/presentation/ui/colors.dart';
 import 'package:subway_ody/presentation/utils/Common.dart';
 
@@ -10,23 +15,23 @@ class SubwayUtil {
     debugPrint("@@@@ subwayLine: $subwayLine");
     if (subwayLine.contains("1호선")) {
       return getColorScheme(context).colorLine1;
-    }else if(subwayLine.contains("2호선")) {
+    } else if (subwayLine.contains("2호선")) {
       return getColorScheme(context).colorLine2;
-    }else if(subwayLine.contains("3호선")) {
+    } else if (subwayLine.contains("3호선")) {
       return getColorScheme(context).colorLine3;
-    }else if(subwayLine.contains("4호선")) {
+    } else if (subwayLine.contains("4호선")) {
       return getColorScheme(context).colorLine4;
-    }else if(subwayLine.contains("5호선")) {
+    } else if (subwayLine.contains("5호선")) {
       return getColorScheme(context).colorLine5;
-    }else if(subwayLine.contains("6호선")) {
+    } else if (subwayLine.contains("6호선")) {
       return getColorScheme(context).colorLine6;
-    }else if(subwayLine.contains("7호선")) {
+    } else if (subwayLine.contains("7호선")) {
       return getColorScheme(context).colorLine7;
-    }else if(subwayLine.contains("8호선")) {
+    } else if (subwayLine.contains("8호선")) {
       return getColorScheme(context).colorLine8;
-    }else if(subwayLine.contains("9호선")) {
+    } else if (subwayLine.contains("9호선")) {
       return getColorScheme(context).colorLine9;
-    }else if(subwayLine.contains("경의중앙")) {
+    } else if (subwayLine.contains("경의중앙")) {
       return getColorScheme(context).colorLineGyeonguiCentral;
     } else if (subwayLine.contains("공항철도")) {
       return getColorScheme(context).colorLineAirportRailroad;
@@ -36,7 +41,8 @@ class SubwayUtil {
       return getColorScheme(context).colorLineSuinBundang;
     } else if (subwayLine.contains("신분당")) {
       return getColorScheme(context).colorLineNewParty;
-    } else { // 우이신설
+    } else {
+      // 우이신설
       return getColorScheme(context).colorLineNewUisun;
     }
   }
@@ -46,23 +52,23 @@ class SubwayUtil {
   static String getSubwayHosun(String subwayLine) {
     if (subwayLine.contains("1호선")) {
       return "1";
-    }else if(subwayLine.contains("2호선")) {
+    } else if (subwayLine.contains("2호선")) {
       return "2";
-    }else if(subwayLine.contains("3호선")) {
+    } else if (subwayLine.contains("3호선")) {
       return "3";
-    }else if(subwayLine.contains("4호선")) {
+    } else if (subwayLine.contains("4호선")) {
       return "4";
-    }else if(subwayLine.contains("5호선")) {
+    } else if (subwayLine.contains("5호선")) {
       return "5";
-    }else if(subwayLine.contains("6호선")) {
+    } else if (subwayLine.contains("6호선")) {
       return "6";
-    }else if(subwayLine.contains("7호선")) {
+    } else if (subwayLine.contains("7호선")) {
       return "7";
-    }else if(subwayLine.contains("8호선")) {
+    } else if (subwayLine.contains("8호선")) {
       return "8";
-    }else if(subwayLine.contains("9호선")) {
+    } else if (subwayLine.contains("9호선")) {
       return "9";
-    }else{
+    } else {
       return subwayLine;
     }
   }
@@ -70,33 +76,33 @@ class SubwayUtil {
   static String subwayLineToId(String subwayLine) {
     if (subwayLine.contains("1호선")) {
       return "1001";
-    }else if(subwayLine.contains("2호선")) {
+    } else if (subwayLine.contains("2호선")) {
       return "1002";
-    }else if(subwayLine.contains("3호선")) {
+    } else if (subwayLine.contains("3호선")) {
       return "1003";
-    }else if(subwayLine.contains("4호선")) {
+    } else if (subwayLine.contains("4호선")) {
       return "1004";
-    }else if(subwayLine.contains("5호선")) {
+    } else if (subwayLine.contains("5호선")) {
       return "1005";
-    }else if(subwayLine.contains("6호선")) {
+    } else if (subwayLine.contains("6호선")) {
       return "1006";
-    }else if(subwayLine.contains("7호선")) {
+    } else if (subwayLine.contains("7호선")) {
       return "1007";
-    }else if(subwayLine.contains("8호선")) {
+    } else if (subwayLine.contains("8호선")) {
       return "1008";
-    }else if(subwayLine.contains("9호선")) {
+    } else if (subwayLine.contains("9호선")) {
       return "1009";
-    }else if(subwayLine.contains("경의중앙")) {
+    } else if (subwayLine.contains("경의중앙")) {
       return "1063";
-    }else if(subwayLine.contains("공항철도")) {
+    } else if (subwayLine.contains("공항철도")) {
       return "1065";
-    }else if(subwayLine.contains("경춘선")) {
+    } else if (subwayLine.contains("경춘선")) {
       return "1067";
-    }else if(subwayLine.contains("수인분당선")) {
+    } else if (subwayLine.contains("수인분당선")) {
       return "1075";
-    }else if(subwayLine.contains("신분당선")) {
+    } else if (subwayLine.contains("신분당선")) {
       return "1077";
-    }else{
+    } else {
       return "1092";
     }
   }
@@ -118,7 +124,7 @@ class SubwayUtil {
       final a = statnName.contains(nm);
       final b = nm.contains(statnName);
 
-      if (a || b){
+      if (a || b) {
         return statnName;
       }
     }
@@ -178,5 +184,23 @@ class SubwayUtil {
       // print("currentSubwayId가 subwayInfoMap에 없습니다.");
     }
     return subwayNameList.toList();
+  }
+
+  static String findLanguageSubwayName(
+    String targetValue, {
+    required LanguageType languageType,
+  }) {
+    if (languageType == LanguageType.KOR) {
+      return targetValue;
+    }
+
+    String? findText = targetValue;
+    for (var mapData in languageData) {
+      if (targetValue.contains(mapData["station_nm"].toString())) {
+        findText = mapData["station_nm_eng"];
+        break;
+      }
+    }
+    return findText ?? targetValue;
   }
 }

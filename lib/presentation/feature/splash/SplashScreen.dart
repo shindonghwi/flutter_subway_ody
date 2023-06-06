@@ -39,9 +39,11 @@ class SplashScreen extends HookConsumerWidget {
         builder: (ctx) => AlertDialog(
           content: Text(
             '앱을 사용하기 위해서 위치 권한이 필요합니다',
-            style: getTextTheme(context)
-                .regular
-                .copyWith(color: const Color(0xFF7C7C7C), fontSize: 12, height: 1.28),
+            style: getTextTheme(context).regular.copyWith(
+                  color: const Color(0xFF7C7C7C),
+                  fontSize: 12,
+                  height: 1.28,
+                ),
           ),
           actions: [
             TextButton(

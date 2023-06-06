@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:subway_ody/presentation/constant/language.dart';
 import 'package:subway_ody/presentation/feature/main/models/NearByStation.dart';
+import 'package:subway_ody/presentation/feature/setting/models/LanguageType.dart';
 import 'package:subway_ody/presentation/ui/typography.dart';
 import 'package:subway_ody/presentation/utils/Common.dart';
 import 'package:subway_ody/presentation/utils/SubwayUtil.dart';
@@ -52,7 +54,10 @@ class SubwayTitle extends StatelessWidget {
           width: 8,
         ),
         Text(
-          subwayName,
+          SubwayUtil.findLanguageSubwayName(
+            subwayName,
+            languageType: LanguageType.KOR,
+          ),
           style: getTextTheme(context).bold.copyWith(
                 color: const Color(0xFF2F2F2F),
                 fontSize: 18,
