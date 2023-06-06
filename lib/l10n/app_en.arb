@@ -22,6 +22,7 @@
 
     "commonConfirm": "check",
     "commonCancel": "cancel",
+    "commonEnable": "enable",
 
 
     "message_remain_time": "Available in {second} seconds",
@@ -31,7 +32,9 @@
         }
     },
     "message_service_waiting": "We're preparing for the service",
-    "message_server_error_5xx": "서버 오류가 발생했습니다\n잠시 후에 다시 시도해주세요",
+    "message_gps_disable": "GPS is off!\nActivate and check the real-time subway near me",
+    "message_not_available": "There is no subway station nearby or\nThis area does not support the service yet",
+    "message_server_error_5xx": "Server error has occurred\nPlease try again later",
     "message_api_success": "success"
 
 }

@@ -3,8 +3,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:subway_ody/presentation/ui/typography.dart';
 import 'package:subway_ody/presentation/utils/Common.dart';
 
-class ErrorNotAvailableContent extends HookWidget {
-  const ErrorNotAvailableContent({Key? key}) : super(key: key);
+class Error500Content extends HookWidget {
+  const Error500Content({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class ErrorNotAvailableContent extends HookWidget {
               ),
               const SizedBox(height: 8),
               Text(
-                getAppLocalizations(context).message_not_available,
+                getAppLocalizations(context).message_server_error_5xx,
                 style: getTextTheme(context).regular.copyWith(
                       fontSize: 16,
                       color: const Color(0xFFB1B1B1),

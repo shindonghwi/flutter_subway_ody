@@ -6,6 +6,7 @@ import 'package:subway_ody/presentation/components/CircleLoading.dart';
 import 'package:subway_ody/presentation/feature/main/MainIntent.dart';
 import 'package:subway_ody/presentation/feature/main/widget/MainAppBar.dart';
 import 'package:subway_ody/presentation/feature/main/widget/content/ActiveContent.dart';
+import 'package:subway_ody/presentation/feature/main/widget/content/Error500Content.dart';
 import 'package:subway_ody/presentation/feature/main/widget/content/ErrorGpsContent.dart';
 import 'package:subway_ody/presentation/feature/main/widget/content/ErrorNotAvailableContent.dart';
 import 'package:subway_ody/presentation/feature/provider/CurrentRegionNotifier.dart';
@@ -41,8 +42,10 @@ class MainScreen extends HookConsumerWidget {
             mainIntentData.value = event.value;
             currentRegionRead.setRegion(event.value.userRegion);
           },
+          failure: (event) async {
+            debugPrint('failure ${event.errorMessage}');
+          },
         );
-        (uiState is Failure);
       });
     }, [uiState]);
 
@@ -59,7 +62,9 @@ class MainScreen extends HookConsumerWidget {
           if (uiState is Failure<MainIntent>)
             uiState.errorMessage == ErrorType.gps_error.name
                 ? const ErrorGpsContent()
-                : const ErrorNotAvailableContent(),
+                : uiState.errorMessage == ErrorType.not_available.name
+                    ? const ErrorNotAvailableContent()
+                    : const Error500Content(),
           if (uiState is Loading) const CircleLoading(),
         ],
       ),

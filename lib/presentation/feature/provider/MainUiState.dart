@@ -20,7 +20,11 @@ import 'package:subway_ody/presentation/utils/CollectionUtil.dart';
 import 'package:subway_ody/presentation/utils/SubwayUtil.dart';
 import 'package:subway_ody/presentation/utils/dto/Pair.dart';
 
-enum ErrorType { gps_error, not_available }
+enum ErrorType {
+  gps_error,
+  not_available,
+  error_500,
+}
 
 final mainUiStateProvider =
     StateNotifierProvider<MainUiStateNotifier, UIState<MainIntent>>(
@@ -63,7 +67,10 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
               subwayName,
             );
 
-            if (arrivalRes.status == 200) {
+            if (arrivalRes.data?.status == 500) {
+              _changeUiState(Failure(ErrorType.error_500.name));
+              return;
+            } else if (arrivalRes.status == 200) {
               var arrivalInfo = arrivalRes.data;
               if (CollectionUtil.isNullorEmpty(arrivalInfo?.realtimeArrivalList)) {
                 continue;
@@ -85,7 +92,6 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
                   .where((element) => element.subwayId == dummyData.subwayId);
 
               groupBy(tempList, (p0) => p0.updnLine).forEach((key, arrivalList) {
-
                 var nameList = SubwayUtil.findSubwayNameList(
                   subwayId: arrivalList.first.subwayId,
                   currentStatnId: arrivalList.first.statnId,

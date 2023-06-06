@@ -48,7 +48,7 @@ class SubwayApi {
       final body = SubwayResponse.fromJson(jsonDecode(response.body));
       debugPrint('response body: ${body.status == null}');
       debugPrint('response body: ${body.status == "null"}');
-      debugPrint('response body: ${body.errorMessage!.status}');
+      debugPrint('response body: ${body.errorMessage?.status}');
       debugPrint('response body: ${body.status}');
       debugPrint('response body: ${body.status != null ? body.status! : body.errorMessage!.status}');
       return ApiResponse(

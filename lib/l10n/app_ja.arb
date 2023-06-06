@@ -22,7 +22,7 @@
 
     "commonConfirm": "かくにん",
     "commonCancel": "キャンセル",
-
+    "commonEnable": "可能にする",
 
     "message_remain_time": "{second} 秒で利用可能です",
     "@message_remain_time":{
@@ -31,7 +31,9 @@
         }
     },
     "message_service_waiting": "サービスの準備をしています",
-    "message_server_error_5xx": "서버 오류가 발생했습니다\n잠시 후에 다시 시도해주세요",
+    "message_gps_disable": "GPSが消えました！\n近くのリアルタイム地下鉄を起動して確認する",
+    "message_not_available": "近くに地下鉄の駅がないか、\nこのエリアはまだサービスをサポートしていません",
+    "message_server_error_5xx": "サーバーエラーが発生しました\n後で再試行してください",
     "message_api_success": "success"
 
 }

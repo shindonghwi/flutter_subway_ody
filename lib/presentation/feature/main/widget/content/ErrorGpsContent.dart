@@ -23,7 +23,7 @@ class ErrorGpsContent extends HookWidget {
               ),
               const SizedBox(height: 8),
               Text(
-                "GPS가 꺼져있어요!\n활성화를 하고 내 근처 실시간 지하철을 확인해보세요",
+                getAppLocalizations(context).message_gps_disable,
                 style: getTextTheme(context).regular.copyWith(
                       fontSize: 16,
                       color: const Color(0xFFB1B1B1),
@@ -46,7 +46,7 @@ class ErrorGpsContent extends HookWidget {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 21.0, vertical: 9),
                       child: Text(
-                        "활성화 하기",
+                        getAppLocalizations(context).commonEnable,
                         style: getTextTheme(context).medium.copyWith(
                               color: getColorScheme(context).white,
                               fontSize: 16,
