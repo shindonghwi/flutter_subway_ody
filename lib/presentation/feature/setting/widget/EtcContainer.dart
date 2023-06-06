@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:get_it/get_it.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:restart_app/restart_app.dart';
 import 'package:subway_ody/app/SubwayOdyApp.dart';
 import 'package:subway_ody/app/env/Environment.dart';
@@ -172,6 +173,13 @@ class VersionText extends StatelessWidget {
     super.key,
   });
 
+
+
+  Future<String> getAppVersion() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    return packageInfo.version;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -186,12 +194,21 @@ class VersionText extends StatelessWidget {
                   fontSize: 16,
                 ),
           ),
-          Text(
-            "1.0.0",
-            style: getTextTheme(context).medium.copyWith(
-                  color: getColorScheme(context).colorPrimary,
-                  fontSize: 14,
-                ),
+          FutureBuilder(
+            future: getAppVersion(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Text(
+                  snapshot.data.toString(),
+                  style: getTextTheme(context).medium.copyWith(
+                    color: getColorScheme(context).colorPrimary,
+                    fontSize: 14,
+                  ),
+                );
+              }else{
+                return Container();
+              }
+            },
           ),
         ],
       ),
