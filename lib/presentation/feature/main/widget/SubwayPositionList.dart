@@ -32,32 +32,48 @@ class SubwayPositionList extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    LanguageType type = SystemUtil.getLanguageType(SubwayOdyApp.currentLocale);
+
+    final double horizontalPadding;
+    final double spacing;
+    final double contentWidth;
+
+    if (type == LanguageType.ENG) {
+      horizontalPadding = getMediaQuery(context).size.width * 0.03;
+      spacing = getMediaQuery(context).size.width * 0.088;
+      contentWidth = getMediaQuery(context).size.width * 0.23;
+    } else {
+      horizontalPadding = getMediaQuery(context).size.width * 0.064;
+      spacing = getMediaQuery(context).size.width * 0.088;
+      contentWidth = getMediaQuery(context).size.width * 0.174;
+    }
+
     return Container(
-        margin: EdgeInsets.symmetric(
-          horizontal: getMediaQuery(context).size.width * 0.064,
-        ),
-        child: Stack(
-            fit: StackFit.expand,
-            children: List.generate(positionList.length, (index) {
-              return Positioned.fill(
-                left: index * getMediaQuery(context).size.width * 0.088,
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: positionList[index].first != -1
-                      ? SizedBox(
-                    width:
-                    getMediaQuery(context).size.width * 0.174, // 첫 번째 아이템의 넓이
-                    child: SubwayPositionItem(
-                      mainColor: mainColor,
-                      isUp: isUp,
-                      destination: destination,
-                      btrainSttus: btrainSttus,
-                    ),
-                  )
-                      : const SizedBox(),
-                ),
-              );
-            }).toList()));
+      margin: EdgeInsets.symmetric(
+        horizontal: horizontalPadding,
+      ),
+      child: Stack(
+          fit: StackFit.expand,
+          children: List.generate(positionList.length, (index) {
+            return Positioned.fill(
+              left: index * spacing,
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: positionList[index].first != -1
+                    ? SizedBox(
+                        width: contentWidth, // 첫 번째 아이템의 넓이
+                        child: SubwayPositionItem(
+                          mainColor: mainColor,
+                          isUp: isUp,
+                          destination: destination,
+                          btrainSttus: btrainSttus,
+                        ),
+                      )
+                    : const SizedBox(),
+              ),
+            );
+          }).reversed.toList()),
+    );
   }
 }
 
@@ -78,7 +94,6 @@ class SubwayPositionItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     LanguageType type = SystemUtil.getLanguageType(SubwayOdyApp.currentLocale);
-    debugPrint("destination: $destination");
 
     final languageDestination = SubwayUtil.findLanguageSubwayName(
       destination,
@@ -109,7 +124,7 @@ class SubwayPositionItem extends StatelessWidget {
       }
     }
 
-      return Column(
+    return Column(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -122,23 +137,30 @@ class SubwayPositionItem extends StatelessWidget {
           ),
           child: Column(
             children: [
-              Text(languageDestination,
-                  style: getTextTheme(context).bold.copyWith(
-                    color: const Color(0xFF2F2F2F),
-                    fontSize: 12,
-                  )),
+              Text(
+                languageDestination,
+                style: getTextTheme(context).bold.copyWith(
+                      color: const Color(0xFF2F2F2F),
+                      fontSize: 12,
+                    ),
+                overflow: TextOverflow.fade,
+                textAlign: TextAlign.center,
+              ),
               const SizedBox(height: 4),
-              Text("($languageBtrainStttus)",
-                  style: getTextTheme(context).medium.copyWith(
-                    color: const Color(0xFF2F2F2F),
-                    fontSize: 8,
-                  )),
+              Text(
+                "($languageBtrainStttus)",
+                style: getTextTheme(context).medium.copyWith(
+                      color: const Color(0xFF2F2F2F),
+                      fontSize: 8,
+                    ),
+                overflow: TextOverflow.fade,
+                textAlign: TextAlign.center,
+              ),
             ],
           ),
         ),
         Transform(
-          transform: Matrix4.identity()
-            ..scale(isUp ? 1.0 : -1.0, 1.0, 1.0),
+          transform: Matrix4.identity()..scale(isUp ? 1.0 : -1.0, 1.0, 1.0),
           alignment: Alignment.center,
           child: SvgPicture.asset(
             'assets/imgs/subway.svg',
