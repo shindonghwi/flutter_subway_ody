@@ -21,19 +21,21 @@ class SubwayListDivider extends StatelessWidget {
   Widget build(BuildContext context) {
     final subwayList = stationInfo.nameList;
     final positionList = stationInfo.subwayPositionList;
-    final destination = "${stationInfo.destination}(${stationInfo.btrainSttus})";
+    final destination = stationInfo.destination;
+    final btrainSttus = stationInfo.btrainSttus;
 
     return Column(
       children: [
         SizedBox(
           width: double.infinity,
-          height: 56,
+          height: 64,
           child: SubwayPositionList(
             subwayList: subwayList,
             positionList: positionList,
             mainColor: mainColor,
             isUp: stationInfo.ordkey.startsWith("0"),
             destination: destination,
+            btrainSttus: btrainSttus,
           ),
         ),
         const SizedBox(height: 10),
@@ -70,12 +72,23 @@ class SubwayDividerAndNamePainter extends CustomPainter {
   });
 
   String insertNewlineAfterFirstThreeCharacters(String text) {
-    if (text.length <= 4) {
+    String parseText = text;
+
+    if (parseText.contains("(")) {
+      final mainText = text.substring(0, text.indexOf("("));
+      final detailText = text.substring(text.indexOf("(")).length > 7
+          ? "${text.substring(text.indexOf("(")).substring(0, 7)}\n${text.substring(text.indexOf("(")).substring(7)}"
+          : text.substring(text.indexOf("("));
+      parseText = "$mainText\n$detailText";
+      return parseText;
+    }
+
+    if (text.length <= 5) {
       return text;
     }
 
-    final firstThreeCharacters = text.substring(0, 3);
-    final remainingCharacters = text.substring(3);
+    final firstThreeCharacters = text.substring(0, 4);
+    final remainingCharacters = text.substring(4);
 
     return '$firstThreeCharacters\n$remainingCharacters';
   }

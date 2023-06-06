@@ -22,7 +22,7 @@ class SubwayDirectionETA extends StatelessWidget {
         Column(
           children: [
             Text(
-              "${stationInfo.updnLine} - (${stationInfo.nextStation})",
+              "${stationInfo.nextStation} - ${stationInfo.updnLine}",
               style: getTextTheme(context).medium.copyWith(
                     color: const Color(0xFF2F2F2F),
                     fontSize: 14,
