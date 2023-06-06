@@ -16,7 +16,7 @@ class InquireContainer extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "문의",
+            getAppLocalizations(context).settingMenuEtcInquiry,
             style: getTextTheme(context).bold.copyWith(
                   color: const Color(0xFF2F2F2F),
                   fontSize: 12,
@@ -27,7 +27,7 @@ class InquireContainer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "지하철 오디 문의하기",
+                getAppLocalizations(context).settingMenuEtcCS,
                 style: getTextTheme(context).regular.copyWith(
                       color: const Color(0xFF2F2F2F),
                       fontSize: 16,
@@ -55,7 +55,7 @@ class InquireContainer extends StatelessWidget {
             ],
           ),
           Text(
-            "추가 기능 문의나 다른 문의사항은\n지하철 오디 문의를 통해 알려주세요",
+            getAppLocalizations(context).settingMenuEtcCSDescription,
             style: getTextTheme(context).regular.copyWith(
               color: const Color(0xFFB1B1B1),
               fontSize: 12,

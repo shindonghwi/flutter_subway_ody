@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get_it/get_it.dart';
+import 'package:subway_ody/domain/usecases/local/GetLanguageUseCase.dart';
 import 'package:subway_ody/presentation/navigation/Route.dart';
 import 'package:subway_ody/presentation/ui/theme.dart';
 
 class SubwayOdyApp extends StatelessWidget {
+  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   const SubwayOdyApp({super.key});
 
   @override
@@ -11,25 +14,41 @@ class SubwayOdyApp extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         if (constraints.maxWidth != 0) {
-          return MaterialApp(
-            // app default option
-            onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
+          return FutureBuilder(
+            future: GetIt.instance<GetLanguageUseCase>().call(),
+            builder: (context, snapshot) {
 
-            // 시스템 테마 설정 (라이트, 다크 모드)
-            theme: AppTheme.lightTheme,
-            darkTheme: AppTheme.darkTheme,
-            themeMode: ThemeMode.system,
+              debugPrint("snapshot: $snapshot");
+              debugPrint("snapshot: ${snapshot.data as Locale}");
+              debugPrint("asdads: ${(snapshot.data as Locale) == Locale('en')}");
 
-            // 앱 Localization ( 영어, 한국어 지원 )
-            supportedLocales: AppLocalizations.supportedLocales,
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
+              if (snapshot.hasData) {
+                return MaterialApp(
+                  // app default option
+                  onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
 
-            debugShowCheckedModeBanner: true,
+                  // 시스템 테마 설정 (라이트, 다크 모드)
+                  theme: AppTheme.lightTheme,
+                  darkTheme: AppTheme.darkTheme,
+                  themeMode: ThemeMode.system,
 
-            initialRoute: RoutingScreen.Splash.route,
-            routes: RoutingScreen.getAppRoutes(),
+                  // 앱 Localization ( 영어, 한국어 지원 )
+                  // supportedLocales: AppLocalizations.supportedLocales,
+                  supportedLocales: [snapshot.data!],
+                  localizationsDelegates: AppLocalizations.localizationsDelegates,
 
-            navigatorKey: SubwayOdyGlobalVariable.naviagatorState,
+                  debugShowCheckedModeBanner: true,
+
+                  initialRoute: RoutingScreen.Splash.route,
+                  routes: RoutingScreen.getAppRoutes(),
+
+                  navigatorKey: navigatorKey,
+                );
+              }
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            },
           );
         }
         return const Center(
@@ -40,6 +59,3 @@ class SubwayOdyApp extends StatelessWidget {
   }
 }
 
-class SubwayOdyGlobalVariable {
-  static final GlobalKey<NavigatorState> naviagatorState = GlobalKey<NavigatorState>();
-}

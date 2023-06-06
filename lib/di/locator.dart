@@ -9,11 +9,13 @@ import 'package:subway_ody/domain/repositories/local/LocalRepository.dart';
 import 'package:subway_ody/domain/repositories/remote/KakaoGpsRepository.dart';
 import 'package:subway_ody/domain/repositories/remote/SubwayRepository.dart';
 import 'package:subway_ody/domain/usecases/local/GetAutoRefreshCallUseCase.dart';
+import 'package:subway_ody/domain/usecases/local/GetLanguageUseCase.dart';
 import 'package:subway_ody/domain/usecases/local/GetLatLngUseCase.dart';
 import 'package:subway_ody/domain/usecases/local/GetLocationPermissionUseCase.dart';
 import 'package:subway_ody/domain/usecases/local/GetUserDistanceUseCase.dart';
 import 'package:subway_ody/domain/usecases/local/PostAutoRefreshCallUseCase.dart';
 import 'package:subway_ody/domain/usecases/local/PostSaveUserDistanceUseCase.dart';
+import 'package:subway_ody/domain/usecases/local/PostSaveUserLanguageUseCase.dart';
 import 'package:subway_ody/domain/usecases/remote/GetKakaoLatLngToRegionUseCase.dart';
 import 'package:subway_ody/domain/usecases/remote/GetNearBySubwayStationUseCase.dart';
 import 'package:subway_ody/domain/usecases/remote/GetSubwayArrivalUseCase.dart';
@@ -38,6 +40,8 @@ void initServiceLocator() {
   GetIt.instance.registerLazySingleton<GetUserDistanceUseCase>(() => GetUserDistanceUseCase());
   GetIt.instance.registerLazySingleton<PostSaveUserDistanceUseCase>(() => PostSaveUserDistanceUseCase());
   GetIt.instance.registerLazySingleton<GetSubwayArrivalUseCase>(() => GetSubwayArrivalUseCase());
+  GetIt.instance.registerLazySingleton<GetLanguageUseCase>(() => GetLanguageUseCase());
+  GetIt.instance.registerLazySingleton<PostSaveUserLanguageUseCase>(() => PostSaveUserLanguageUseCase());
 
   /// -------
   /// repository

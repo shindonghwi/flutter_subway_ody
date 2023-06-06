@@ -1,5 +1,29 @@
 {
-    "appTitle": "지하철 오디",
+    "@@locale": "en",
+
+    "appTitle": "subway ody",
+
+    "setDistanceTitle": "Set Distance",
+    "setDistanceRange": "Distance range",
+    "setDistanceDescription": "Range adjustment allows you to set the distance area",
+
+    "settingTitle": "Setting",
+    "settingMenuGeneral": "General",
+    "settingMenuGeneralRefresh": "Refresh",
+    "settingMenuGeneralRefreshDescription": "When the button is activated, the information is refreshed every 10 seconds",
+    "settingMenuEtc": "Etc",
+    "settingMenuEtcLanguage": "Language",
+    "settingMenuEtcVersion": "Version",
+    "settingMenuEtcInquiry": "Inquiry",
+    "settingMenuEtcCS": "Inquire about the subway ody",
+    "settingMenuEtcCSDescription": "For additional functional or other inquiries\nLet me know through here",
+
+    "change_language_dialog_body": "Do you want to change to the selected language?\n(App will restart)",
+
+    "commonConfirm": "check",
+    "commonCancel": "cancel",
+
+
 
     "message_server_error_5xx": "서버 오류가 발생했습니다\n잠시 후에 다시 시도해주세요",
     "message_api_success": "success"

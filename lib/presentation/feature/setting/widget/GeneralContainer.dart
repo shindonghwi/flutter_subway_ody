@@ -16,7 +16,7 @@ class GeneralContainer extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "일반",
+            getAppLocalizations(context).settingMenuGeneral,
             style: getTextTheme(context).bold.copyWith(
                   color: const Color(0xFF2F2F2F),
                   fontSize: 12,
@@ -24,7 +24,7 @@ class GeneralContainer extends StatelessWidget {
           ),
           const RefreshSwitch(),
           Text(
-            "버튼을 활성화 하면 10초마다 정보를 새로고침 합니다",
+            getAppLocalizations(context).settingMenuGeneralRefreshDescription,
             style: getTextTheme(context).regular.copyWith(
                   color: const Color(0xFFB1B1B1),
                   fontSize: 12,

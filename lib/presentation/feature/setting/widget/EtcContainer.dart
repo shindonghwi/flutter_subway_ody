@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:get_it/get_it.dart';
+import 'package:restart_app/restart_app.dart';
+import 'package:subway_ody/app/SubwayOdyApp.dart';
+import 'package:subway_ody/app/env/Environment.dart';
+import 'package:subway_ody/domain/usecases/local/GetLanguageUseCase.dart';
+import 'package:subway_ody/domain/usecases/local/PostSaveUserLanguageUseCase.dart';
 import 'package:subway_ody/presentation/feature/setting/models/LanguageType.dart';
 import 'package:subway_ody/presentation/navigation/Route.dart';
 import 'package:subway_ody/presentation/ui/colors.dart';
@@ -20,7 +26,7 @@ class EtcContainer extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "기타",
+            getAppLocalizations(context).settingMenuEtc,
             style: getTextTheme(context).bold.copyWith(
                   color: const Color(0xFF2F2F2F),
                   fontSize: 12,
@@ -28,7 +34,7 @@ class EtcContainer extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           Text(
-            "언어",
+            getAppLocalizations(context).settingMenuEtcLanguage,
             style: getTextTheme(context).regular.copyWith(
                   color: const Color(0xFF2F2F2F),
                   fontSize: 16,
@@ -61,7 +67,7 @@ class LanguageSelector extends HookWidget {
         builder: (ctx) => AlertDialog(
           backgroundColor: getColorScheme(ctx).light,
           content: Text(
-            '선택한 언어로 변경하시겠습니까?\n(앱이 재시작됩니다)',
+            getAppLocalizations(context).change_language_dialog_body,
             style: getTextTheme(context).regular.copyWith(
                   color: const Color(0xFF2F2F2F),
                   fontSize: 14,
@@ -72,7 +78,7 @@ class LanguageSelector extends HookWidget {
             TextButton(
               onPressed: () => callback.call(false),
               child: Text(
-                '아니오',
+                getAppLocalizations(context).common_cancel,
                 style: getTextTheme(ctx).medium.copyWith(
                       color: const Color(0xFF7C7C7C),
                       fontSize: 12,
@@ -82,7 +88,7 @@ class LanguageSelector extends HookWidget {
             TextButton(
               onPressed: () => callback.call(true),
               child: Text(
-                '네',
+                getAppLocalizations(context).common_confirm,
                 style: getTextTheme(context).medium.copyWith(
                       color: getColorScheme(ctx).colorPrimary,
                       fontSize: 12,
@@ -95,6 +101,24 @@ class LanguageSelector extends HookWidget {
     }
 
     final selectedLanguageIndex = useState<LanguageType>(languageList.first.second);
+
+    useEffect(() {
+      initLanguage() async {
+        Locale locale = await GetIt.instance<GetLanguageUseCase>().call();
+
+        if (locale.languageCode == "ko") {
+          selectedLanguageIndex.value = LanguageType.KOR;
+        } else if (locale.languageCode == "en") {
+          selectedLanguageIndex.value = LanguageType.ENG;
+        } else if (locale.languageCode == "ja") {
+          selectedLanguageIndex.value = LanguageType.JPN;
+        } else if (locale.languageCode == "zh") {
+          selectedLanguageIndex.value = LanguageType.CHN;
+        }
+      }
+
+      initLanguage();
+    }, [selectedLanguageIndex]);
 
     return Container(
       margin: const EdgeInsets.only(top: 16),
@@ -116,15 +140,12 @@ class LanguageSelector extends HookWidget {
               color: Colors.transparent,
               child: InkWell(
                 onTap: () {
-                  showChangeLanguagePopUp((callback) {
+                  showChangeLanguagePopUp((callback) async {
                     Navigator.of(context).pop(true);
                     if (callback) {
                       selectedLanguageIndex.value = type;
-                      Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        RoutingScreen.Splash.route,
-                        (Route<dynamic> route) => false,
-                      );
+                      await GetIt.instance<PostSaveUserLanguageUseCase>().call(type);
+                      Restart.restartApp();
                     }
                   });
                 },
@@ -166,7 +187,7 @@ class VersionText extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            "버전",
+            getAppLocalizations(context).settingMenuEtcVersion,
             style: getTextTheme(context).regular.copyWith(
                   color: const Color(0xFF2F2F2F),
                   fontSize: 16,

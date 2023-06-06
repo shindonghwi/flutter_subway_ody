@@ -29,7 +29,7 @@ class AppLocalization {
   AppLocalization();
 
   AppLocalizations get() {
-    final context = SubwayOdyGlobalVariable.naviagatorState.currentContext as BuildContext;
+    final context = SubwayOdyApp.navigatorKey.currentContext as BuildContext;
     return getAppLocalizations(context);
   }
 }

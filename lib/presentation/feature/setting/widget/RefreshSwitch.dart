@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:subway_ody/domain/usecases/local/GetAutoRefreshCallUseCase.dart';
 import 'package:subway_ody/domain/usecases/local/PostAutoRefreshCallUseCase.dart';
 import 'package:subway_ody/presentation/feature/provider/AutoRefreshNotifier.dart';
 import 'package:subway_ody/presentation/feature/setting/widget/SwitchCheckBox.dart';
@@ -27,7 +26,7 @@ class RefreshSwitch extends HookConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            "새로고침",
+            getAppLocalizations(context).settingMenuGeneralRefresh,
             style: getTextTheme(context).regular.copyWith(
                   color: const Color(0xFF2F2F2F),
                   fontSize: 16,

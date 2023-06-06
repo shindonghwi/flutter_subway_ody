@@ -81,7 +81,7 @@ class BottomSheetUtil {
             width: 8,
           ),
           Text(
-            "범위 조절을 통해 거리 영역을 설정할 수 있습니다",
+            getAppLocalizations(context).setDistanceDescription,
             style: getTextTheme(context).regular.copyWith(
                   color: const Color(0xFF7C7C7C),
                   fontSize: 12,
@@ -112,7 +112,7 @@ class DistanceSettingAppBar extends HookConsumerWidget {
       children: [
         _buttonText(context, () => Navigator.pop(context), true),
         Text(
-          "거리 설정",
+          getAppLocalizations(context).setDistanceTitle,
           style: getTextTheme(context).bold.copyWith(
                 color: const Color(0xFF2F2F2F),
                 fontSize: 16,
@@ -137,7 +137,9 @@ class DistanceSettingAppBar extends HookConsumerWidget {
         child: Padding(
           padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
           child: Text(
-            isCanceled ? "취소" : "확인",
+            isCanceled
+                ? getAppLocalizations(context).common_cancel
+                : getAppLocalizations(context).common_confirm,
             style: getTextTheme(context).medium.copyWith(
                   color: isCanceled ? const Color(0xFF7C7C7C) : const Color(0xFF2F2F2F),
                   fontSize: 16,

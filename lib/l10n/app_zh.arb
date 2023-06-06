@@ -1,0 +1,31 @@
+{
+    "@@locale": "zh",
+
+    "appTitle": "地铁 奥迪",
+
+    "setDistanceTitle": "距离设置",
+    "setDistanceRange": "距离范围",
+    "setDistanceDescription": "通过调整范围可以设定距离区域",
+
+    "settingTitle": "设定",
+    "settingMenuGeneral": "一样",
+    "settingMenuGeneralRefresh": "刷新",
+    "settingMenuGeneralRefreshDescription": "激活按钮后每10秒刷新一次信息",
+    "settingMenuEtc": "等",
+    "settingMenuEtcLanguage": "语言",
+    "settingMenuEtcVersion": "版本",
+    "settingMenuEtcInquiry": "问",
+    "settingMenuEtcCS": "联系",
+    "settingMenuEtcCSDescription": "追加功能咨询或其他咨询事项\n请通过这里告诉我",
+
+    "change_language_dialog_body": "确定要更改为选中的语言吗？\n（重新启动应用程序）",
+
+    "common_confirm": "确认",
+    "common_cancel": "取消",
+
+
+
+    "message_server_error_5xx": "서버 오류가 발생했습니다\n잠시 후에 다시 시도해주세요",
+    "message_api_success": "success"
+
+}

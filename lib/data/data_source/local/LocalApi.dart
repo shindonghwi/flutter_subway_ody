@@ -3,12 +3,14 @@ import 'package:location/location.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:subway_ody/data/data_source/local/SharedKey.dart';
 import 'package:subway_ody/domain/models/local/LatLng.dart';
+import 'package:subway_ody/presentation/feature/setting/models/LanguageType.dart';
 
 class LocalApi {
   LocalApi();
 
   final String autoRefreshCallKey = SharedKeyHelper.fromString(SharedKey.AUTO_REFRESH_CALL);
   final String distanceKey = SharedKeyHelper.fromString(SharedKey.DISTANCE);
+  final String languageKey = SharedKeyHelper.fromString(SharedKey.LANGUAGE);
 
   /// 위치 권한 요청
   Future<bool> getLocationPermission() async {
@@ -88,5 +90,36 @@ class LocalApi {
     return distance;
   }
 
+  /// 사용자가 설정한 Locale 반환
+  Future<Locale> getLanguage() async {
+    final prefs = await SharedPreferences.getInstance();
+    final language = prefs.getString(languageKey);
+    debugPrint("LocalApi - getLanguage : $language");
+    return Locale(language ?? "ko");
+  }
+
+  /// 사용자가 설정한 언어 저장
+  Future<bool> saveUserLanguage(LanguageType type) async {
+
+    String language = "ko";
+    if (type == LanguageType.KOR) {
+      language = "ko";
+    } else if (type == LanguageType.ENG){
+      language = "en";
+    } else if (type == LanguageType.JPN){
+      language = "ja";
+    } else if (type == LanguageType.CHN){
+      language = "zh";
+    }
+
+    final prefs = await SharedPreferences.getInstance();
+    final isComplete = await prefs.setString(languageKey, language).then((value) {
+      debugPrint("LocalApi - saveUserLanguage : $value");
+      return value;
+    }).onError((error, stackTrace) {
+      return false;
+    });
+    return isComplete;
+  }
 
 }

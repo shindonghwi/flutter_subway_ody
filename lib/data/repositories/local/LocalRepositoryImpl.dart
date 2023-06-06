@@ -1,7 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:subway_ody/data/data_source/local/LocalApi.dart';
 import 'package:subway_ody/domain/models/local/LatLng.dart';
 import 'package:subway_ody/domain/repositories/local/LocalRepository.dart';
+import 'package:subway_ody/presentation/feature/setting/models/LanguageType.dart';
 
 class LocalRepositoryImpl implements LocalRepository {
   LocalRepositoryImpl();
@@ -43,5 +45,17 @@ class LocalRepositoryImpl implements LocalRepository {
   Future<bool> saveUserDistance(int distance) async {
     LocalApi localApi = GetIt.instance<LocalApi>();
     return await localApi.saveUserDistance(distance);
+  }
+
+  @override
+  Future<Locale> getUserLanguage() async {
+    LocalApi localApi = GetIt.instance<LocalApi>();
+    return await localApi.getLanguage();
+  }
+
+  @override
+  Future<bool> saveUserLanguage(LanguageType type) async{
+    LocalApi localApi = GetIt.instance<LocalApi>();
+    return await localApi.saveUserLanguage(type);
   }
 }

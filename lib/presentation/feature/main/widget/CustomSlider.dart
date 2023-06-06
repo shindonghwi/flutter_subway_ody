@@ -57,7 +57,7 @@ class CustomSlider extends HookWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "거리 범위",
+            getAppLocalizations(context).setDistanceRange,
             style: getTextTheme(context).bold.copyWith(
                   color: const Color(0xFF2F2F2F),
                   fontSize: 16,

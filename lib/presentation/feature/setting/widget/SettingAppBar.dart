@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:subway_ody/presentation/feature/main/widget/bottom_sheet/BottomSheetUtil.dart';
 import 'package:subway_ody/presentation/ui/typography.dart';
 import 'package:subway_ody/presentation/utils/Common.dart';
 
@@ -17,7 +16,7 @@ class SettingAppBar extends HookWidget with PreferredSizeWidget {
       shadowColor: const Color(0xFFEDEDED),
       automaticallyImplyLeading: false,
       title: Text(
-        "설정",
+        getAppLocalizations(context).settingTitle,
         style: getTextTheme(context).medium.copyWith(
               color: const Color(0xFF2F2F2F),
               fontSize: 18,

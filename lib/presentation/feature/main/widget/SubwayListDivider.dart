@@ -63,7 +63,7 @@ class SubwayDividerAndNamePainter extends CustomPainter {
   final Color mainColor;
   final bool isUp;
   final double radius = 4;
-  final context = SubwayOdyGlobalVariable.naviagatorState.currentContext as BuildContext;
+  final context = SubwayOdyApp.navigatorKey.currentContext as BuildContext;
 
   SubwayDividerAndNamePainter({
     required this.subwayList,

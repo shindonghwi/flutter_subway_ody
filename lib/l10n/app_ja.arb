@@ -1,0 +1,31 @@
+{
+    "@@locale": "ja",
+
+   "appTitle": "地下鉄 オディ",
+
+    "setDistanceTitle": "きょり せってい",
+    "setDistanceRange": "きょり はんい",
+    "setDistanceDescription": "範囲を調整することで距離領域を設定できます",
+
+    "settingTitle": "せってい",
+    "settingMenuGeneral": "いっぱん",
+    "settingMenuGeneralRefresh": "リロード",
+    "settingMenuGeneralRefreshDescription": "ボタンを有効にすると、10 秒ごとに情報を更新します",
+    "settingMenuEtc": "その他",
+    "settingMenuEtcLanguage": "げんご",
+    "settingMenuEtcVersion": "バージョン",
+    "settingMenuEtcInquiry": "といあわせ",
+    "settingMenuEtcCS": "きょり せってい といあわせ",
+    "settingMenuEtcCSDescription": "追加機能に関するお問い合わせやその他のお問い合わせは\nここを通じて知らせてください",
+
+    "change_language_dialog_body": "選択した言語に変更しますか？\n(アプリが再起動します)",
+
+    "commonConfirm": "かくにん",
+    "commonCancel": "キャンセル",
+
+
+
+    "message_server_error_5xx": "서버 오류가 발생했습니다\n잠시 후에 다시 시도해주세요",
+    "message_api_success": "success"
+
+}

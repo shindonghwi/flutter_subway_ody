@@ -1,5 +1,29 @@
 {
-    "appTitle": "지하철 오디",
+    "@@locale": "ko",
+
+   "appTitle": "지하철 오디",
+
+    "setDistanceTitle": "거리 설정",
+    "setDistanceRange": "거리 범위",
+    "setDistanceDescription": "범위 조절을 통해 거리 영역을 설정 할 수 있습니다",
+
+    "settingTitle": "설정",
+    "settingMenuGeneral": "일반",
+    "settingMenuGeneralRefresh": "새로고침",
+    "settingMenuGeneralRefreshDescription": "버튼을 활성화 하면 10초마다 정보를 새로고침 합니다",
+    "settingMenuEtc": "기타",
+    "settingMenuEtcLanguage": "언어",
+    "settingMenuEtcVersion": "버전",
+    "settingMenuEtcInquiry": "문의",
+    "settingMenuEtcCS": "지하철 오디 문의하기",
+    "settingMenuEtcCSDescription": "추가 기능 문의나 다른 문의사항은\n여기를 통해 알려주세요",
+
+    "change_language_dialog_body": "선택한 언어로 변경하시겠습니까?\n(앱이 재시작됩니다)",
+
+    "common_confirm": "확인",
+    "common_cancel": "취소",
+
+
 
     "message_server_error_5xx": "서버 오류가 발생했습니다\n잠시 후에 다시 시도해주세요",
     "message_api_success": "success"
