@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:subway_ody/presentation/ui/typography.dart';
 import 'package:subway_ody/presentation/utils/Common.dart';
+import 'package:subway_ody/presentation/utils/SnackBarUtil.dart';
 
 class InquireContainer extends StatelessWidget {
   const InquireContainer({
@@ -23,43 +24,52 @@ class InquireContainer extends StatelessWidget {
                 ),
           ),
           const SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                getAppLocalizations(context).settingMenuEtcCS,
-                style: getTextTheme(context).regular.copyWith(
-                      color: const Color(0xFF2F2F2F),
-                      fontSize: 16,
-                    ),
+          Material(
+            color: Colors.transparent,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(8),
+              onTap: () => SnackBarUtil.show(
+                context,
+                getAppLocalizations(context).message_service_waiting,
               ),
-              Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: () {},
-                  borderRadius: BorderRadius.circular(8),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
-                    child: SvgPicture.asset(
-                      'assets/imgs/icon_next_1_5_large.svg',
-                      width: 24,
-                      height: 24,
-                      colorFilter: const ColorFilter.mode(
-                        Color(0xFF2F2F2F),
-                        BlendMode.srcIn,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        getAppLocalizations(context).settingMenuEtcCS,
+                        style: getTextTheme(context).regular.copyWith(
+                              color: const Color(0xFF2F2F2F),
+                              fontSize: 16,
+                            ),
                       ),
-                    ),
+                      Padding(
+                        padding:
+                            const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8),
+                        child: SvgPicture.asset(
+                          'assets/imgs/icon_next_1_5_large.svg',
+                          width: 24,
+                          height: 24,
+                          colorFilter: const ColorFilter.mode(
+                            Color(0xFF2F2F2F),
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
+                  Text(
+                    getAppLocalizations(context).settingMenuEtcCSDescription,
+                    style: getTextTheme(context).regular.copyWith(
+                          color: const Color(0xFFB1B1B1),
+                          fontSize: 12,
+                          height: 1.18,
+                        ),
+                  ),
+                ],
               ),
-            ],
-          ),
-          Text(
-            getAppLocalizations(context).settingMenuEtcCSDescription,
-            style: getTextTheme(context).regular.copyWith(
-              color: const Color(0xFFB1B1B1),
-              fontSize: 12,
-              height: 1.18,
             ),
           ),
         ],
