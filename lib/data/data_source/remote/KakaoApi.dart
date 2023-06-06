@@ -24,7 +24,7 @@ class KakaoApi {
 
   parseFixNumber(String numberString) {
     final double number = double.parse(numberString);
-    final String formattedNumber = number.toStringAsFixed(3);
+    final String formattedNumber = number.toStringAsFixed(4);
     return formattedNumber;
   }
 
