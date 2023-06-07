@@ -215,7 +215,7 @@ class SubwayUtil {
     else if (subwayId == "1009") {
       int curIndex = subway1009Lines.indexWhere((map) => map["statnId"] == currentStatnId);
       int maxLength = subway1009Lines.length;
-      if (currentStatnId.compareTo(preStatnId) > 0) {
+      if (currentStatnId.compareTo(preStatnId) >= 0 && currentStatnId.compareTo(nextStatnId) <= 0) {
         //
         int endIndex = curIndex - 4 < 0 ? 0 : curIndex - 4;
         subwayList = subway1009Lines.sublist(endIndex, curIndex + 1);
