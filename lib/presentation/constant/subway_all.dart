@@ -450,6 +450,8 @@ final List<Map<String, String>> realtimeSubwayInfo = [
   {"subwayId": "1009", "statnId": "1009000936", "statnName": "올림픽공원", "hosunName": "9호선"},
   {"subwayId": "1009", "statnId": "1009000937", "statnName": "둔촌오륜", "hosunName": "9호선"},
   {"subwayId": "1009", "statnId": "1009000938", "statnName": "중앙보훈병원", "hosunName": "9호선"},
+
+
   {"subwayId": "1063", "statnId": "1063075110", "statnName": "용산", "hosunName": "경의중앙선"},
   {"subwayId": "1063", "statnId": "1063075111", "statnName": "이촌", "hosunName": "경의중앙선"},
   {"subwayId": "1063", "statnId": "1063075112", "statnName": "서빙고", "hosunName": "경의중앙선"},
@@ -505,6 +507,8 @@ final List<Map<String, String>> realtimeSubwayInfo = [
   {"subwayId": "1063", "statnId": "1063075826", "statnName": "효창공원앞", "hosunName": "경의중앙선"},
   {"subwayId": "1063", "statnId": "1063080312", "statnName": "신촌(경의.중앙선)", "hosunName": "경의중앙선"},
   {"subwayId": "1063", "statnId": "1063080313", "statnName": "서울", "hosunName": "경의중앙선"},
+
+
 
   {"subwayId": "1065", "statnId": "1065006501", "statnName": "서울", "hosunName": "공항철도"},
   {"subwayId": "1065", "statnId": "1065006502", "statnName": "공덕", "hosunName": "공항철도"},

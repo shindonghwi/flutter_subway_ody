@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:subway_ody/presentation/constant/language.dart';
+import 'package:subway_ody/presentation/constant/subway_1063.dart';
 import 'package:subway_ody/presentation/constant/subway_1067.dart';
 import 'package:subway_ody/presentation/constant/subway_1075.dart';
 import 'package:subway_ody/presentation/constant/subway_1077.dart';
@@ -268,6 +269,66 @@ class SubwayUtil {
         // 청량리 -> 춘천
         int endIndex = curIndex - 4 < 0 ? 0 : curIndex - 4;
         subwayList = subway1067Lines.sublist(endIndex, curIndex + 1);
+      }
+
+    }
+    /// 경의중앙선
+    else if (subwayId == "1063") {
+      int curIndex = subway1063Lines.indexWhere((map) => map["statnId"] == currentStatnId);
+      int maxLength = subway1063Lines.length;
+
+      // 가좌 -> 신촌
+      if (currentStatnId == "1063075315" && nextStatnId == "1063080312"){
+        subwayList = subway1063Lines.sublist(curIndex -1 , curIndex + 1).reversed;
+      }
+      // 신촌
+      else if(currentStatnId == "1063080312"){
+        int seoulIndex = subway1063Lines.indexWhere((map) => map["statnId"] == "1063080313");
+        int gajwaIndex = subway1063Lines.indexWhere((map) => map["statnId"] == "1063075315");
+        int sinchoneIndex = subway1063Lines.indexWhere((map) => map["statnId"] == "1063080312");
+        if (currentStatnId.compareTo(nextStatnId) >= 0) {
+          Iterable<Map<String, String>> newLines = [
+            subway1063Lines.elementAt(sinchoneIndex),
+            subway1063Lines.elementAt(seoulIndex),
+          ];
+          subwayList = newLines.toList();
+        }else{
+          Iterable<Map<String, String>> newLines = [
+            subway1063Lines.elementAt(sinchoneIndex),
+            subway1063Lines.elementAt(gajwaIndex),
+          ];
+          subwayList = newLines.toList().reversed.toList();
+        }
+      }
+      // 서울
+      else if(currentStatnId == "1063080313"){
+        int seoulIndex = subway1063Lines.indexWhere((map) => map["statnId"] == "1063080313");
+        int gajwaIndex = subway1063Lines.indexWhere((map) => map["statnId"] == "1063075315");
+        int sinchoneIndex = subway1063Lines.indexWhere((map) => map["statnId"] == "1063080312");
+        if (currentStatnId.compareTo(nextStatnId) > 0) {
+          Iterable<Map<String, String>> newLines = [
+            subway1063Lines.elementAt(seoulIndex),
+          ];
+          subwayList = newLines.toList();
+        }else{
+          Iterable<Map<String, String>> newLines = [
+            subway1063Lines.elementAt(seoulIndex),
+            subway1063Lines.elementAt(sinchoneIndex),
+            subway1063Lines.elementAt(gajwaIndex),
+          ];
+          subwayList = newLines.toList().reversed.toList();
+        }
+      }
+      else if (currentStatnId.compareTo(nextStatnId) > 0) {
+        // 춘천 -> 청량리
+        int endIndex = curIndex + 4 > maxLength - 1 ? maxLength - 1 : curIndex + 4;
+        subwayList = subway1063Lines.sublist(curIndex, endIndex + 1).reversed;
+        subwayList = subwayList.where((map) => map["statnId"].toString().compareTo("1063080312") < 0);
+      } else {
+        // 청량리 -> 춘천
+        int endIndex = curIndex - 4 < 0 ? 0 : curIndex - 4;
+        subwayList = subway1063Lines.sublist(endIndex, curIndex + 1).reversed;
+        subwayList = subwayList.where((map) => map["statnId"].toString().compareTo("1063080312") < 0);
       }
     } else {
 

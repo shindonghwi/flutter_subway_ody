@@ -63,7 +63,7 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
 
             debugPrint("@##@@##@ subwayame : $subwayName, subwayLine : $subwayLine");
 
-            if (!subwayLine.contains("경춘")){
+            if (!subwayLine.contains("경의중앙")){
               continue;
             }
 
