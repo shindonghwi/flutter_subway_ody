@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:subway_ody/presentation/constant/language.dart';
+import 'package:subway_ody/presentation/constant/subway_1067.dart';
 import 'package:subway_ody/presentation/constant/subway_1075.dart';
 import 'package:subway_ody/presentation/constant/subway_1077.dart';
 import 'package:subway_ody/presentation/constant/subway_1092.dart';
@@ -244,6 +245,29 @@ class SubwayUtil {
         // 청량리 -> 인천
         int endIndex = curIndex - 4 < 0 ? 0 : curIndex - 4;
         subwayList = subway1075Lines.sublist(endIndex, curIndex + 1);
+      }
+    }
+    /// 경춘선
+    else if (subwayId == "1067") {
+      int curIndex = subway1067Lines.indexWhere((map) => map["statnId"] == currentStatnId);
+      int maxLength = subway1067Lines.length;
+
+      // 상봉 - 광운대
+      if (currentStatnId == "1067080120" && nextStatnId == "1067080119"){
+        subwayList = subway1067Lines.sublist(curIndex -1 , curIndex + 1).reversed;
+      }
+      // 광운대 -> 상봉행
+      else if(currentStatnId == "1067080119" && nextStatnId == "1067080120"){
+        subwayList = subway1067Lines.sublist(curIndex, curIndex + 2);
+      }
+      else if (currentStatnId.compareTo(nextStatnId) >= 0) {
+        // 춘천 -> 청량리
+        int endIndex = curIndex + 4 > maxLength - 1 ? maxLength - 1 : curIndex + 4;
+        subwayList = subway1067Lines.sublist(curIndex, endIndex + 1);
+      } else {
+        // 청량리 -> 춘천
+        int endIndex = curIndex - 4 < 0 ? 0 : curIndex - 4;
+        subwayList = subway1067Lines.sublist(endIndex, curIndex + 1);
       }
     } else {
 
