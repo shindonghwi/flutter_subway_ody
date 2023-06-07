@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:subway_ody/presentation/constant/language.dart';
+import 'package:subway_ody/presentation/constant/subway_1075.dart';
 import 'package:subway_ody/presentation/constant/subway_1077.dart';
+import 'package:subway_ody/presentation/constant/subway_1092.dart';
 import 'package:subway_ody/presentation/constant/subway_all.dart';
 import 'package:subway_ody/presentation/constant/subway_1065.dart';
 import 'package:subway_ody/presentation/feature/setting/models/LanguageType.dart';
@@ -207,15 +209,42 @@ class SubwayUtil {
       int curIndex = subway1077Lines.indexWhere((map) => map["statnId"] == currentStatnId);
       int maxLength = subway1077Lines.length;
       if (currentStatnId.compareTo(nextStatnId) < 0) {
-        // 신사 -> 광교
+        // 광교 -> 신사
         int endIndex = curIndex - 4 < 0 ? 0 : curIndex - 4;
         subwayList = subway1077Lines.sublist(endIndex, curIndex + 1);
       } else {
-        // 광교 -> 신사
+        // 신사 -> 광교
         int endIndex = curIndex + 4 > maxLength - 1 ? maxLength - 1 : curIndex + 4;
         subwayList = subway1077Lines.sublist(curIndex, endIndex + 1);
       }
-
+    }
+    /// 우이신설선
+    else if (subwayId == "1092") {
+      int curIndex = subway1092Lines.indexWhere((map) => map["statnId"] == currentStatnId);
+      int maxLength = subway1092Lines.length;
+      if (currentStatnId.compareTo(nextStatnId) <= 0) {
+        // 신설동 -> 북한산우이
+        int endIndex = curIndex + 4 > maxLength - 1 ? maxLength - 1 : curIndex + 4;
+        subwayList = subway1092Lines.sublist(curIndex, endIndex + 1).reversed;
+      } else {
+        // 북한산우이 -> 신설동
+        int endIndex = curIndex - 4 < 0 ? 0 : curIndex - 4;
+        subwayList = subway1092Lines.sublist(endIndex, curIndex + 1);
+      }
+    }
+    /// 수인분당선
+    else if (subwayId == "1075") {
+      int curIndex = subway1075Lines.indexWhere((map) => map["statnId"] == currentStatnId);
+      int maxLength = subway1075Lines.length;
+      if (currentStatnId.compareTo(nextStatnId) >= 0) {
+        // 인천 -> 청량리
+        int endIndex = curIndex + 4 > maxLength - 1 ? maxLength - 1 : curIndex + 4;
+        subwayList = subway1075Lines.sublist(curIndex, endIndex + 1);
+      } else {
+        // 청량리 -> 인천
+        int endIndex = curIndex - 4 < 0 ? 0 : curIndex - 4;
+        subwayList = subway1075Lines.sublist(endIndex, curIndex + 1);
+      }
     } else {
 
     }

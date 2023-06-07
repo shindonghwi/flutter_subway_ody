@@ -546,6 +546,8 @@ final List<Map<String, String>> realtimeSubwayInfo = [
   {"subwayId": "1067", "statnId": "1067080138", "statnName": "김유정", "hosunName": "경춘선"},
   {"subwayId": "1067", "statnId": "1067080139", "statnName": "남춘천", "hosunName": "경춘선"},
   {"subwayId": "1067", "statnId": "1067080140", "statnName": "춘천", "hosunName": "경춘선"},
+
+
   {"subwayId": "1075", "statnId": "1075075209", "statnName": "청량리", "hosunName": "수인분당선"},
   {"subwayId": "1075", "statnId": "1075075210", "statnName": "왕십리", "hosunName": "수인분당선"},
   {"subwayId": "1075", "statnId": "1075075211", "statnName": "서울숲", "hosunName": "수인분당선"},
@@ -609,6 +611,9 @@ final List<Map<String, String>> realtimeSubwayInfo = [
   {"subwayId": "1075", "statnId": "1075075269", "statnName": "숭의", "hosunName": "수인분당선"},
   {"subwayId": "1075", "statnId": "1075075270", "statnName": "신포", "hosunName": "수인분당선"},
   {"subwayId": "1075", "statnId": "1075075271", "statnName": "인천", "hosunName": "수인분당선"},
+
+
+
   {"subwayId": "1077", "statnId": "1077000684", "statnName": "신사", "hosunName": "신분당선"},
   {"subwayId": "1077", "statnId": "1077000685", "statnName": "논현", "hosunName": "신분당선"},
   {"subwayId": "1077", "statnId": "1077000686", "statnName": "신논현", "hosunName": "신분당선"},
@@ -625,6 +630,9 @@ final List<Map<String, String>> realtimeSubwayInfo = [
   {"subwayId": "1077", "statnId": "1077006817", "statnName": "상현", "hosunName": "신분당선"},
   {"subwayId": "1077", "statnId": "1077006818", "statnName": "광교중앙", "hosunName": "신분당선"},
   {"subwayId": "1077", "statnId": "1077006819", "statnName": "광교", "hosunName": "신분당선"},
+
+
+
   {"subwayId": "1092", "statnId": "1092004701", "statnName": "북한산우이", "hosunName": "우이신설선"},
   {"subwayId": "1092", "statnId": "1092004702", "statnName": "솔밭공원", "hosunName": "우이신설선"},
   {"subwayId": "1092", "statnId": "1092004703", "statnName": "4.19 민주묘지", "hosunName": "우이신설선"},

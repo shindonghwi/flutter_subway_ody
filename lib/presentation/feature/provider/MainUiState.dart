@@ -61,9 +61,9 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
             final subwayName = element.subwayName;
             final subwayLine = element.subwayLine;
 
-            debugPrint("@##@@##@ subwayName : $subwayName, subwayLine : $subwayLine");
+            debugPrint("@##@@##@ subwayame : $subwayName, subwayLine : $subwayLine");
 
-            if (!subwayLine.contains("신분")){
+            if (!subwayLine.contains("수인")){
               continue;
             }
 
@@ -106,7 +106,6 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
                   isUp: arrivalList.first.ordkey.startsWith("0"),
                 );
 
-                debugPrint("@##@zxc@##@ nameList : $nameList");
                 final List<Pair<int, SubwayPositionModel?>> subwayPositionList =
                     List<Pair<int, SubwayPositionModel?>>.filled(
                         nameList.length * 2 - 1, Pair(-1, null));
