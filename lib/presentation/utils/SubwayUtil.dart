@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:subway_ody/presentation/constant/language.dart';
+import 'package:subway_ody/presentation/constant/subway_1006.dart';
 import 'package:subway_ody/presentation/constant/subway_1007.dart';
 import 'package:subway_ody/presentation/constant/subway_1008.dart';
 import 'package:subway_ody/presentation/constant/subway_1009.dart';
@@ -126,9 +127,22 @@ class SubwayUtil {
 
     for (var info in subwayListFromHosun) {
       final statnName = info["statnName"].toString();
+
+      if (subwayLine == "6호선"){
+        if (statnName.contains("신내")){
+          if (nm == "신내"){
+            return "신내";
+          }
+          return "연신내";
+        }
+      }
+
       final a = statnName.contains(nm);
       final b = nm.contains(statnName);
 
+      if (a && b){
+        return nm;
+      }
       if (a || b) {
         return statnName;
       }
@@ -197,8 +211,34 @@ class SubwayUtil {
 
     List<Map<String, String>> newLines = [];
 
+    /// 6호선
+    if (subwayId == "1006") {
+      int curIndex = subway1006Lines.indexWhere((map) => map["statnId"] == currentStatnId);
+      int maxLength = subway1006Lines.length;
+
+      // 응암역에서 역촌 ~ 구산 사이인 경우
+      if (preStatnId.compareTo("1006000615") <= 0 && currentStatnId == nextStatnId){
+        newLines.add(subway1006Lines.elementAt(curIndex));
+        for (int i = 6; i < 10; i++){
+          newLines.add(subway1006Lines.elementAt(curIndex + i));
+        }
+        subwayList = newLines;
+      }else if (currentStatnId == "1006000610" && preStatnId.compareTo("1006000615") <= 0){
+        newLines.add(subway1006Lines.elementAt(curIndex));
+        for (int i = 5; i > 1; i--){
+          newLines.add(subway1006Lines.elementAt(curIndex + i));
+        }
+        subwayList = newLines.reversed;
+      }else if (currentStatnId.compareTo(preStatnId) >= 0 && currentStatnId.compareTo(nextStatnId) <= 0) {
+        int endIndex = curIndex - 4 < 0 ? 0 : curIndex - 4;
+        subwayList = subway1006Lines.sublist(endIndex, curIndex + 1);
+      } else {
+        int endIndex = curIndex + 4 > maxLength - 1 ? maxLength - 1 : curIndex + 4;
+        subwayList = subway1006Lines.sublist(curIndex, endIndex + 1);
+      }
+    }
     /// 7호선
-    if (subwayId == "1007") {
+    else if (subwayId == "1007") {
       int curIndex = subway1007Lines.indexWhere((map) => map["statnId"] == currentStatnId);
       int maxLength = subway1007Lines.length;
       if (currentStatnId.compareTo(preStatnId) >= 0 && currentStatnId.compareTo(nextStatnId) <= 0) {

@@ -63,7 +63,7 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
 
             debugPrint("@##@@##@ subwayame : $subwayName, subwayLine : $subwayLine");
 
-            if (!subwayLine.contains("7호선")){
+            if (!subwayLine.contains("6호선")){
               continue;
             }
 
@@ -216,6 +216,8 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
       final sn = element.place_name.split(" ").first;
       final sl = element.place_name.split(" ").last;
       final findSn = SubwayUtil.findSubwayName(subwayName: sn, subwayLine: sl);
+
+      debugPrint("_requestNearByStation findSn : $findSn");
 
       nearByStationList.add(NearByStation(
           subwayName: findSn,
