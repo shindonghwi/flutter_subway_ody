@@ -389,6 +389,7 @@ final List<Map<String, String>> realtimeSubwayInfo = [
   {"subwayId": "1007", "statnId": "1007000759", "statnName": "부평구청", "hosunName": "7호선"},
   {"subwayId": "1007", "statnId": "1007000760", "statnName": "산곡", "hosunName": "7호선"},
   {"subwayId": "1007", "statnId": "1007000761", "statnName": "석남", "hosunName": "7호선"},
+
   {"subwayId": "1008", "statnId": "1008000810", "statnName": "암사", "hosunName": "8호선"},
   {"subwayId": "1008", "statnId": "1008000811", "statnName": "천호(풍납토성)", "hosunName": "8호선"},
   {"subwayId": "1008", "statnId": "1008000812", "statnName": "강동구청", "hosunName": "8호선"},
@@ -402,12 +403,7 @@ final List<Map<String, String>> realtimeSubwayInfo = [
   {"subwayId": "1008", "statnId": "1008000820", "statnName": "복정", "hosunName": "8호선"},
   {"subwayId": "1008", "statnId": "1008000821", "statnName": "남위례", "hosunName": "8호선"},
   {"subwayId": "1008", "statnId": "1008000822", "statnName": "산성", "hosunName": "8호선"},
-  {
-    "subwayId": "1008",
-    "statnId": "1008000823",
-    "statnName": "남한산성입구(성남법원, 검찰청)",
-    "hosunName": "8호선"
-  },
+  {"subwayId": "1008", "statnId": "1008000823", "statnName": "남한산성입구(성남법원, 검찰청)", "hosunName": "8호선"},
   {"subwayId": "1008", "statnId": "1008000824", "statnName": "단대오거리", "hosunName": "8호선"},
   {"subwayId": "1008", "statnId": "1008000825", "statnName": "신흥", "hosunName": "8호선"},
   {"subwayId": "1008", "statnId": "1008000826", "statnName": "수진", "hosunName": "8호선"},

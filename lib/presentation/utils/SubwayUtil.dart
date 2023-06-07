@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:subway_ody/presentation/constant/language.dart';
+import 'package:subway_ody/presentation/constant/subway_1008.dart';
 import 'package:subway_ody/presentation/constant/subway_1009.dart';
 import 'package:subway_ody/presentation/constant/subway_1063.dart';
 import 'package:subway_ody/presentation/constant/subway_1065.dart';
@@ -195,16 +196,31 @@ class SubwayUtil {
 
     List<Map<String, String>> newLines = [];
 
+    /// 8호선
+    if (subwayId == "1008") {
+      int curIndex = subway1008Lines.indexWhere((map) => map["statnId"] == currentStatnId);
+      int maxLength = subway1008Lines.length;
+      if (currentStatnId.compareTo(preStatnId) >= 0 && currentStatnId.compareTo(nextStatnId) <= 0) {
+        //
+        int endIndex = curIndex - 4 < 0 ? 0 : curIndex - 4;
+        subwayList = subway1008Lines.sublist(endIndex, curIndex + 1);
+      } else {
+        //
+        int endIndex = curIndex + 4 > maxLength - 1 ? maxLength - 1 : curIndex + 4;
+        subwayList = subway1008Lines.sublist(curIndex, endIndex + 1);
+      }
+    }
+
     /// 9호선
-    if (subwayId == "1009") {
+    else if (subwayId == "1009") {
       int curIndex = subway1009Lines.indexWhere((map) => map["statnId"] == currentStatnId);
       int maxLength = subway1009Lines.length;
       if (currentStatnId.compareTo(preStatnId) > 0) {
-        // 북한산우이 -> 신설동
+        //
         int endIndex = curIndex - 4 < 0 ? 0 : curIndex - 4;
         subwayList = subway1009Lines.sublist(endIndex, curIndex + 1);
       } else {
-        // 신설동 -> 북한산우이
+        //
         int endIndex = curIndex + 4 > maxLength - 1 ? maxLength - 1 : curIndex + 4;
         subwayList = subway1009Lines.sublist(curIndex, endIndex + 1);
       }
