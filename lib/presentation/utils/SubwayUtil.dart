@@ -1,9 +1,8 @@
-import 'dart:collection';
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:subway_ody/presentation/constant/language.dart';
-import 'package:subway_ody/presentation/constant/subway.dart';
+import 'package:subway_ody/presentation/constant/subway_1077.dart';
+import 'package:subway_ody/presentation/constant/subway_all.dart';
+import 'package:subway_ody/presentation/constant/subway_1065.dart';
 import 'package:subway_ody/presentation/feature/setting/models/LanguageType.dart';
 import 'package:subway_ody/presentation/ui/colors.dart';
 import 'package:subway_ody/presentation/utils/Common.dart';
@@ -111,9 +110,8 @@ class SubwayUtil {
     required String subwayName,
     required String subwayLine,
   }) {
-    List<Map<String, String>> subwayListFromHosun = realtimeSubwayInfo
-        .where((element) => element["hosunName"]!.contains(subwayLine))
-        .toList();
+    List<Map<String, String>> subwayListFromHosun =
+        realtimeSubwayInfo.where((element) => element["hosunName"]!.contains(subwayLine)).toList();
 
     final nm = subwayName.trim().endsWith("역")
         ? subwayName.trim().substring(0, subwayName.length - 1)
@@ -129,61 +127,6 @@ class SubwayUtil {
       }
     }
     return "";
-  }
-
-  static List<String> findSubwayNameList({
-    required String subwayId,
-    required String currentStatnId,
-    required String preStatnId,
-    required String nextStatnId,
-    required bool isUp,
-  }) {
-    // 상행 여부
-    final List<String> subwayNameList = [];
-
-    List<Map<String, String>> subwayListFromHosun =
-        realtimeSubwayInfo.where((element) => element["subwayId"] == subwayId).toList();
-
-    // x호선 데이터 정보
-    final Map<String, Map<String, String>> subwayInfoMap = {}; // Map<호선, 지하철정보>
-    for (var info in subwayListFromHosun) {
-      subwayInfoMap[info["statnId"].toString()] = {
-        "subwayId": info["subwayId"].toString(),
-        "statnName": info["statnName"].toString(),
-        "hosunName": info["hosunName"].toString(),
-      };
-    }
-
-    if (subwayInfoMap.containsKey(currentStatnId)) {
-      List<MapEntry<String, Map<String, String>>> entries =
-          subwayInfoMap.entries.toList();
-      int currentIndex = entries.indexWhere((entry) => entry.key == currentStatnId);
-
-      if (currentIndex != -1) {
-        List<MapEntry<String, Map<String, String>>> nextEntries;
-        int endIndex = currentIndex - 4 < 0 ? 0 : currentIndex - 4;
-        if (!isUp) {
-          nextEntries = entries.sublist(endIndex, currentIndex + 1).toList();
-          // debugPrint("isUp nextEntries: $nextEntries");
-        } else {
-          endIndex = currentIndex + 4 > entries.length - 1
-              ? entries.length - 1
-              : currentIndex + 4;
-          nextEntries = entries.sublist(currentIndex, endIndex + 1);
-          // debugPrint("!isUp nextEntries: $nextEntries");
-        }
-
-        for (var entry in nextEntries) {
-          Map<String, String> nextValue = entry.value;
-          subwayNameList.add(nextValue["statnName"].toString());
-        }
-      } else {
-        // print("currentSubwayId를 찾을 수 없습니다.");
-      }
-    } else {
-      // print("currentSubwayId가 subwayInfoMap에 없습니다.");
-    }
-    return subwayNameList.toList();
   }
 
   static String findLanguageSubwayName(
@@ -213,7 +156,7 @@ class SubwayUtil {
         } else if (LanguageType.JPN == languageType) {
           findText = mapData["station_nm_jpn"];
         }
-        if (findText.toString().isEmpty){
+        if (findText.toString().isEmpty) {
           findText = mapData["station_nm"];
         }
         break;
@@ -232,5 +175,54 @@ class SubwayUtil {
     }
 
     return findText ?? targetValue;
+  }
+
+  static List<String> findSubwayNameList({
+    required String subwayId,
+    required String currentStatnId,
+    required String preStatnId,
+    required String nextStatnId,
+    required bool isUp,
+  }) {
+    // 상행 여부
+    final List<String> subwayNameList = [];
+    Iterable<Map<String, String>> subwayList = [];
+
+    /// 공항철도
+    if (subwayId == "1065") {
+      int curIndex = subway1065Lines.indexWhere((map) => map["statnId"] == currentStatnId);
+      int maxLength = subway1065Lines.length;
+      if (currentStatnId.compareTo(nextStatnId) < 0) {
+        // 서울 -> 청라 국제도시
+        int endIndex = curIndex + 4 > maxLength - 1 ? maxLength - 1 : curIndex + 4;
+        subwayList = subway1065Lines.sublist(curIndex, endIndex + 1).reversed;
+      } else {
+        // 청라 국제도시 -> 서울
+        int endIndex = curIndex - 4 < 0 ? 0 : curIndex - 4;
+        subwayList = subway1065Lines.sublist(endIndex, curIndex + 1).reversed;
+      }
+    }
+    /// 신분당선
+    else if (subwayId == "1077") {
+      int curIndex = subway1077Lines.indexWhere((map) => map["statnId"] == currentStatnId);
+      int maxLength = subway1077Lines.length;
+      if (currentStatnId.compareTo(nextStatnId) < 0) {
+        // 신사 -> 광교
+        int endIndex = curIndex - 4 < 0 ? 0 : curIndex - 4;
+        subwayList = subway1077Lines.sublist(endIndex, curIndex + 1);
+      } else {
+        // 광교 -> 신사
+        int endIndex = curIndex + 4 > maxLength - 1 ? maxLength - 1 : curIndex + 4;
+        subwayList = subway1077Lines.sublist(curIndex, endIndex + 1);
+      }
+
+    } else {
+
+    }
+
+    for (var element in subwayList) {
+      subwayNameList.add(element["statnName"].toString());
+    }
+    return subwayNameList.toList();
   }
 }

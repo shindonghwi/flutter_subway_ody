@@ -43,7 +43,6 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
     _changeUiState(Loading());
 
     List<SubwayModel> subwayDataList = [];
-    Map<String, Pair<List<String>, SubwayDirectionStationModel>> updnMap = {};
 
     final isPermissionGranted = await _checkLocationPermission();
 
@@ -61,6 +60,13 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
           for (var element in nearByStationList!) {
             final subwayName = element.subwayName;
             final subwayLine = element.subwayLine;
+
+            debugPrint("@##@@##@ subwayName : $subwayName, subwayLine : $subwayLine");
+
+            if (!subwayLine.contains("신분")){
+              continue;
+            }
+
             final distance = element.distance;
 
             final arrivalRes = await GetIt.instance<GetSubwayArrivalUseCase>().call(
@@ -100,6 +106,7 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
                   isUp: arrivalList.first.ordkey.startsWith("0"),
                 );
 
+                debugPrint("@##@zxc@##@ nameList : $nameList");
                 final List<Pair<int, SubwayPositionModel?>> subwayPositionList =
                     List<Pair<int, SubwayPositionModel?>>.filled(
                         nameList.length * 2 - 1, Pair(-1, null));

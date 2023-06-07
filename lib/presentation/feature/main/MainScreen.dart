@@ -17,9 +17,10 @@ import 'package:subway_ody/presentation/utils/Common.dart';
 import 'package:subway_ody/presentation/utils/SnackBarUtil.dart';
 import 'package:subway_ody/presentation/utils/Throttler.dart';
 
+Throttler throttler = Throttler(milliseconds: 5000);
+
 class MainScreen extends HookConsumerWidget {
-  MainScreen({Key? key}) : super(key: key);
-  Throttler throttler = Throttler(milliseconds: 5000);
+  const MainScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -43,6 +44,7 @@ class MainScreen extends HookConsumerWidget {
             currentRegionRead.setRegion(event.value.userRegion);
           },
           failure: (event) async {
+            mainIntentData.value = null;
             debugPrint('failure ${event.errorMessage}');
           },
         );

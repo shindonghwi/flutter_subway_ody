@@ -1,0 +1,18 @@
+final List<Map<String, String>> subway1077Lines = [
+  {"subwayId": "1077", "statnId": "1077000684", "statnName": "신사", "hosunName": "신분당선"},
+  {"subwayId": "1077", "statnId": "1077000685", "statnName": "논현", "hosunName": "신분당선"},
+  {"subwayId": "1077", "statnId": "1077000686", "statnName": "신논현", "hosunName": "신분당선"},
+  {"subwayId": "1077", "statnId": "1077000687", "statnName": "강남", "hosunName": "신분당선"},
+  {"subwayId": "1077", "statnId": "1077000688", "statnName": "양재", "hosunName": "신분당선"},
+  {"subwayId": "1077", "statnId": "1077000689", "statnName": "양재시민의숲", "hosunName": "신분당선"},
+  {"subwayId": "1077", "statnId": "1077006810", "statnName": "청계산입구", "hosunName": "신분당선"},
+  {"subwayId": "1077", "statnId": "1077006811", "statnName": "판교", "hosunName": "신분당선"},
+  {"subwayId": "1077", "statnId": "1077006812", "statnName": "정자", "hosunName": "신분당선"},
+  {"subwayId": "1077", "statnId": "1077006813", "statnName": "미금", "hosunName": "신분당선"},
+  {"subwayId": "1077", "statnId": "1077006814", "statnName": "동천", "hosunName": "신분당선"},
+  {"subwayId": "1077", "statnId": "1077006815", "statnName": "수지구청", "hosunName": "신분당선"},
+  {"subwayId": "1077", "statnId": "1077006816", "statnName": "성복", "hosunName": "신분당선"},
+  {"subwayId": "1077", "statnId": "1077006817", "statnName": "상현", "hosunName": "신분당선"},
+  {"subwayId": "1077", "statnId": "1077006818", "statnName": "광교중앙", "hosunName": "신분당선"},
+  {"subwayId": "1077", "statnId": "1077006819", "statnName": "광교", "hosunName": "신분당선"},
+].toList();

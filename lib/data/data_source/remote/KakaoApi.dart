@@ -31,8 +31,10 @@ class KakaoApi {
   /// 위치 권한 요청
   Future<ApiResponse<KakaoLocationResponse>> getRegion(LatLng latLng) async {
     final params = {
-      'x': parseFixNumber(latLng.longitude.toString()),
-      'y': parseFixNumber(latLng.latitude.toString()),
+      // 'x': parseFixNumber(latLng.longitude.toString()),
+      // 'y': parseFixNumber(latLng.latitude.toString()),
+      'x': '127.044967',
+      'y': '37.301700',
     };
 
     final uri = Uri.https(
@@ -69,8 +71,10 @@ class KakaoApi {
   /// 가까운 지하철역 구하기
   Future<ApiResponse<KakaoLocationResponse>> getNearBySubwayStation(LatLng latLng, int distance) async {
     final params = {
-      'x': parseFixNumber(latLng.longitude.toString()),
-      'y': parseFixNumber(latLng.latitude.toString()),
+      // 'x': parseFixNumber(latLng.longitude.toString()),
+      // 'y': parseFixNumber(latLng.latitude.toString()),
+      'x': '127.044967',
+      'y': '37.301700',
       'radius': distance.toString(),
       'query': '역',
       'category_group_code': 'SW8',

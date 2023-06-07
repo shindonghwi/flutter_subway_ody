@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:subway_ody/app/SubwayOdyApp.dart';
 import 'package:subway_ody/presentation/feature/main/models/SubwayModel.dart';
 import 'package:subway_ody/presentation/feature/main/widget/SubwayPositionList.dart';
-import 'package:subway_ody/presentation/ui/colors.dart';
 import 'package:subway_ody/presentation/ui/typography.dart';
 import 'package:subway_ody/presentation/utils/Common.dart';
 import 'package:subway_ody/presentation/utils/SubwayUtil.dart';
@@ -30,7 +28,7 @@ class SubwayListDivider extends StatelessWidget {
       children: [
         SizedBox(
           width: double.infinity,
-          height: 64,
+          height: 72,
           child: SubwayPositionList(
             subwayList: subwayList,
             positionList: positionList,
@@ -109,18 +107,19 @@ class SubwayDividerAndNamePainter extends CustomPainter {
 
       final secondText = detailText.split("\n").last;
 
-      if (secondText.length >= lineLimit){
+      if (secondText.length >= lineLimit) {
         detailText = "${secondText.substring(0, lineLimit)}\n${secondText.substring(lineLimit)}";
       }
       parseText = "$mainText\n$detailText";
       return parseText;
-    }else{
+    } else {
       final firstThreeCharacters = text.substring(0, firstLineLimit - 1);
       var remainingCharacters = text.substring(firstLineLimit - 1);
 
       final secondText = remainingCharacters.split("\n").last;
-      if (secondText.length >= lineLimit){
-        remainingCharacters = "${secondText.substring(0, lineLimit)}\n${secondText.substring(lineLimit)}";
+      if (secondText.length >= lineLimit) {
+        remainingCharacters =
+            "${secondText.substring(0, lineLimit)}\n${secondText.substring(lineLimit)}";
       }
 
       return '$firstThreeCharacters\n$remainingCharacters';
@@ -138,12 +137,19 @@ class SubwayDividerAndNamePainter extends CustomPainter {
     final barWidth = size.width - (2 * radius);
     final barHeight = size.height - (2 * radius);
 
-    final startPoint = Offset(radius, size.height / 2 - barHeight / 2);
-    final endPoint = Offset(size.width - radius, size.height / 2 - barHeight / 2);
+    Offset startPoint;
+    Offset endPoint;
+
+    startPoint = Offset(radius, size.height / 2 - barHeight / 2);
+    endPoint = Offset(size.width - radius, size.height / 2 - barHeight / 2);
 
     canvas.drawLine(startPoint, endPoint, paint);
 
-    final spacing = barWidth / (subwayList.length - 1);
+    var spacing = barWidth / (subwayList.length - 1);
+
+    if (subwayList.length == 1) {
+      spacing = barWidth;
+    }
 
     final circleInnerPaint = Paint()
       ..color = Colors.white
@@ -155,12 +161,27 @@ class SubwayDividerAndNamePainter extends CustomPainter {
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.fill;
 
+
+
     for (int index = 0; index < subwayList.length; index++) {
       final breakpointX = radius + (index * spacing);
       final breakpointY = size.height / 2;
 
-      final circleInnerCenter = Offset(breakpointX, breakpointY);
-      final circleBorderCenter = Offset(breakpointX, breakpointY);
+      Offset circleInnerCenter;
+      Offset circleBorderCenter;
+      if (subwayList.length == 1){
+        if (isUp){
+          circleInnerCenter = Offset(0, breakpointY);
+          circleBorderCenter = Offset(0, breakpointY);
+        }else{
+          circleInnerCenter = Offset(size.width, breakpointY);
+          circleBorderCenter = Offset(size.width, breakpointY);
+        }
+      }else{
+        circleInnerCenter = Offset(breakpointX, breakpointY);
+        circleBorderCenter = Offset(breakpointX, breakpointY);
+      }
+
       canvas.drawCircle(circleBorderCenter, radius + 2, circleBorderPaint);
       canvas.drawCircle(circleInnerCenter, radius, circleInnerPaint);
 
@@ -189,8 +210,23 @@ class SubwayDividerAndNamePainter extends CustomPainter {
         textDirection: TextDirection.ltr,
       );
       textPainter.layout();
-      final textX = breakpointX - (textPainter.width / 2);
-      final textY = circleInnerCenter.dy + radius + 10;
+
+      double textX = 0.0;
+      double textY = 0.0;
+
+      if (subwayList.length == 1){
+        if (isUp){
+          textX = 0 - (textPainter.width / 2);
+          textY = circleInnerCenter.dy + radius + 10;
+        }else{
+          textX = size.width - (textPainter.width / 2);
+          textY = circleInnerCenter.dy + radius + 10;
+        }
+      }else{
+        textX = breakpointX - (textPainter.width / 2);
+        textY = circleInnerCenter.dy + radius + 10;
+      }
+
       textPainter.paint(canvas, Offset(textX, textY));
     }
   }
