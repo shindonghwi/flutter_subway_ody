@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:subway_ody/presentation/constant/language.dart';
+import 'package:subway_ody/presentation/constant/subway_1001.dart';
 import 'package:subway_ody/presentation/constant/subway_1002.dart';
 import 'package:subway_ody/presentation/constant/subway_1003.dart';
 import 'package:subway_ody/presentation/constant/subway_1004.dart';
@@ -131,15 +132,31 @@ class SubwayUtil {
 
     for (var info in subwayListFromHosun) {
       final statnName = info["statnName"].toString();
+      debugPrint("info: $statnName : nm : $nm");
 
-      if (subwayLine == "6호선") {
-        if (statnName.contains("신내")) {
-          if (nm == "신내") {
-            return "신내";
-          }
-          return "연신내";
-        }
-      }
+      // if (subwayLine == "6호선") {
+      //   if (statnName.contains("신내")) {
+      //     if (nm == "신내") {
+      //       return "신내";
+      //     }
+      //     return "연신내";
+      //   }
+      // }
+
+      // if (subwayLine == "1호선") {
+      //   if (statnName.contains("도봉")) {
+      //     if (nm == "도봉") {
+      //       return "도봉";
+      //     }
+      //     return "도봉산";
+      //   }
+      // if (statnName.contains("동두천")) {
+      //   if (nm == "동두천") {
+      //     return "동두천";
+      //   }
+      //   return "동두천중앙";
+      // }
+      // }
 
       final a = statnName.contains(nm);
       final b = nm.contains(statnName);
@@ -207,6 +224,7 @@ class SubwayUtil {
     required String currentStatnId,
     required String preStatnId,
     required String nextStatnId,
+    required String destination,
     required bool isUp,
   }) {
     // 상행 여부
@@ -218,60 +236,126 @@ class SubwayUtil {
     debugPrint(
         "subwayId : $subwayId currentStatnId: $currentStatnId preStatnId: $preStatnId nextStatnId: $nextStatnId isUp: $isUp");
 
+    /// 1호선
+    if (subwayId == "1001") {
+      int curIndex = subway1001Lines.indexWhere((map) => map["statnId"] == currentStatnId);
+      int destinationName = subway1001Lines.indexWhere((map) => map["statnName"] == destination);
+      debugPrint("asdsad curIndex : $curIndex destinationName: $destinationName");
+      int count = 5;
+
+      if (currentStatnId.compareTo(preStatnId) >= 0 && currentStatnId.compareTo(nextStatnId) <= 0) {
+
+        if (nextStatnId.compareTo("1001080142") >= 0 || currentStatnId.compareTo("1001080142") >= 0){
+          int curIndex = subway1001ShinChangLines.indexWhere((map) => map["statnId"] == currentStatnId);
+          int endIndex = curIndex - 4 < 0 ? 0 : curIndex - 4;
+          subwayList = subway1001ShinChangLines.sublist(endIndex, curIndex + 1); // 아래꺼
+        }else{
+          int curIndex = subway1001Lines.indexWhere((map) => map["statnId"] == currentStatnId);
+          int endIndex = curIndex - 4 < 0 ? 0 : curIndex - 4;
+          subwayList = subway1001Lines.sublist(endIndex, curIndex + 1); // 아래꺼
+        }
+      } else {
+        int guroIndex = subway1001Lines.indexWhere((map) => map["statnId"] == "1001000141");
+        if (currentStatnId == "1001000141" && preStatnId == "1001000142") {
+          // 구일에서 온 경우
+          for (int i = guroIndex; i < subway1001Lines.length; i++) {
+            newLines.add(subway1001Lines.elementAt(i));
+            if (newLines.length == count) {
+              break;
+            }
+          }
+          subwayList = newLines;
+        } else if (currentStatnId == "1001000141" && preStatnId == "1001080142") {
+          //가산디지털 단지에서 온 경우
+          // 구일에서 온 경우
+          int guroIndex =
+              subway1001ShinChangLines.indexWhere((map) => map["statnId"] == "1001000141");
+          for (int i = guroIndex; i < subway1001ShinChangLines.length; i++) {
+            newLines.add(subway1001ShinChangLines.elementAt(i));
+            if (newLines.length == count) {
+              break;
+            }
+          }
+          subwayList = newLines;
+        } else {
+          if (currentStatnId.compareTo("1001000100") >= 0 &&
+              currentStatnId.compareTo("1001000161") <= 0) {
+            debugPrint("zxcxzc 222222 : }");
+            int maxLength = subway1001Lines.length;
+            int endIndex = curIndex + 4 > maxLength - 1 ? maxLength - 1 : curIndex + 4;
+            subwayList = subway1001Lines.sublist(curIndex, endIndex + 1);
+          } else if (currentStatnId.compareTo("1001080142") >= 0 &&
+              currentStatnId.compareTo("1001080176") <= 0) {
+            debugPrint("zxcxzc 333333 : }");
+            int curIndex = subway1001ShinChangLines.indexWhere((map) => map["statnId"] == currentStatnId);
+            subwayList = subway1001ShinChangLines.sublist(curIndex, curIndex + 5);
+          } else {
+            debugPrint("zxcxzc 44444 : }");
+            int maxLength = subway1001ShinChangLines.length;
+            int endIndex = curIndex + 4 > maxLength - 1 ? maxLength - 1 : curIndex + 4;
+            subwayList = subway1001ShinChangLines.sublist(curIndex, endIndex > guroIndex ? guroIndex + 1 : endIndex + 1);
+          }
+        }
+      }
+    }
+
     /// 2호선
-    if (subwayId == "1002") {
+    else if (subwayId == "1002") {
       int curIndex = subway1002Lines.indexWhere((map) => map["statnId"] == currentStatnId);
       int maxLength = subway1002Lines.length;
-      List<Map<String, String>> tempList = [];
+      List<Map<String, String>> newLines = [];
       int count = 5;
 
       // 까치산 - 신도림
-      if ((nextStatnId.compareTo("1002002341") >= 0  && nextStatnId.compareTo("1002002344") <= 0 ) ||
-          (preStatnId.compareTo("1002002341") >= 0  && preStatnId.compareTo("1002002344") <= 0 )){
-        if (nextStatnId.compareTo(currentStatnId) <= 0 ){ // 신설동행
+      if ((nextStatnId.compareTo("1002002341") >= 0 && nextStatnId.compareTo("1002002344") <= 0) ||
+          (preStatnId.compareTo("1002002341") >= 0 && preStatnId.compareTo("1002002344") <= 0)) {
+        if (nextStatnId.compareTo(currentStatnId) <= 0) {
+          // 신설동행
           int curIndex = subway1002Out2Lines.indexWhere((map) => map["statnId"] == currentStatnId);
 
           for (int i = curIndex; i >= 0; i--) {
-            tempList.add(subway1002Out2Lines.elementAt(i));
-            if (tempList.length == count) {
+            newLines.add(subway1002Out2Lines.elementAt(i));
+            if (newLines.length == count) {
               break;
             }
           }
-          subwayList = tempList;
-        }else{
+          subwayList = newLines;
+        } else {
           int curIndex = subway1002Out2Lines.indexWhere((map) => map["statnId"] == currentStatnId);
           for (int i = curIndex; i < subway1002Out2Lines.length; i++) {
-            tempList.add(subway1002Out2Lines.elementAt(i));
-            if (tempList.length == count) {
+            newLines.add(subway1002Out2Lines.elementAt(i));
+            if (newLines.length == count) {
               break;
             }
           }
-          subwayList = tempList.reversed;
+          subwayList = newLines.reversed;
         }
       }
 
       // 신설동 - 용답
-      else if ((nextStatnId.compareTo("1002002111") >= 0  && nextStatnId.compareTo("1002002114") <= 0 ) ||
-          (preStatnId.compareTo("1002002111") >= 0  && preStatnId.compareTo("1002002114") <= 0 )){
-        if (nextStatnId.compareTo(currentStatnId) <= 0 ){ // 신설동행
+      else if ((nextStatnId.compareTo("1002002111") >= 0 &&
+              nextStatnId.compareTo("1002002114") <= 0) ||
+          (preStatnId.compareTo("1002002111") >= 0 && preStatnId.compareTo("1002002114") <= 0)) {
+        if (nextStatnId.compareTo(currentStatnId) <= 0) {
+          // 신설동행
           int curIndex = subway1002Out1Lines.indexWhere((map) => map["statnId"] == currentStatnId);
 
           for (int i = curIndex; i >= 0; i--) {
-            tempList.add(subway1002Out1Lines.elementAt(i));
-            if (tempList.length == count) {
+            newLines.add(subway1002Out1Lines.elementAt(i));
+            if (newLines.length == count) {
               break;
             }
           }
-          subwayList = tempList;
-        }else{
+          subwayList = newLines;
+        } else {
           int curIndex = subway1002Out1Lines.indexWhere((map) => map["statnId"] == currentStatnId);
           for (int i = curIndex; i < subway1002Out1Lines.length; i++) {
-            tempList.add(subway1002Out1Lines.elementAt(i));
-            if (tempList.length == count) {
+            newLines.add(subway1002Out1Lines.elementAt(i));
+            if (newLines.length == count) {
               break;
             }
           }
-          subwayList = tempList.reversed;
+          subwayList = newLines.reversed;
         }
       }
       // 내선
@@ -279,36 +363,36 @@ class SubwayUtil {
           currentStatnId.compareTo("1002000243") <= 0) {
         if (isUp) {
           for (int i = curIndex; i < subway1002Lines.length; i++) {
-            tempList.add(subway1002Lines.elementAt(i));
-            if (tempList.length == count) {
+            newLines.add(subway1002Lines.elementAt(i));
+            if (newLines.length == count) {
               break;
             }
           }
-          if (tempList.length != 5){
+          if (newLines.length != 5) {
             for (int i = 0; i < subway1002Lines.length; i++) {
-              tempList.add(subway1002Lines.elementAt(i));
-              if (tempList.length == count) {
+              newLines.add(subway1002Lines.elementAt(i));
+              if (newLines.length == count) {
                 break;
               }
             }
           }
-          subwayList = tempList;
+          subwayList = newLines;
         } else {
           for (int i = curIndex; i >= 0; i--) {
-            tempList.add(subway1002Lines.elementAt(i));
-            if (tempList.length == count) {
+            newLines.add(subway1002Lines.elementAt(i));
+            if (newLines.length == count) {
               break;
             }
           }
-          if (tempList.length != 5){
-            for (int i = subway1002Lines.length - 1; i >= 0 ; i--) {
-              tempList.add(subway1002Lines.elementAt(i));
-              if (tempList.length == count) {
+          if (newLines.length != 5) {
+            for (int i = subway1002Lines.length - 1; i >= 0; i--) {
+              newLines.add(subway1002Lines.elementAt(i));
+              if (newLines.length == count) {
                 break;
               }
             }
           }
-          subwayList = tempList.reversed;
+          subwayList = newLines.reversed;
         }
       }
     }

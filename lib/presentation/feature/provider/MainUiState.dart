@@ -63,7 +63,7 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
 
             debugPrint("@##@@##@ subwayame : $subwayName, subwayLine : $subwayLine");
 
-            if (!subwayLine.contains("2호선")){
+            if (!subwayLine.contains("1호선")){
               continue;
             }
 
@@ -74,8 +74,13 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
             );
 
             if (arrivalRes.data?.status == 500) {
-              _changeUiState(Failure(ErrorType.error_500.name));
-              return;
+              if (arrivalRes.data?.message?.contains("해당하는 데이터가 없습니다") == true){
+                _changeUiState(Failure(ErrorType.not_available.name));
+                return;
+              }else{
+                _changeUiState(Failure(ErrorType.error_500.name));
+                return;
+              }
             } else if (arrivalRes.status == 200) {
               var arrivalInfo = arrivalRes.data;
               if (CollectionUtil.isNullorEmpty(arrivalInfo?.realtimeArrivalList)) {
@@ -103,6 +108,7 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
                   currentStatnId: arrivalList.first.statnId,
                   preStatnId: arrivalList.first.statnFid,
                   nextStatnId: arrivalList.first.statnTid,
+                  destination: arrivalList.first.trainLineNm.split(" ").first,
                   isUp: arrivalList.first.ordkey.startsWith("0"),
                 );
 
