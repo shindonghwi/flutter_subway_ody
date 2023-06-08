@@ -756,21 +756,20 @@ class SubwayUtil {
           ];
           subwayList = newLines.toList().reversed.toList();
         }
-      } else if (currentStatnId.compareTo(nextStatnId) > 0) {
-        // 춘천 -> 청량리
-        int endIndex = curIndex + 4 > maxLength - 1 ? maxLength - 1 : curIndex + 4;
-        subwayList = subway1063Lines.sublist(curIndex, endIndex + 1).reversed;
-        subwayList =
-            subwayList.where((map) => map["statnId"].toString().compareTo("1063080312") < 0);
-      } else {
-        // 청량리 -> 춘천
+      }else if (isUp) {
         int endIndex = curIndex - 4 < 0 ? 0 : curIndex - 4;
         subwayList = subway1063Lines.sublist(endIndex, curIndex + 1).reversed;
-        subwayList =
-            subwayList.where((map) => map["statnId"].toString().compareTo("1063080312") < 0);
+      } else {
+        if (currentStatnId.compareTo("1063075335") >= 0){ // 문산이 종점 예외처리
+          newLines.add(subway1063Lines.elementAt(subway1063Lines.indexWhere((map) => map["statnId"] == "1063075335")));
+          subwayList = newLines.toList();
+        }else{
+          int endIndex = curIndex + 4 > maxLength - 1 ? maxLength - 1 : curIndex + 4;
+          subwayList = subway1063Lines.sublist(curIndex, endIndex + 1).reversed;
+        }
       }
-    } else {}
 
+    }
     for (var element in subwayList) {
       subwayNameList.add(element["statnName"].toString());
     }

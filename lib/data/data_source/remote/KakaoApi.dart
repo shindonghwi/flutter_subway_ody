@@ -24,6 +24,25 @@ import 'package:subway_ody/presentation/utils/Common.dart';
 // final x = "126.4321";
 // final y = "37.4677";
 
+// // 경의중앙 - 지평
+// final x = "127.6294";
+// final y = "37.4766";
+// // 경의중앙 - 신촌
+// final x = "126.9424";
+// final y = "37.5597";
+// // 경의중앙 - 가좌
+// final x = "126.9143";
+// final y = "37.5689";
+// // 경의중앙 - 디지털 미디어시티
+// final x = "126.8997";
+// final y = "37.5779";
+// // 경의중앙 - 백마
+// final x = "126.7946";
+// final y = "37.6579";
+// // 경의중앙 - 용문
+final x = "127.5940";
+final y = "37.4822";
+
 class KakaoApi {
   KakaoApi();
 
