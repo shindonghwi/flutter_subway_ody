@@ -2,7 +2,6 @@ final List<Map<String, String>> subway1067Lines = [
   {"subwayId": "1067", "statnId": "1067080116", "statnName": "청량리", "hosunName": "경춘선"},
   {"subwayId": "1067", "statnId": "1067080117", "statnName": "회기", "hosunName": "경춘선"},
   {"subwayId": "1067", "statnId": "1067080118", "statnName": "중랑", "hosunName": "경춘선"},
-  {"subwayId": "1067", "statnId": "1067080119", "statnName": "광운대", "hosunName": "경춘선"},
   {"subwayId": "1067", "statnId": "1067080120", "statnName": "상봉", "hosunName": "경춘선"},
   {"subwayId": "1067", "statnId": "1067080121", "statnName": "망우", "hosunName": "경춘선"},
   {"subwayId": "1067", "statnId": "1067080122", "statnName": "신내", "hosunName": "경춘선"},
@@ -24,4 +23,9 @@ final List<Map<String, String>> subway1067Lines = [
   {"subwayId": "1067", "statnId": "1067080138", "statnName": "김유정", "hosunName": "경춘선"},
   {"subwayId": "1067", "statnId": "1067080139", "statnName": "남춘천", "hosunName": "경춘선"},
   {"subwayId": "1067", "statnId": "1067080140", "statnName": "춘천", "hosunName": "경춘선"},
+].toList();
+
+final List<Map<String, String>> subway1067GwangWunLines = [
+  {"subwayId": "1067", "statnId": "1067080119", "statnName": "광운대", "hosunName": "경춘선"},
+  {"subwayId": "1067", "statnId": "1067080120", "statnName": "상봉", "hosunName": "경춘선"},
 ].toList();

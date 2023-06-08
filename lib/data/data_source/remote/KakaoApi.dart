@@ -40,8 +40,29 @@ import 'package:subway_ody/presentation/utils/Common.dart';
 // final x = "126.7946";
 // final y = "37.6579";
 // // 경의중앙 - 용문
-final x = "127.5940";
-final y = "37.4822";
+// final x = "127.5940";
+// final y = "37.4822";
+
+// // 경춘선 - 청량리
+// final x = "127.0451";
+// final y = "37.5802";
+// // 경춘선 - 광운대
+// final x = "127.0617";
+// final y = "37.6238";
+// // 경춘선 - 상봉
+// final x = "127.0850";
+// final y = "37.5968";
+// // 경춘선 - 신내
+// final x = "127.1032";
+// final y = "37.6127";
+// // 경춘선 - 춘천
+// final x = "127.7168";
+// final y = "37.8847";
+// // 경춘선 - 남춘천
+final x = "127.7240";
+final y = "37.8637";
+
+
 
 class KakaoApi {
   KakaoApi();

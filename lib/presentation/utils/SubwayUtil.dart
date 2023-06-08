@@ -683,13 +683,12 @@ class SubwayUtil {
       int maxLength = subway1067Lines.length;
       // 상봉 - 광운대
       if (currentStatnId == "1067080120" && nextStatnId == "1067080119") {
-        subwayList = subway1067Lines.sublist(curIndex - 1, curIndex + 1).reversed;
+        subwayList = subway1067GwangWunLines.reversed;
       }
       // 광운대 -> 상봉행
       else if (currentStatnId == "1067080119" && nextStatnId == "1067080120") {
-        subwayList = subway1067Lines.sublist(curIndex, curIndex + 2);
-      } else if (currentStatnId.compareTo(preStatnId) >= 0 &&
-          currentStatnId.compareTo(nextStatnId) <= 0) {
+        subwayList = subway1067GwangWunLines;
+      } else if (isUp) {
         // 춘천 -> 청량리
         int endIndex = curIndex + 4 > maxLength - 1 ? maxLength - 1 : curIndex + 4;
         subwayList = subway1067Lines.sublist(curIndex, endIndex + 1);
