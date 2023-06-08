@@ -665,7 +665,7 @@ class SubwayUtil {
     else if (subwayId == "1075") {
       int curIndex = subway1075Lines.indexWhere((map) => map["statnId"] == currentStatnId);
       int maxLength = subway1075Lines.length;
-      if (currentStatnId.compareTo(preStatnId) >= 0 && currentStatnId.compareTo(nextStatnId) <= 0) {
+      if (isUp) {
         // 인천 -> 청량리
         int endIndex = curIndex + 4 > maxLength - 1 ? maxLength - 1 : curIndex + 4;
         subwayList = subway1075Lines.sublist(curIndex, endIndex + 1);
