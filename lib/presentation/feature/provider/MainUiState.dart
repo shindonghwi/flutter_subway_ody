@@ -9,6 +9,7 @@ import 'package:subway_ody/domain/usecases/local/GetUserDistanceUseCase.dart';
 import 'package:subway_ody/domain/usecases/remote/GetKakaoLatLngToRegionUseCase.dart';
 import 'package:subway_ody/domain/usecases/remote/GetNearBySubwayStationUseCase.dart';
 import 'package:subway_ody/domain/usecases/remote/GetSubwayArrivalUseCase.dart';
+import 'package:subway_ody/presentation/constant/language.dart';
 import 'package:subway_ody/presentation/feature/main/MainIntent.dart';
 import 'package:subway_ody/presentation/feature/main/models/NearByStation.dart';
 import 'package:subway_ody/presentation/feature/main/models/SubwayModel.dart';
@@ -59,7 +60,7 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
             final subwayLine = element.subwayLine;
 
 
-            if (!subwayLine.contains("6")) {
+            if (!subwayLine.contains("5")) {
               continue;
             }
             debugPrint("@##@@##@ subwayame : $subwayName, subwayLine : $subwayLine");

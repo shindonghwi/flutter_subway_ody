@@ -36,7 +36,7 @@ final List<Map<String, String>> subway1005Lines = [
   {"subwayId": "1005", "statnId": "1005000544", "statnName": "군자(능동)", "hosunName": "5호선"},
   {"subwayId": "1005", "statnId": "1005000545", "statnName": "아차산(어린이대공원후문)", "hosunName": "5호선"},
   {"subwayId": "1005", "statnId": "1005000546", "statnName": "광나루(장신대)", "hosunName": "5호선"},
-  {"subwayId": "1005", "statnId": "1005000547", "statnName": "천호", "hosunName": "5호선"},
+  {"subwayId": "1005", "statnId": "1005000547", "statnName": "천호(풍납토성)", "hosunName": "5호선"},
   {"subwayId": "1005", "statnId": "1005000548", "statnName": "강동", "hosunName": "5호선"},
   {"subwayId": "1005", "statnId": "1005080549", "statnName": "둔촌동", "hosunName": "5호선"},
   {"subwayId": "1005", "statnId": "1005080550", "statnName": "올림픽공원(한국체대)", "hosunName": "5호선"},

@@ -1,4 +1,4 @@
-final List<Map<String,String>> languageData = [
+final List<Map<String, String>> languageData = [
   {
     "line_num": "02호선",
     "station_nm_chn": "龍踏",
@@ -1688,7 +1688,7 @@ final List<Map<String,String>> languageData = [
     "station_cd": "2548",
     "station_nm_jpn": "千戶",
     "station_nm_eng": "Cheonho",
-    "station_nm": "천호",
+    "station_nm": "천호(풍납토성)",
     "fr_code": "547"
   },
   {
@@ -4829,7 +4829,7 @@ final List<Map<String,String>> languageData = [
     "station_cd": "2812",
     "station_nm_jpn": "千戶",
     "station_nm_eng": "Cheonho",
-    "station_nm": "천호",
+    "station_nm": "천호(풍납토성)",
     "fr_code": "811"
   },
   {

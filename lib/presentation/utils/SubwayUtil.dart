@@ -517,9 +517,7 @@ class SubwayUtil {
       int maxLength = subway1005Lines.length;
       int count = 5;
 
-      if (currentStatnId.compareTo(preStatnId) >= 0 && currentStatnId.compareTo(nextStatnId) <= 0) {
-        debugPrint("zcxzxczxzcx :111111");
-
+      if (!isUp) {
         if (currentStatnId.compareTo("1005000549") >= 0 &&
             currentStatnId.compareTo("1005000558") <= 0) {
           int curIndex = subway1005HanamLines.indexWhere((map) => map["statnId"] == currentStatnId);
