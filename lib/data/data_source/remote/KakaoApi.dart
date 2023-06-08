@@ -9,6 +9,21 @@ import 'package:subway_ody/domain/models/local/LatLng.dart';
 import 'package:subway_ody/domain/models/remote/kakao/KakaoLocationResponse.dart';
 import 'package:subway_ody/presentation/utils/Common.dart';
 
+
+// // 신분당 - 광교
+// final x = "127.0441";
+// final y = "37.3018";
+// // 신분당 - 신사
+// final x = "127.0198";
+// final y = "37.5161";
+
+// // 공항 - 서울역
+// final x = "126.9727";
+// final y = "37.5528";
+// // 공항 - 서울역
+// final x = "126.4321";
+// final y = "37.4677";
+
 class KakaoApi {
   KakaoApi();
 
@@ -33,8 +48,8 @@ class KakaoApi {
     final params = {
       // 'x': parseFixNumber(latLng.longitude.toString()),
       // 'y': parseFixNumber(latLng.latitude.toString()),
-      'x': '127.094689',
-      'y': '37.322195',
+      'x': x,
+      'y': y,
     };
 
     final uri = Uri.https(
@@ -73,10 +88,9 @@ class KakaoApi {
     final params = {
       // 'x': parseFixNumber(latLng.longitude.toString()),
       // 'y': parseFixNumber(latLng.latitude.toString()),
-      'x': '127.094689',
-      'y': '37.322195',
+      'x': x,
+      'y': y,
       'radius': distance.toString(),
-      // 'radius': "4000",
       'query': '역',
       'category_group_code': 'SW8',
       'sort': 'distance',
