@@ -149,6 +149,8 @@ final List<Map<String, String>> realtimeSubwayInfo = [
   {"subwayId": "1002", "statnId": "1002002342", "statnName": "양천구청", "hosunName": "2호선"},
   {"subwayId": "1002", "statnId": "1002002343", "statnName": "신정네거리", "hosunName": "2호선"},
   {"subwayId": "1002", "statnId": "1002002344", "statnName": "까치산", "hosunName": "2호선"},
+
+
   {"subwayId": "1003", "statnId": "1003000309", "statnName": "대화", "hosunName": "3호선"},
   {"subwayId": "1003", "statnId": "1003000310", "statnName": "주엽", "hosunName": "3호선"},
   {"subwayId": "1003", "statnId": "1003000311", "statnName": "정발산", "hosunName": "3호선"},
