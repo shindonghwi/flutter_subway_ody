@@ -575,12 +575,10 @@ class SubwayUtil {
     else if (subwayId == "1007") {
       int curIndex = subway1007Lines.indexWhere((map) => map["statnId"] == currentStatnId);
       int maxLength = subway1007Lines.length;
-      if (currentStatnId.compareTo(preStatnId) >= 0 && currentStatnId.compareTo(nextStatnId) <= 0) {
-        //
+      if (!isUp) {
         int endIndex = curIndex - 4 < 0 ? 0 : curIndex - 4;
         subwayList = subway1007Lines.sublist(endIndex, curIndex + 1);
       } else {
-        //
         int endIndex = curIndex + 4 > maxLength - 1 ? maxLength - 1 : curIndex + 4;
         subwayList = subway1007Lines.sublist(curIndex, endIndex + 1);
       }
