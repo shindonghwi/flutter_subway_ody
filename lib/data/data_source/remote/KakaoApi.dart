@@ -121,6 +121,25 @@ import 'package:subway_ody/presentation/utils/Common.dart';
 // final x = "126.6762";
 // final y = "37.5063";
 
+// // 6호선 - 신내
+// final x = "127.1033";
+// final y = "37.6128";
+// 6호선 - 화랑대
+// final x = "127.0836";
+// final y = "37.6200";
+// // 6호선 - 새절
+// final x = "126.9135";
+// final y = "37.5909";
+// // 6호선 - 응암
+// final x = "126.9156";
+// final y = "37.5985";
+// // 6호선 - 구산
+// final x = "126.9171";
+// final y = "37.6112";
+// // 6호선 - 불광
+final x = "126.9295";
+final y = "37.6111";
+
 
 
 class KakaoApi {

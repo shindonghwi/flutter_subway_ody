@@ -561,8 +561,7 @@ class SubwayUtil {
           newLines.add(subway1006Lines.elementAt(curIndex + i));
         }
         subwayList = newLines.reversed;
-      } else if (currentStatnId.compareTo(preStatnId) >= 0 &&
-          currentStatnId.compareTo(nextStatnId) <= 0) {
+      } else if (!isUp) {
         int endIndex = curIndex - 4 < 0 ? 0 : curIndex - 4;
         subwayList = subway1006Lines.sublist(endIndex, curIndex + 1);
       } else {
