@@ -44,9 +44,6 @@ class SubwayPositionList extends HookWidget {
       contentWidth = getMediaQuery(context).size.width * 0.174;
     }
 
-    debugPrint("positionList.length : ${positionList.length}");
-    debugPrint("positionList : ${positionList} $isUp");
-
     if (positionList.length == 9) {
       // 5개 역이 보일떄
       spacing = getMediaQuery(context).size.width * 0.088;

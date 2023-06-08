@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:subway_ody/presentation/constant/language.dart';
+import 'package:subway_ody/presentation/constant/subway_1002.dart';
 import 'package:subway_ody/presentation/constant/subway_1003.dart';
 import 'package:subway_ody/presentation/constant/subway_1004.dart';
 import 'package:subway_ody/presentation/constant/subway_1005.dart';
@@ -214,8 +215,106 @@ class SubwayUtil {
 
     List<Map<String, String>> newLines = [];
 
+    debugPrint(
+        "subwayId : $subwayId currentStatnId: $currentStatnId preStatnId: $preStatnId nextStatnId: $nextStatnId isUp: $isUp");
+
+    /// 2호선
+    if (subwayId == "1002") {
+      int curIndex = subway1002Lines.indexWhere((map) => map["statnId"] == currentStatnId);
+      int maxLength = subway1002Lines.length;
+      List<Map<String, String>> tempList = [];
+      int count = 5;
+
+      // 까치산 - 신도림
+      if ((nextStatnId.compareTo("1002002341") >= 0  && nextStatnId.compareTo("1002002344") <= 0 ) ||
+          (preStatnId.compareTo("1002002341") >= 0  && preStatnId.compareTo("1002002344") <= 0 )){
+        if (nextStatnId.compareTo(currentStatnId) <= 0 ){ // 신설동행
+          int curIndex = subway1002Out2Lines.indexWhere((map) => map["statnId"] == currentStatnId);
+
+          for (int i = curIndex; i >= 0; i--) {
+            tempList.add(subway1002Out2Lines.elementAt(i));
+            if (tempList.length == count) {
+              break;
+            }
+          }
+          subwayList = tempList;
+        }else{
+          int curIndex = subway1002Out2Lines.indexWhere((map) => map["statnId"] == currentStatnId);
+          for (int i = curIndex; i < subway1002Out2Lines.length; i++) {
+            tempList.add(subway1002Out2Lines.elementAt(i));
+            if (tempList.length == count) {
+              break;
+            }
+          }
+          subwayList = tempList.reversed;
+        }
+      }
+
+      // 신설동 - 용답
+      else if ((nextStatnId.compareTo("1002002111") >= 0  && nextStatnId.compareTo("1002002114") <= 0 ) ||
+          (preStatnId.compareTo("1002002111") >= 0  && preStatnId.compareTo("1002002114") <= 0 )){
+        if (nextStatnId.compareTo(currentStatnId) <= 0 ){ // 신설동행
+          int curIndex = subway1002Out1Lines.indexWhere((map) => map["statnId"] == currentStatnId);
+
+          for (int i = curIndex; i >= 0; i--) {
+            tempList.add(subway1002Out1Lines.elementAt(i));
+            if (tempList.length == count) {
+              break;
+            }
+          }
+          subwayList = tempList;
+        }else{
+          int curIndex = subway1002Out1Lines.indexWhere((map) => map["statnId"] == currentStatnId);
+          for (int i = curIndex; i < subway1002Out1Lines.length; i++) {
+            tempList.add(subway1002Out1Lines.elementAt(i));
+            if (tempList.length == count) {
+              break;
+            }
+          }
+          subwayList = tempList.reversed;
+        }
+      }
+      // 내선
+      else if (currentStatnId.compareTo("1002000201") >= 0 &&
+          currentStatnId.compareTo("1002000243") <= 0) {
+        if (isUp) {
+          for (int i = curIndex; i < subway1002Lines.length; i++) {
+            tempList.add(subway1002Lines.elementAt(i));
+            if (tempList.length == count) {
+              break;
+            }
+          }
+          if (tempList.length != 5){
+            for (int i = 0; i < subway1002Lines.length; i++) {
+              tempList.add(subway1002Lines.elementAt(i));
+              if (tempList.length == count) {
+                break;
+              }
+            }
+          }
+          subwayList = tempList;
+        } else {
+          for (int i = curIndex; i >= 0; i--) {
+            tempList.add(subway1002Lines.elementAt(i));
+            if (tempList.length == count) {
+              break;
+            }
+          }
+          if (tempList.length != 5){
+            for (int i = subway1002Lines.length - 1; i >= 0 ; i--) {
+              tempList.add(subway1002Lines.elementAt(i));
+              if (tempList.length == count) {
+                break;
+              }
+            }
+          }
+          subwayList = tempList.reversed;
+        }
+      }
+    }
+
     /// 3호선
-    if (subwayId == "1003") {
+    else if (subwayId == "1003") {
       int curIndex = subway1003Lines.indexWhere((map) => map["statnId"] == currentStatnId);
       int maxLength = subway1003Lines.length;
       if (currentStatnId.compareTo(preStatnId) >= 0 && currentStatnId.compareTo(nextStatnId) <= 0) {
@@ -226,6 +325,7 @@ class SubwayUtil {
         subwayList = subway1003Lines.sublist(curIndex, endIndex + 1);
       }
     }
+
     /// 4호선
     else if (subwayId == "1004") {
       int curIndex = subway1004Lines.indexWhere((map) => map["statnId"] == currentStatnId);
