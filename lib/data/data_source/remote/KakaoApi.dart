@@ -20,7 +20,7 @@ import 'package:subway_ody/presentation/utils/Common.dart';
 // // 공항 - 서울역
 // final x = "126.9727";
 // final y = "37.5528";
-// // 공항 - 서울역
+// // 공항 - 인천 공항 2터미널
 // final x = "126.4321";
 // final y = "37.4677";
 
