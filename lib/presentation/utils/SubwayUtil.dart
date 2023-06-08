@@ -244,12 +244,13 @@ class SubwayUtil {
       int count = 5;
 
       if (currentStatnId.compareTo(preStatnId) >= 0 && currentStatnId.compareTo(nextStatnId) <= 0) {
-
-        if (nextStatnId.compareTo("1001080142") >= 0 || currentStatnId.compareTo("1001080142") >= 0){
-          int curIndex = subway1001ShinChangLines.indexWhere((map) => map["statnId"] == currentStatnId);
+        if (nextStatnId.compareTo("1001080142") >= 0 ||
+            currentStatnId.compareTo("1001080142") >= 0) {
+          int curIndex =
+              subway1001ShinChangLines.indexWhere((map) => map["statnId"] == currentStatnId);
           int endIndex = curIndex - 4 < 0 ? 0 : curIndex - 4;
           subwayList = subway1001ShinChangLines.sublist(endIndex, curIndex + 1); // 아래꺼
-        }else{
+        } else {
           int curIndex = subway1001Lines.indexWhere((map) => map["statnId"] == currentStatnId);
           int endIndex = curIndex - 4 < 0 ? 0 : curIndex - 4;
           subwayList = subway1001Lines.sublist(endIndex, curIndex + 1); // 아래꺼
@@ -287,13 +288,15 @@ class SubwayUtil {
           } else if (currentStatnId.compareTo("1001080142") >= 0 &&
               currentStatnId.compareTo("1001080176") <= 0) {
             debugPrint("zxcxzc 333333 : }");
-            int curIndex = subway1001ShinChangLines.indexWhere((map) => map["statnId"] == currentStatnId);
+            int curIndex =
+                subway1001ShinChangLines.indexWhere((map) => map["statnId"] == currentStatnId);
             subwayList = subway1001ShinChangLines.sublist(curIndex, curIndex + 5);
           } else {
             debugPrint("zxcxzc 44444 : }");
             int maxLength = subway1001ShinChangLines.length;
             int endIndex = curIndex + 4 > maxLength - 1 ? maxLength - 1 : curIndex + 4;
-            subwayList = subway1001ShinChangLines.sublist(curIndex, endIndex > guroIndex ? guroIndex + 1 : endIndex + 1);
+            subwayList = subway1001ShinChangLines.sublist(
+                curIndex, endIndex > guroIndex ? guroIndex + 1 : endIndex + 1);
           }
         }
       }
@@ -425,8 +428,33 @@ class SubwayUtil {
 
     /// 5호선
     else if (subwayId == "1005") {
-      int curIndex = subway1005Lines.indexWhere((map) => map["statnId"] == currentStatnId);
       int maxLength = subway1005Lines.length;
+      int count = 5;
+
+      if (currentStatnId.compareTo(preStatnId) >= 0 && currentStatnId.compareTo(nextStatnId) <= 0) {
+        debugPrint("zcxzxczxzcx :111111");
+
+        if (currentStatnId.compareTo("1005000549") >= 0 &&
+            currentStatnId.compareTo("1005000558") <= 0) {
+          int curIndex = subway1005HanamLines.indexWhere((map) => map["statnId"] == currentStatnId);
+          int endIndex = curIndex - 4 < 0 ? 0 : curIndex - 4;
+          subwayList = subway1005HanamLines.sublist(endIndex, curIndex + 1);
+        }else{
+          int curIndex = subway1005Lines.indexWhere((map) => map["statnId"] == currentStatnId);
+          int endIndex = curIndex - 4 < 0 ? 0 : curIndex - 4;
+          subwayList = subway1005Lines.sublist(endIndex, curIndex + 1);
+        }
+      } else {
+        if (preStatnId.compareTo("1005000549") >= 0 && preStatnId.compareTo("1005000558") <= 0) {
+          int curIndex = subway1005HanamLines.indexWhere((map) => map["statnId"] == currentStatnId);
+          int endIndex = curIndex + 4 > maxLength - 1 ? maxLength - 1 : curIndex + 4;
+          subwayList = subway1005HanamLines.sublist(curIndex, endIndex + 1);
+        } else {
+          int curIndex = subway1005Lines.indexWhere((map) => map["statnId"] == currentStatnId);
+          int endIndex = curIndex + 4 > maxLength - 1 ? maxLength - 1 : curIndex + 4;
+          subwayList = subway1005Lines.sublist(curIndex, endIndex + 1);
+        }
+      }
     }
 
     /// 6호선

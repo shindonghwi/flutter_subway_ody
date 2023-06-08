@@ -63,16 +63,6 @@ final List<Map<String, String>> subway1001Lines = [
   {"subwayId": "1001", "statnId": "1001000161", "statnName": "인천", "hosunName": "1호선"},
 ].toList();
 
-final List<Map<String, String>> subway1001GwangMeyoungLines = [
-  {"subwayId": "1001", "statnId": "1001080144", "statnName": "금천구청", "hosunName": "1호선"},
-  {"subwayId": "1001", "statnId": "1001075410", "statnName": "광명", "hosunName": "1호선"},
-].toList();
-
-final List<Map<String, String>> subway1001GuroGeumCheonLines = [
-  {"subwayId": "1001", "statnId": "1001080144", "statnName": "금천구청", "hosunName": "1호선"},
-  {"subwayId": "1001", "statnId": "1001075410", "statnName": "광명", "hosunName": "1호선"},
-].toList();
-
 final List<Map<String, String>> subway1001ShinChangLines = [
   {"subwayId": "1001", "statnId": "1001000141", "statnName": "구로", "hosunName": "1호선"},
   {"subwayId": "1001", "statnId": "1001080142", "statnName": "가산디지털단지", "hosunName": "1호선"},
