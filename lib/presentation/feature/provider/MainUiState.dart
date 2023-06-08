@@ -59,8 +59,11 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
             final subwayName = element.subwayName;
             final subwayLine = element.subwayLine;
 
+            if (subwayName.isEmpty){
+              continue;
+            }
 
-            if (!subwayLine.contains("5")) {
+            if (!subwayLine.contains("4")) {
               continue;
             }
             debugPrint("@##@@##@ subwayame : $subwayName, subwayLine : $subwayLine");

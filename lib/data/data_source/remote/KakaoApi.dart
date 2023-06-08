@@ -162,8 +162,21 @@ import 'package:subway_ody/presentation/utils/Common.dart';
 // final x = "127.2233";
 // final y = "37.5398";
 // // 5호선 - 마천
-final x = "127.1527";
-final y = "37.4948";
+// final x = "127.1527";
+// final y = "37.4948";
+
+// // 4호선 - 당고개
+final x = "127.0791";
+final y = "37.6703";
+// 5호선 - 혜와
+// final x = "127.0019";
+// final y = "37.5821";
+// // 5호선 - 오이도
+// final x = "126.7387";
+// final y = "37.3617";
+// // 5호선 - 신길온천
+// final x = "126.7672";
+// final y = "37.3376";
 
 
 
