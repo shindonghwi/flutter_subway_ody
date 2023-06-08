@@ -30,7 +30,7 @@ import 'package:subway_ody/presentation/utils/Common.dart';
 // // 경의중앙 - 신촌
 // final x = "126.9424";
 // final y = "37.5597";
-// // 경의중앙 - 가좌
+// 경의중앙 - 가좌
 // final x = "126.9143";
 // final y = "37.5689";
 // // 경의중앙 - 디지털 미디어시티
@@ -73,14 +73,27 @@ import 'package:subway_ody/presentation/utils/Common.dart';
 // final y = "37.2654";
 
 // // 우이신설 - 신설동
-final x = "127.0232";
-final y = "37.5757";
+// final x = "127.0232";
+// final y = "37.5757";
 // 우이신설 - 화계
 // final x = "127.0173";
 // final y = "37.6340";
 // // 우이신설 - 북한산우이
 // final x = "127.0125";
 // final y = "37.6630";
+
+// // 9호선 - 중앙보훈병원
+// final x = "127.1484";
+// final y = "37.5285";
+// 우이신설 - 봉은사
+// final x = "127.0601";
+// final y = "37.5142";
+// // 우이신설 - 개화
+// final x = "126.7951";
+// final y = "37.5778";
+// // 우이신설 - 김포공항
+final x = "126.8106";
+final y = "37.5636";
 
 
 
