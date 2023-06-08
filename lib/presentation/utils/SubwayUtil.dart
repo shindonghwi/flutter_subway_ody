@@ -130,6 +130,8 @@ class SubwayUtil {
         ? subwayName.trim().substring(0, subwayName.length - 1)
         : subwayName;
 
+    debugPrint("findSubwayName: $nm");
+
     for (var info in subwayListFromHosun) {
       final statnName = info["statnName"].toString();
 
@@ -234,6 +236,11 @@ class SubwayUtil {
             return "광교";
           }
           return "광교중앙";
+        }
+      }
+      if (subwayLine == "우이신설선") {
+        if (nm.contains("4.19")) {
+          return statnName;
         }
       }
 
@@ -613,14 +620,14 @@ class SubwayUtil {
     else if (subwayId == "1065") {
       int curIndex = subway1065Lines.indexWhere((map) => map["statnId"] == currentStatnId);
       int maxLength = subway1065Lines.length;
-      if (currentStatnId.compareTo(preStatnId) < 0) {
-        // 서울 -> 청라 국제도시
-        int endIndex = curIndex - 4 < 0 ? 0 : curIndex - 4;
-        subwayList = subway1065Lines.sublist(endIndex, curIndex + 1);
-      } else {
+      if (currentStatnId.compareTo(preStatnId) >= 0 && currentStatnId.compareTo(nextStatnId) <= 0) {
         // 청라 국제도시 -> 서울
         int endIndex = curIndex + 4 > maxLength - 1 ? maxLength - 1 : curIndex + 4;
         subwayList = subway1065Lines.sublist(curIndex, endIndex + 1).reversed;
+      } else {
+        // 서울 -> 청라 국제도시
+        int endIndex = curIndex - 4 < 0 ? 0 : curIndex - 4;
+        subwayList = subway1065Lines.sublist(endIndex, curIndex + 1).reversed;
       }
     }
 
@@ -628,10 +635,10 @@ class SubwayUtil {
     else if (subwayId == "1077") {
       int curIndex = subway1077Lines.indexWhere((map) => map["statnId"] == currentStatnId);
       int maxLength = subway1077Lines.length;
-      if (currentStatnId.compareTo(preStatnId) >= 0) {
+      if (currentStatnId.compareTo(preStatnId) >= 0 && currentStatnId.compareTo(nextStatnId) <= 0) {
         // 광교 -> 신사
         int endIndex = curIndex - 4 < 0 ? 0 : curIndex - 4;
-        subwayList = subway1077Lines.sublist(endIndex, curIndex + 1).reversed;
+        subwayList = subway1077Lines.sublist(endIndex, curIndex + 1);
       } else {
         // 신사 -> 광교
         int endIndex = curIndex + 4 > maxLength - 1 ? maxLength - 1 : curIndex + 4;
@@ -643,14 +650,14 @@ class SubwayUtil {
     else if (subwayId == "1092") {
       int curIndex = subway1092Lines.indexWhere((map) => map["statnId"] == currentStatnId);
       int maxLength = subway1092Lines.length;
-      if (currentStatnId.compareTo(nextStatnId) < 0) {
+      if (currentStatnId.compareTo(preStatnId) >= 0 && currentStatnId.compareTo(nextStatnId) <= 0) {
         // 신설동 -> 북한산우이
         int endIndex = curIndex + 4 > maxLength - 1 ? maxLength - 1 : curIndex + 4;
         subwayList = subway1092Lines.sublist(curIndex, endIndex + 1).reversed;
       } else {
         // 북한산우이 -> 신설동
         int endIndex = curIndex - 4 < 0 ? 0 : curIndex - 4;
-        subwayList = subway1092Lines.sublist(endIndex, curIndex + 1);
+        subwayList = subway1092Lines.sublist(endIndex, curIndex + 1).reversed;
       }
     }
 
@@ -658,13 +665,14 @@ class SubwayUtil {
     else if (subwayId == "1075") {
       int curIndex = subway1075Lines.indexWhere((map) => map["statnId"] == currentStatnId);
       int maxLength = subway1075Lines.length;
-      if (currentStatnId.compareTo(nextStatnId) >= 0) {
+      if (currentStatnId.compareTo(preStatnId) >= 0 && currentStatnId.compareTo(nextStatnId) <= 0) {
         // 인천 -> 청량리
         int endIndex = curIndex + 4 > maxLength - 1 ? maxLength - 1 : curIndex + 4;
         subwayList = subway1075Lines.sublist(curIndex, endIndex + 1);
       } else {
         // 청량리 -> 인천
         int endIndex = curIndex - 4 < 0 ? 0 : curIndex - 4;
+        debugPrint("curIndex : $curIndex || $endIndex");
         subwayList = subway1075Lines.sublist(endIndex, curIndex + 1);
       }
     }
@@ -673,7 +681,6 @@ class SubwayUtil {
     else if (subwayId == "1067") {
       int curIndex = subway1067Lines.indexWhere((map) => map["statnId"] == currentStatnId);
       int maxLength = subway1067Lines.length;
-
       // 상봉 - 광운대
       if (currentStatnId == "1067080120" && nextStatnId == "1067080119") {
         subwayList = subway1067Lines.sublist(curIndex - 1, curIndex + 1).reversed;
@@ -681,7 +688,8 @@ class SubwayUtil {
       // 광운대 -> 상봉행
       else if (currentStatnId == "1067080119" && nextStatnId == "1067080120") {
         subwayList = subway1067Lines.sublist(curIndex, curIndex + 2);
-      } else if (currentStatnId.compareTo(nextStatnId) >= 0) {
+      } else if (currentStatnId.compareTo(preStatnId) >= 0 &&
+          currentStatnId.compareTo(nextStatnId) <= 0) {
         // 춘천 -> 청량리
         int endIndex = curIndex + 4 > maxLength - 1 ? maxLength - 1 : curIndex + 4;
         subwayList = subway1067Lines.sublist(curIndex, endIndex + 1);

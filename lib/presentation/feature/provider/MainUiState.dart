@@ -2,10 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:subway_ody/data/models/ApiResponse.dart';
 import 'package:subway_ody/domain/models/local/LatLng.dart';
-import 'package:subway_ody/domain/models/remote/subway/SubwayRealTimeArrival.dart';
-import 'package:subway_ody/domain/models/remote/subway/SubwayResponse.dart';
 import 'package:subway_ody/domain/usecases/local/GetLatLngUseCase.dart';
 import 'package:subway_ody/domain/usecases/local/GetLocationPermissionUseCase.dart';
 import 'package:subway_ody/domain/usecases/local/GetUserDistanceUseCase.dart';
@@ -62,7 +59,7 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
             final subwayLine = element.subwayLine;
 
 
-            if (!subwayLine.contains("수인분당")){
+            if (!subwayLine.contains("신분당")){
               continue;
             }
             debugPrint("@##@@##@ subwayame : $subwayName, subwayLine : $subwayLine");
@@ -74,10 +71,10 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
             );
 
             if (arrivalRes.data?.status == 500) {
-              if (arrivalRes.data?.message?.contains("해당하는 데이터가 없습니다") == true){
+              if (arrivalRes.data?.message?.contains("해당하는 데이터가 없습니다") == true) {
                 _changeUiState(Failure(ErrorType.not_available.name));
                 return;
-              }else{
+              } else {
                 _changeUiState(Failure(ErrorType.error_500.name));
                 return;
               }
