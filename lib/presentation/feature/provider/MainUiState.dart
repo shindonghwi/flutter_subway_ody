@@ -63,10 +63,10 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
               continue;
             }
 
-            if (!subwayLine.contains("2")) {
-              continue;
-            }
-            debugPrint("@##@@##@ subwayame : $subwayName, subwayLine : $subwayLine");
+            // if (!subwayLine.contains("1")) {
+            //   continue;
+            // }
+            // debugPrint("@##@@##@ subwayame : $subwayName, subwayLine : $subwayLine");
 
             final distance = element.distance;
 

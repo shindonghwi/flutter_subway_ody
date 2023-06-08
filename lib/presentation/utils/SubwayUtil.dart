@@ -142,6 +142,12 @@ class SubwayUtil {
           }
           return "도봉산";
         }
+        if (nm.contains("인천")) {
+          if (nm == "인천") {
+            return "인천";
+          }
+          return "동인천";
+        }
         if (nm.contains("동두천")) {
           if (nm == "동두천") {
             return "동두천";
@@ -367,18 +373,15 @@ class SubwayUtil {
         } else {
           if (currentStatnId.compareTo("1001000100") >= 0 &&
               currentStatnId.compareTo("1001000161") <= 0) {
-            debugPrint("zxcxzc 222222 : }");
             int maxLength = subway1001Lines.length;
             int endIndex = curIndex + 4 > maxLength - 1 ? maxLength - 1 : curIndex + 4;
             subwayList = subway1001Lines.sublist(curIndex, endIndex + 1);
           } else if (currentStatnId.compareTo("1001080142") >= 0 &&
               currentStatnId.compareTo("1001080176") <= 0) {
-            debugPrint("zxcxzc 333333 : }");
             int curIndex =
                 subway1001ShinChangLines.indexWhere((map) => map["statnId"] == currentStatnId);
             subwayList = subway1001ShinChangLines.sublist(curIndex, curIndex + 5);
           } else {
-            debugPrint("zxcxzc 44444 : }");
             int maxLength = subway1001ShinChangLines.length;
             int endIndex = curIndex + 4 > maxLength - 1 ? maxLength - 1 : curIndex + 4;
             subwayList = subway1001ShinChangLines.sublist(

@@ -216,8 +216,51 @@ import 'package:subway_ody/presentation/utils/Common.dart';
 // final x = "127.0561";
 // final y = "37.5447";
 // // 2호선 - 건대입구
-final x = "127.0707";
-final y = "37.5400";
+// final x = "127.0707";
+// final y = "37.5400";
+
+// // 1호선 - 인천
+// final x = "126.6170";
+// final y = "37.4764";
+// // 1호선 - 구일
+// final x = "126.8699";
+// final y = "37.4964";
+// // 1호선 - 구로
+// final x = "126.8822";
+// final y = "37.5035";
+// // 1호선 - 신도림
+// final x = "126.8912";
+// final y = "37.5089";
+// 1호선 - 가산디지털단지
+// final x = "126.8832";
+// final y = "37.4805";
+// // 1호선 - 금천구청
+// final x = "126.8937";
+// final y = "37.4562";
+// // 1호선 - 광명
+// final x = "126.8851";
+// final y = "37.4171";
+// // 1호선 - 병점
+// final x = "127.0332";
+// final y = "37.2069";
+// // 1호선 - 세류
+// final x = "127.0136";
+// final y = "37.2442";
+// // 1호선 - 서동탄
+// final x = "127.0517";
+// final y = "37.1958";
+// // 1호선 - 신창
+// final x = "126.9517";
+// final y = "36.7699";
+// // 1호선 - 평택
+// final x = "127.0852";
+// final y = "36.9911";
+// // 1호선 - 소요산
+// final x = "127.0610";
+// final y = "37.9475";
+// // 1호선 - 동두천
+// final x = "127.0550";
+// final y = "37.9275";
 
 
 
@@ -243,10 +286,10 @@ class KakaoApi {
   /// 위치 권한 요청
   Future<ApiResponse<KakaoLocationResponse>> getRegion(LatLng latLng) async {
     final params = {
-      // 'x': parseFixNumber(latLng.longitude.toString()),
-      // 'y': parseFixNumber(latLng.latitude.toString()),
-      'x': x,
-      'y': y,
+      'x': parseFixNumber(latLng.longitude.toString()),
+      'y': parseFixNumber(latLng.latitude.toString()),
+      // 'x': x,
+      // 'y': y,
     };
 
     final uri = Uri.https(
@@ -283,10 +326,10 @@ class KakaoApi {
   /// 가까운 지하철역 구하기
   Future<ApiResponse<KakaoLocationResponse>> getNearBySubwayStation(LatLng latLng, int distance) async {
     final params = {
-      // 'x': parseFixNumber(latLng.longitude.toString()),
-      // 'y': parseFixNumber(latLng.latitude.toString()),
-      'x': x,
-      'y': y,
+      'x': parseFixNumber(latLng.longitude.toString()),
+      'y': parseFixNumber(latLng.latitude.toString()),
+      // 'x': x,
+      // 'y': y,
       'radius': distance.toString(),
       'query': '역',
       'category_group_code': 'SW8',
