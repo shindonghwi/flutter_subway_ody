@@ -17,22 +17,24 @@ import 'package:subway_ody/presentation/utils/Common.dart';
 import 'package:subway_ody/presentation/utils/SnackBarUtil.dart';
 import 'package:subway_ody/presentation/utils/Throttler.dart';
 
-Throttler throttler = Throttler(milliseconds: 5000);
-
 class MainScreen extends HookConsumerWidget {
-  const MainScreen({Key? key}) : super(key: key);
+  MainScreen({Key? key}) : super(key: key);
+  Throttler throttler = Throttler(milliseconds: 5000);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final uiState = ref.watch(mainUiStateProvider);
     final uiStateRead = ref.read(mainUiStateProvider.notifier);
     final currentRegionRead = ref.read(currentRegionProvider.notifier);
+    final floatingButtonState = useState<bool>(false);
 
     final mainIntentData = useState<MainIntent?>(null);
 
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        uiStateRead.getSubwayData(context, null);
+        throttler.run(() {
+          uiStateRead.getSubwayData(context, null);
+        }, throttle: false);
       });
     }, []);
 
@@ -41,11 +43,16 @@ class MainScreen extends HookConsumerWidget {
         uiState.when(
           success: (event) async {
             mainIntentData.value = event.value;
+            floatingButtonState.value = true;
             currentRegionRead.setRegion(event.value.userRegion);
           },
           failure: (event) async {
             mainIntentData.value = null;
             debugPrint('failure ${event.errorMessage}');
+            floatingButtonState.value = event.errorMessage == ErrorType.not_available.name;
+          },
+          loading: (_) async {
+            floatingButtonState.value = false;
           },
         );
       });
@@ -70,7 +77,7 @@ class MainScreen extends HookConsumerWidget {
           if (uiState is Loading) const CircleLoading(),
         ],
       ),
-      floatingActionButton: (uiState is Success)
+      floatingActionButton: floatingButtonState.value
           ? FloatingActionButton(
               backgroundColor: getColorScheme(context).colorPrimary,
               onPressed: () {
