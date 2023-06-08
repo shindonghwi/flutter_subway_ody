@@ -62,15 +62,25 @@ import 'package:subway_ody/presentation/utils/Common.dart';
 // final x = "127.7240";
 // final y = "37.8637";
 
-//수인분당 - 청량리
-final x = "127.0475";
-final y = "37.5804";
+// //수인분당 - 청량리
+// final x = "127.0475";
+// final y = "37.5804";
 // // 수인분당- 인천
 // final x = "126.6174";
 // final y = "37.4763";
 // 수인분당 - 매교
 // final x = "127.0159";
 // final y = "37.2654";
+
+// // 우이신설 - 신설동
+final x = "127.0232";
+final y = "37.5757";
+// 우이신설 - 화계
+// final x = "127.0173";
+// final y = "37.6340";
+// // 우이신설 - 북한산우이
+// final x = "127.0125";
+// final y = "37.6630";
 
 
 
