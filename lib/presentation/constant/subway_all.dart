@@ -193,6 +193,8 @@ final List<Map<String, String>> realtimeSubwayInfo = [
   {"subwayId": "1003", "statnId": "1003000350", "statnName": "가락시장", "hosunName": "3호선"},
   {"subwayId": "1003", "statnId": "1003000351", "statnName": "경찰병원", "hosunName": "3호선"},
   {"subwayId": "1003", "statnId": "1003000352", "statnName": "오금", "hosunName": "3호선"},
+
+
   {"subwayId": "1004", "statnId": "1004000409", "statnName": "당고개", "hosunName": "4호선"},
   {"subwayId": "1004", "statnId": "1004000410", "statnName": "상계", "hosunName": "4호선"},
   {"subwayId": "1004", "statnId": "1004000411", "statnName": "노원", "hosunName": "4호선"},
@@ -241,6 +243,7 @@ final List<Map<String, String>> realtimeSubwayInfo = [
   {"subwayId": "1004", "statnId": "1004000454", "statnName": "신길온천", "hosunName": "4호선"},
   {"subwayId": "1004", "statnId": "1004000455", "statnName": "정왕", "hosunName": "4호선"},
   {"subwayId": "1004", "statnId": "1004000456", "statnName": "오이도", "hosunName": "4호선"},
+
   {"subwayId": "1005", "statnId": "1005000510", "statnName": "방화", "hosunName": "5호선"},
   {"subwayId": "1005", "statnId": "1005000511", "statnName": "개화산", "hosunName": "5호선"},
   {"subwayId": "1005", "statnId": "1005000512", "statnName": "김포공항", "hosunName": "5호선"},

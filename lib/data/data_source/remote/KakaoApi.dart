@@ -33,8 +33,8 @@ class KakaoApi {
     final params = {
       // 'x': parseFixNumber(latLng.longitude.toString()),
       // 'y': parseFixNumber(latLng.latitude.toString()),
-      'x': '127.10315',
-      'y': '37.61281',
+      'x': '127.080476',
+      'y': '37.67233',
     };
 
     final uri = Uri.https(
@@ -73,8 +73,8 @@ class KakaoApi {
     final params = {
       // 'x': parseFixNumber(latLng.longitude.toString()),
       // 'y': parseFixNumber(latLng.latitude.toString()),
-      'x': '127.10315',
-      'y': '37.61281',
+      'x': '127.080476',
+      'y': '37.67233',
       'radius': distance.toString(),
       'query': '역',
       'category_group_code': 'SW8',
