@@ -63,7 +63,7 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
               continue;
             }
 
-            if (!subwayLine.contains("3")) {
+            if (!subwayLine.contains("2")) {
               continue;
             }
             debugPrint("@##@@##@ subwayame : $subwayName, subwayLine : $subwayLine");

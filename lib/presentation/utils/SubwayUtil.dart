@@ -398,53 +398,20 @@ class SubwayUtil {
       // 까치산 - 신도림
       if ((nextStatnId.compareTo("1002002341") >= 0 && nextStatnId.compareTo("1002002344") <= 0) ||
           (preStatnId.compareTo("1002002341") >= 0 && preStatnId.compareTo("1002002344") <= 0)) {
-        if (nextStatnId.compareTo(currentStatnId) <= 0) {
-          // 신설동행
-          int curIndex = subway1002Out2Lines.indexWhere((map) => map["statnId"] == currentStatnId);
-
-          for (int i = curIndex; i >= 0; i--) {
-            newLines.add(subway1002Out2Lines.elementAt(i));
-            if (newLines.length == count) {
-              break;
-            }
-          }
-          subwayList = newLines;
+        if (isUp) {
+          subwayList = subway1002Out2Lines;
         } else {
-          int curIndex = subway1002Out2Lines.indexWhere((map) => map["statnId"] == currentStatnId);
-          for (int i = curIndex; i < subway1002Out2Lines.length; i++) {
-            newLines.add(subway1002Out2Lines.elementAt(i));
-            if (newLines.length == count) {
-              break;
-            }
-          }
-          subwayList = newLines.reversed;
+          subwayList = subway1002Out2Lines.reversed;
         }
       }
-
       // 신설동 - 용답
       else if ((nextStatnId.compareTo("1002002111") >= 0 &&
               nextStatnId.compareTo("1002002114") <= 0) ||
           (preStatnId.compareTo("1002002111") >= 0 && preStatnId.compareTo("1002002114") <= 0)) {
-        if (nextStatnId.compareTo(currentStatnId) <= 0) {
-          // 신설동행
-          int curIndex = subway1002Out1Lines.indexWhere((map) => map["statnId"] == currentStatnId);
-
-          for (int i = curIndex; i >= 0; i--) {
-            newLines.add(subway1002Out1Lines.elementAt(i));
-            if (newLines.length == count) {
-              break;
-            }
-          }
-          subwayList = newLines;
+        if (!isUp) {
+          subwayList = subway1002Out1Lines;
         } else {
-          int curIndex = subway1002Out1Lines.indexWhere((map) => map["statnId"] == currentStatnId);
-          for (int i = curIndex; i < subway1002Out1Lines.length; i++) {
-            newLines.add(subway1002Out1Lines.elementAt(i));
-            if (newLines.length == count) {
-              break;
-            }
-          }
-          subwayList = newLines.reversed;
+          subwayList = subway1002Out1Lines.reversed;
         }
       }
       // 내선
@@ -746,19 +713,20 @@ class SubwayUtil {
           ];
           subwayList = newLines.toList().reversed.toList();
         }
-      }else if (isUp) {
+      } else if (isUp) {
         int endIndex = curIndex - 4 < 0 ? 0 : curIndex - 4;
         subwayList = subway1063Lines.sublist(endIndex, curIndex + 1).reversed;
       } else {
-        if (currentStatnId.compareTo("1063075335") >= 0){ // 문산이 종점 예외처리
-          newLines.add(subway1063Lines.elementAt(subway1063Lines.indexWhere((map) => map["statnId"] == "1063075335")));
+        if (currentStatnId.compareTo("1063075335") >= 0) {
+          // 문산이 종점 예외처리
+          newLines.add(subway1063Lines
+              .elementAt(subway1063Lines.indexWhere((map) => map["statnId"] == "1063075335")));
           subwayList = newLines.toList();
-        }else{
+        } else {
           int endIndex = curIndex + 4 > maxLength - 1 ? maxLength - 1 : curIndex + 4;
           subwayList = subway1063Lines.sublist(curIndex, endIndex + 1).reversed;
         }
       }
-
     }
     for (var element in subwayList) {
       subwayNameList.add(element["statnName"].toString());
