@@ -132,31 +132,110 @@ class SubwayUtil {
 
     for (var info in subwayListFromHosun) {
       final statnName = info["statnName"].toString();
-      debugPrint("info: $statnName : nm : $nm");
 
-      // if (subwayLine == "6호선") {
-      //   if (statnName.contains("신내")) {
-      //     if (nm == "신내") {
-      //       return "신내";
-      //     }
-      //     return "연신내";
-      //   }
-      // }
+      if (subwayLine == "1호선") {
+        if (nm.contains("도봉")) {
+          if (nm == "도봉") {
+            return "도봉";
+          }
+          return "도봉산";
+        }
+        if (nm.contains("동두천")) {
+          if (nm == "동두천") {
+            return "동두천";
+          }
+          return "동두천중앙";
+        }
+        if (nm == "평택지제") {
+          return "지제";
+        }
+      }
 
-      // if (subwayLine == "1호선") {
-      //   if (statnName.contains("도봉")) {
-      //     if (nm == "도봉") {
-      //       return "도봉";
-      //     }
-      //     return "도봉산";
-      //   }
-      // if (statnName.contains("동두천")) {
-      //   if (nm == "동두천") {
-      //     return "동두천";
-      //   }
-      //   return "동두천중앙";
-      // }
-      // }
+      if (subwayLine == "2호선") {
+        if (nm.contains("잠실")) {
+          if (nm.contains("나루")) {
+            return "잠실나루";
+          } else if (nm.contains("새내")) {
+            return "잠실새내";
+          } else {
+            return "잠실";
+          }
+        }
+      }
+      if (subwayLine == "4호선") {
+        if (nm.contains("미아")) {
+          if (nm == "미아") {
+            return "미아";
+          } else {
+            return "미아사거리";
+          }
+        }
+        if (nm.contains("동대문")) {
+          if (nm == "동대문") {
+            return "동대문";
+          } else {
+            return "동대문역사문화공원";
+          }
+        }
+      }
+      if (subwayLine == "6호선") {
+        if (nm.contains("신내")) {
+          if (nm == "신내") {
+            return "신내";
+          }
+          return "연신내";
+        }
+      }
+      if (subwayLine == "9호선") {
+        if (nm.contains("석촌")) {
+          if (nm == "석촌") {
+            return "석촌";
+          }
+          return "석촌고분";
+        }
+      }
+      if (subwayLine == "경춘선") {
+        if (nm.contains("춘천")) {
+          if (nm == "춘천") {
+            return "춘천";
+          }
+          return "남춘천";
+        }
+      }
+      if (subwayLine == "수인분당선") {
+        if (nm.contains("수원")) {
+          if (nm == "수원") {
+            return "수원";
+          }
+          return "수원시청";
+        }
+        if (nm.contains("인천")) {
+          if (nm == "인천") {
+            return "인천";
+          }
+          return "인천논현";
+        }
+      }
+      if (subwayLine == "신분당선") {
+        if (nm.contains("논현")) {
+          if (nm == "논현") {
+            return "논현";
+          }
+          return "신논현";
+        }
+        if (nm.contains("양재")) {
+          if (nm == "양재") {
+            return "양재";
+          }
+          return "양재시민의숲";
+        }
+        if (nm.contains("광교")) {
+          if (nm == "광교") {
+            return "광교";
+          }
+          return "광교중앙";
+        }
+      }
 
       final a = statnName.contains(nm);
       final b = nm.contains(statnName);
@@ -439,7 +518,7 @@ class SubwayUtil {
           int curIndex = subway1005HanamLines.indexWhere((map) => map["statnId"] == currentStatnId);
           int endIndex = curIndex - 4 < 0 ? 0 : curIndex - 4;
           subwayList = subway1005HanamLines.sublist(endIndex, curIndex + 1);
-        }else{
+        } else {
           int curIndex = subway1005Lines.indexWhere((map) => map["statnId"] == currentStatnId);
           int endIndex = curIndex - 4 < 0 ? 0 : curIndex - 4;
           subwayList = subway1005Lines.sublist(endIndex, curIndex + 1);
