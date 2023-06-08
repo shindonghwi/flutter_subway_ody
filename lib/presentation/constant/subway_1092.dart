@@ -12,5 +12,4 @@ final List<Map<String, String>> subway1092Lines = [
   {"subwayId": "1092", "statnId": "1092004711", "statnName": "성신여대입구", "hosunName": "우이신설선"},
   {"subwayId": "1092", "statnId": "1092004712", "statnName": "보문", "hosunName": "우이신설선"},
   {"subwayId": "1092", "statnId": "1092004713", "statnName": "신설동", "hosunName": "우이신설선"},
-
 ].toList();
