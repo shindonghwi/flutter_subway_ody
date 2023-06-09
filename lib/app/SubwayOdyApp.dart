@@ -45,9 +45,6 @@ class SubwayOdyApp extends HookWidget {
                   routes: RoutingScreen.getAppRoutes(),
 
                   navigatorKey: navigatorKey,
-                  navigatorObservers: [
-                    FirebaseAnalyticsObserver(analytics: Analytics.instance()),
-                  ],
                 );
               }
               return const Center(

@@ -2,6 +2,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:subway_ody/app/env/Environment.dart';
 import 'package:subway_ody/domain/models/local/LatLng.dart';
 import 'package:subway_ody/presentation/feature/setting/models/LanguageType.dart';
+import 'package:subway_ody/presentation/navigation/Route.dart';
 import 'package:subway_ody/presentation/utils/CollectionUtil.dart';
 
 class Analytics {
@@ -10,13 +11,17 @@ class Analytics {
   static FirebaseAnalytics instance() => Analytics().analytics;
 
   static void eventAppOpened() async {
-    if (Environment.buildType == BuildType.dev) instance().logAppOpen();
+    if (Environment.buildType == BuildType.prod) instance().logAppOpen();
+  }
+
+  static void eventScreenRecord(String route) async {
+    if (Environment.buildType == BuildType.prod) instance().setCurrentScreen(screenName: route.route);
   }
 
   /// 거리 설정
   static void eventSetDistance(int distance) async {
     try{
-      if (Environment.buildType == BuildType.dev) {
+      if (Environment.buildType == BuildType.prod) {
         instance().logEvent(
           name: "user-set-distance",
           parameters: {
@@ -39,7 +44,7 @@ class Analytics {
   /// 언어 설정
   static void eventSetLanguage(LanguageType type) async {
     try{
-      if (Environment.buildType == BuildType.dev) {
+      if (Environment.buildType == BuildType.prod) {
         instance().logEvent(
           name: "user-set-language",
           parameters: {
@@ -62,7 +67,7 @@ class Analytics {
   /// 사용자 위 경도 저장
   static void eventSetUserLatLng(LatLng latLng) async {
     try{
-      if (Environment.buildType == BuildType.dev) {
+      if (Environment.buildType == BuildType.prod) {
         instance().logEvent(
           name: "user-set-latlng",
           parameters: {
@@ -89,7 +94,7 @@ class Analytics {
   /// 지하철역 이름 저장
   static void eventFavoriteSubwayName(String subwayName) async {
     try{
-      if (Environment.buildType == BuildType.dev) {
+      if (Environment.buildType == BuildType.prod) {
         instance().logEvent(
           name: "favorite-subway-name",
           parameters: {
@@ -112,7 +117,7 @@ class Analytics {
   /// 지하철역 호선 저장
   static void eventFavoriteSubwayLine(String subwayLine) async {
     try{
-      if (Environment.buildType == BuildType.dev) {
+      if (Environment.buildType == BuildType.prod) {
         instance().logEvent(
           name: "favorite-subway-line",
           parameters: {
@@ -135,7 +140,7 @@ class Analytics {
   /// 수동 새로고침
   static void eventManualRefresh() async {
     try{
-      if (Environment.buildType == BuildType.dev) {
+      if (Environment.buildType == BuildType.prod) {
         instance().logEvent(
           name: "refresh",
           parameters: {
@@ -159,7 +164,7 @@ class Analytics {
   static void eventAddressDo(String? address) async {
     try{
       if (CollectionUtil.isNullEmptyFromString(address)) return;
-      if (Environment.buildType == BuildType.dev) {
+      if (Environment.buildType == BuildType.prod) {
         instance().logEvent(
           name: "address",
           parameters: {
@@ -183,7 +188,7 @@ class Analytics {
   static void eventAddressGu(String? address) async {
     try{
       if (CollectionUtil.isNullEmptyFromString(address)) return;
-      if (Environment.buildType == BuildType.dev) {
+      if (Environment.buildType == BuildType.prod) {
         instance().logEvent(
           name: "address",
           parameters: {
@@ -207,7 +212,7 @@ class Analytics {
   static void eventAddressDong(String? address) async {
     try{
       if (CollectionUtil.isNullEmptyFromString(address)) return;
-      if (Environment.buildType == BuildType.dev) {
+      if (Environment.buildType == BuildType.prod) {
         instance().logEvent(
           name: "address",
           parameters: {

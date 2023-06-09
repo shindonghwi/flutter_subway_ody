@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:subway_ody/firebase/Analytics.dart';
 import 'package:subway_ody/presentation/feature/main/MainScreen.dart';
 import 'package:subway_ody/presentation/feature/setting/SettingScreen.dart';
 import 'package:subway_ody/presentation/feature/splash/SplashScreen.dart';
@@ -23,7 +24,7 @@ enum RoutingScreen {
   }
 
   static getScreen(String route, {dynamic parameter}) {
-    debugPrint("getScreen: $route | parameter: $parameter");
+    Analytics.eventScreenRecord(route);
     switch (route) {
       case "/splash":
         return const SplashScreen();
