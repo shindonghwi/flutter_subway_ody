@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:subway_ody/firebase/Analytics.dart';
 import 'package:subway_ody/presentation/components/CircleLoading.dart';
 import 'package:subway_ody/presentation/feature/main/MainIntent.dart';
 import 'package:subway_ody/presentation/feature/main/widget/MainAppBar.dart';
@@ -82,6 +83,7 @@ class MainScreen extends HookConsumerWidget {
               backgroundColor: getColorScheme(context).colorPrimary,
               onPressed: () {
                 throttler.run(() {
+                  Analytics.eventManualRefresh();
                   uiStateRead.getSubwayData(context, null);
                 }, callback: (remainTime) {
                   SnackBarUtil.show(

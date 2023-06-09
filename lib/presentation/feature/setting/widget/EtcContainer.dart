@@ -7,6 +7,7 @@ import 'package:subway_ody/app/SubwayOdyApp.dart';
 import 'package:subway_ody/app/env/Environment.dart';
 import 'package:subway_ody/domain/usecases/local/GetLanguageUseCase.dart';
 import 'package:subway_ody/domain/usecases/local/PostSaveUserLanguageUseCase.dart';
+import 'package:subway_ody/firebase/Analytics.dart';
 import 'package:subway_ody/presentation/feature/setting/models/LanguageType.dart';
 import 'package:subway_ody/presentation/navigation/Route.dart';
 import 'package:subway_ody/presentation/ui/colors.dart';
@@ -137,6 +138,7 @@ class LanguageSelector extends HookWidget {
                   showChangeLanguagePopUp((callback) async {
                     Navigator.of(context).pop(true);
                     if (callback) {
+                      Analytics.eventSetLanguage(type);
                       selectedLanguageIndex.value = type;
                       await GetIt.instance<PostSaveUserLanguageUseCase>().call(type);
                       Restart.restartApp();

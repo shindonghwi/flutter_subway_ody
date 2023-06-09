@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:subway_ody/domain/usecases/local/PostSaveUserDistanceUseCase.dart';
+import 'package:subway_ody/firebase/Analytics.dart';
 import 'package:subway_ody/presentation/feature/main/widget/bottom_sheet/BottomSheetUtil.dart';
 import 'package:subway_ody/presentation/feature/provider/CurrentRegionNotifier.dart';
 import 'package:subway_ody/presentation/feature/provider/MainUiState.dart';

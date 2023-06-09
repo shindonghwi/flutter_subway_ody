@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:subway_ody/app/env/Environment.dart';
-import 'package:subway_ody/firebase/crashlytics/Crashlytics.dart';
+import 'package:subway_ody/firebase/Crashlytics.dart';
 
 main() async {
   runZonedGuarded<Future<void>>(() async {

@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:subway_ody/app/SubwayOdyApp.dart';
 import 'package:subway_ody/di/locator.dart';
+import 'package:subway_ody/firebase/Analytics.dart';
 import 'package:subway_ody/firebase_options.dart';
 
 enum BuildType { dev, prod }
