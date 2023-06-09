@@ -1,0 +1,16 @@
+final List<Map<String, String>> subway1065Lines = [
+  {"subwayId": "1065", "statnId": "1065006501", "statnName": "서울", "hosunName": "공항철도"},
+  {"subwayId": "1065", "statnId": "1065006502", "statnName": "공덕", "hosunName": "공항철도"},
+  {"subwayId": "1065", "statnId": "1065006503", "statnName": "홍대입구", "hosunName": "공항철도"},
+  {"subwayId": "1065", "statnId": "1065006504", "statnName": "디지털미디어시티", "hosunName": "공항철도"},
+  {"subwayId": "1065", "statnId": "1065065042", "statnName": "마곡나루", "hosunName": "공항철도"},
+  {"subwayId": "1065", "statnId": "1065006505", "statnName": "김포공항", "hosunName": "공항철도"},
+  {"subwayId": "1065", "statnId": "1065006506", "statnName": "계양", "hosunName": "공항철도"},
+  {"subwayId": "1065", "statnId": "1065006507", "statnName": "검암", "hosunName": "공항철도"},
+  {"subwayId": "1065", "statnId": "1065065071", "statnName": "청라국제도시", "hosunName": "공항철도"},
+  {"subwayId": "1065", "statnId": "1065065072", "statnName": "영종", "hosunName": "공항철도"},
+  {"subwayId": "1065", "statnId": "1065006508", "statnName": "운서", "hosunName": "공항철도"},
+  {"subwayId": "1065", "statnId": "1065006509", "statnName": "공항화물청사", "hosunName": "공항철도"},
+  {"subwayId": "1065", "statnId": "1065006510", "statnName": "인천공항1터미널", "hosunName": "공항철도"},
+  {"subwayId": "1065", "statnId": "1065006511", "statnName": "인천공항2터미널", "hosunName": "공항철도"},
+].toList();

@@ -1,4 +1,4 @@
-final List<Map<String,String>> languageData = [
+final List<Map<String, String>> languageData = [
   {
     "line_num": "02호선",
     "station_nm_chn": "龍踏",
@@ -129,7 +129,7 @@ final List<Map<String,String>> languageData = [
     "line_num": "경강선",
     "station_nm_chn": "二梅",
     "station_cd": "1502",
-    "station_nm_jpn": "",
+    "station_nm_jpn": "イメ",
     "station_nm_eng": "Imae",
     "station_nm": "이매",
     "fr_code": "K411"
@@ -138,7 +138,7 @@ final List<Map<String,String>> languageData = [
     "line_num": "경강선",
     "station_nm_chn": "京畿廣州",
     "station_cd": "1504",
-    "station_nm_jpn": "",
+    "station_nm_jpn": "キョンギクァンジュ",
     "station_nm_eng": "GyeonggiGwangju",
     "station_nm": "경기광주",
     "fr_code": "K413"
@@ -147,7 +147,7 @@ final List<Map<String,String>> languageData = [
     "line_num": "경강선",
     "station_nm_chn": "世宗大王陵",
     "station_cd": "1510",
-    "station_nm_jpn": "",
+    "station_nm_jpn": "セジョンデワンヌン",
     "station_nm_eng": "Sejongdaewangneung",
     "station_nm": "세종대왕릉",
     "fr_code": "K419"
@@ -831,7 +831,7 @@ final List<Map<String,String>> languageData = [
     "line_num": "수인분당선",
     "station_nm_chn": "靈通",
     "station_cd": "1868",
-    "station_nm_jpn": "？通",
+    "station_nm_jpn": "灵通",
     "station_nm_eng": "Yeongtong",
     "station_nm": "영통",
     "fr_code": "K240"
@@ -993,7 +993,7 @@ final List<Map<String,String>> languageData = [
     "line_num": "수인분당선",
     "station_nm_chn": "源仁齋",
     "station_cd": "1884",
-    "station_nm_jpn": "源仁？",
+    "station_nm_jpn": "源仁斋",
     "station_nm_eng": "Woninjae",
     "station_nm": "원인재",
     "fr_code": "K265"
@@ -1587,7 +1587,7 @@ final List<Map<String,String>> languageData = [
     "line_num": "03호선",
     "station_nm_chn": "高速巴士客運",
     "station_cd": "0329",
-    "station_nm_jpn": "高速バスタ?ミナル",
+    "station_nm_jpn": "コソクターミナル",
     "station_nm_eng": "Express Bus Terminal",
     "station_nm": "고속터미널",
     "fr_code": "339"
@@ -1639,9 +1639,9 @@ final List<Map<String,String>> languageData = [
   },
   {
     "line_num": "01호선",
-    "station_nm_chn": "",
+    "station_nm_chn": "汤井",
     "station_cd": "1404",
-    "station_nm_jpn": "",
+    "station_nm_jpn": "タンジョン",
     "station_nm_eng": "Tangjeong",
     "station_nm": "탕정",
     "fr_code": "P173"
@@ -2406,7 +2406,7 @@ final List<Map<String,String>> languageData = [
     "line_num": "07호선",
     "station_nm_chn": "高速巴士客運",
     "station_cd": "2736",
-    "station_nm_jpn": "高速バスタ?ミナル",
+    "station_nm_jpn": "コソクターミナル",
     "station_nm_eng": "Express Bus Terminal",
     "station_nm": "고속터미널",
     "fr_code": "734"
@@ -2728,9 +2728,9 @@ final List<Map<String,String>> languageData = [
   },
   {
     "line_num": "경춘선",
-    "station_nm_chn": "",
+    "station_nm_chn": "光云大学",
     "station_cd": "1305",
-    "station_nm_jpn": "",
+    "station_nm_jpn": "クァンウンデ",
     "station_nm_eng": "Kwangwoon Univ.",
     "station_nm": "광운대",
     "fr_code": "P116"
@@ -3252,7 +3252,7 @@ final List<Map<String,String>> languageData = [
     "line_num": "경강선",
     "station_nm_chn": "驪州",
     "station_cd": "1511",
-    "station_nm_jpn": "",
+    "station_nm_jpn": "ヨジュ",
     "station_nm_eng": "Yeoju",
     "station_nm": "여주",
     "fr_code": "K420"
@@ -3657,7 +3657,7 @@ final List<Map<String,String>> languageData = [
     "line_num": "경강선",
     "station_nm_chn": "昆池岩",
     "station_cd": "1506",
-    "station_nm_jpn": "",
+    "station_nm_jpn": "コンジアム",
     "station_nm_eng": "Gonjiam",
     "station_nm": "곤지암",
     "fr_code": "K415"
@@ -3720,7 +3720,7 @@ final List<Map<String,String>> languageData = [
     "line_num": "경강선",
     "station_nm_chn": "利川",
     "station_cd": "1508",
-    "station_nm_jpn": "",
+    "station_nm_jpn": "セジョンデワンヌン",
     "station_nm_eng": "Icheon",
     "station_nm": "이천",
     "fr_code": "K417"
@@ -3810,7 +3810,7 @@ final List<Map<String,String>> languageData = [
     "line_num": "경강선",
     "station_nm_chn": "三洞",
     "station_cd": "1503",
-    "station_nm_jpn": "",
+    "station_nm_jpn": "サムドン",
     "station_nm_eng": "Samdong",
     "station_nm": "삼동",
     "fr_code": "K412"
@@ -3936,7 +3936,7 @@ final List<Map<String,String>> languageData = [
     "line_num": "경강선",
     "station_nm_chn": "草月",
     "station_cd": "1505",
-    "station_nm_jpn": "",
+    "station_nm_jpn": "チョウォル",
     "station_nm_eng": "Chowol",
     "station_nm": "초월",
     "fr_code": "K414"
@@ -3945,7 +3945,7 @@ final List<Map<String,String>> languageData = [
     "line_num": "경강선",
     "station_nm_chn": "新屯陶藝村",
     "station_cd": "1507",
-    "station_nm_jpn": "",
+    "station_nm_jpn": "シンドゥンドイェチョン",
     "station_nm_eng": "Sindundoyechon",
     "station_nm": "신둔도예촌",
     "fr_code": "K416"
@@ -3990,7 +3990,7 @@ final List<Map<String,String>> languageData = [
     "line_num": "경강선",
     "station_nm_chn": "板橋",
     "station_cd": "1501",
-    "station_nm_jpn": "",
+    "station_nm_jpn": "パンギョ",
     "station_nm_eng": "Pangyo",
     "station_nm": "판교",
     "fr_code": "K410"
@@ -3999,7 +3999,7 @@ final List<Map<String,String>> languageData = [
     "line_num": "경강선",
     "station_nm_chn": "夫鉢",
     "station_cd": "1509",
-    "station_nm_jpn": "",
+    "station_nm_jpn": "プバル",
     "station_nm_eng": "Bubal",
     "station_nm": "부발",
     "fr_code": "K418"
@@ -4546,7 +4546,7 @@ final List<Map<String,String>> languageData = [
   },
   {
     "line_num": "07호선",
-    "station_nm_chn": "",
+    "station_nm_chn": "纛岛游园地",
     "station_cd": "2730",
     "station_nm_jpn": "トゥクソム遊園地",
     "station_nm_eng": "Ttukseom Park",
@@ -4690,18 +4690,18 @@ final List<Map<String,String>> languageData = [
   },
   {
     "line_num": "인천2호선",
-    "station_nm_chn": "",
+    "station_nm_chn": "旺吉",
     "station_cd": "3202",
-    "station_nm_jpn": "",
+    "station_nm_jpn": "ワンギル",
     "station_nm_eng": "Wanggil",
     "station_nm": "왕길",
     "fr_code": "I202"
   },
   {
     "line_num": "인천2호선",
-    "station_nm_chn": "",
+    "station_nm_chn": "石泉十字路口",
     "station_cd": "3222",
-    "station_nm_jpn": "",
+    "station_nm_jpn": "ソクチョンサゴリ",
     "station_nm_eng": "Seokcheon Sageori",
     "station_nm": "석천사거리",
     "fr_code": "I222"
@@ -5079,7 +5079,7 @@ final List<Map<String,String>> languageData = [
     "line_num": "인천선",
     "station_nm_chn": "仁川巴士客運",
     "station_cd": "3126",
-    "station_nm_jpn": "仁川バスタ?ミナル",
+    "station_nm_jpn": "インチョンタ-ミナル",
     "station_nm_eng": "Incheon Bus Terminal",
     "station_nm": "인천터미널",
     "fr_code": "I126"
@@ -5185,234 +5185,234 @@ final List<Map<String,String>> languageData = [
   },
   {
     "line_num": "인천선",
-    "station_nm_chn": "",
+    "station_nm_chn": "松岛月光庆典公园",
     "station_cd": "3139",
-    "station_nm_jpn": "",
+    "station_nm_jpn": "ソンドダルピッチュクチェゴンウォン",
     "station_nm_eng": "Songdo Moonlight Festival Park",
     "station_nm": "송도달빛축제공원",
     "fr_code": "I139"
   },
   {
     "line_num": "인천2호선",
-    "station_nm_chn": "",
+    "station_nm_chn": "黔丹梧柳(黔丹产业园区)",
     "station_cd": "3201",
-    "station_nm_jpn": "",
+    "station_nm_jpn": "コムダンオリュ",
     "station_nm_eng": "Geomdan Oryu",
     "station_nm": "검단오류",
     "fr_code": "I201"
   },
   {
     "line_num": "인천2호선",
-    "station_nm_chn": "",
+    "station_nm_chn": "黔丹十字路口",
     "station_cd": "3203",
-    "station_nm_jpn": "",
+    "station_nm_jpn": "コムダンサゴリ",
     "station_nm_eng": "Geomdan Sageori",
     "station_nm": "검단사거리",
     "fr_code": "I203"
   },
   {
     "line_num": "인천2호선",
-    "station_nm_chn": "",
+    "station_nm_chn": "麻田",
     "station_cd": "3204",
-    "station_nm_jpn": "",
+    "station_nm_jpn": "マジョン",
     "station_nm_eng": "Majeon",
     "station_nm": "마전",
     "fr_code": "I204"
   },
   {
     "line_num": "인천2호선",
-    "station_nm_chn": "",
+    "station_nm_chn": "完井",
     "station_cd": "3205",
-    "station_nm_jpn": "",
+    "station_nm_jpn": "ワンジョン",
     "station_nm_eng": "Wanjeong",
     "station_nm": "완정",
     "fr_code": "I205"
   },
   {
     "line_num": "인천2호선",
-    "station_nm_chn": "",
+    "station_nm_chn": "篤亭",
     "station_cd": "3206",
-    "station_nm_jpn": "",
+    "station_nm_jpn": "ドクチョン",
     "station_nm_eng": "Dokjeong",
     "station_nm": "독정",
     "fr_code": "I206"
   },
   {
     "line_num": "인천2호선",
-    "station_nm_chn": "",
+    "station_nm_chn": "黔岩",
     "station_cd": "3207",
-    "station_nm_jpn": "",
+    "station_nm_jpn": "コマム",
     "station_nm_eng": "Geomam",
     "station_nm": "검암",
     "fr_code": "I207"
   },
   {
     "line_num": "인천2호선",
-    "station_nm_chn": "",
+    "station_nm_chn": "黔石",
     "station_cd": "3208",
-    "station_nm_jpn": "",
+    "station_nm_jpn": "コムバウィ",
     "station_nm_eng": "Geombawi",
     "station_nm": "검바위",
     "fr_code": "I208"
   },
   {
     "line_num": "인천2호선",
-    "station_nm_chn": "",
+    "station_nm_chn": "亚运会赛场(公村十字路口)",
     "station_cd": "3209",
-    "station_nm_jpn": "",
+    "station_nm_jpn": "アシア-ドキョンギジャン",
     "station_nm_eng": "Asiad Stadium",
     "station_nm": "아시아드경기장",
     "fr_code": "I209"
   },
   {
     "line_num": "인천2호선",
-    "station_nm_chn": "",
+    "station_nm_chn": "西区厅",
     "station_cd": "3210",
-    "station_nm_jpn": "",
+    "station_nm_jpn": "ソグチョン",
     "station_nm_eng": "Seo-gu Office",
     "station_nm": "서구청",
     "fr_code": "I210"
   },
   {
     "line_num": "인천2호선",
-    "station_nm_chn": "",
+    "station_nm_chn": "佳亭(楼苑城)",
     "station_cd": "3211",
-    "station_nm_jpn": "",
+    "station_nm_jpn": "カジョン",
     "station_nm_eng": "Gajeong",
     "station_nm": "가정",
     "fr_code": "I211"
   },
   {
     "line_num": "인천2호선",
-    "station_nm_chn": "",
+    "station_nm_chn": "佳亭中央市场",
     "station_cd": "3212",
-    "station_nm_jpn": "",
+    "station_nm_jpn": "カジョンチュンアンシジャン",
     "station_nm_eng": "Gajeong Jungang Market",
     "station_nm": "가정중앙시장",
     "fr_code": "I212"
   },
   {
     "line_num": "인천2호선",
-    "station_nm_chn": "",
+    "station_nm_chn": "石南(龟市场)",
     "station_cd": "3213",
-    "station_nm_jpn": "",
+    "station_nm_jpn": "ソンナム",
     "station_nm_eng": "Seongnam",
     "station_nm": "석남",
     "fr_code": "I213"
   },
   {
     "line_num": "인천2호선",
-    "station_nm_chn": "",
+    "station_nm_chn": "西部女性会馆",
     "station_cd": "3214",
-    "station_nm_jpn": "",
+    "station_nm_jpn": "ソブヨソンフェグァン",
     "station_nm_eng": "West Woman's Community Center",
     "station_nm": "서부여성회관",
     "fr_code": "I214"
   },
   {
     "line_num": "인천2호선",
-    "station_nm_chn": "",
+    "station_nm_chn": "仁川佳佐",
     "station_cd": "3215",
-    "station_nm_jpn": "",
+    "station_nm_jpn": "インチョンカジュア",
     "station_nm_eng": "Incheon Gajwa",
     "station_nm": "인천가좌",
     "fr_code": "I215"
   },
   {
     "line_num": "인천2호선",
-    "station_nm_chn": "",
+    "station_nm_chn": "蝲蛄溪",
     "station_cd": "3216",
-    "station_nm_jpn": "",
+    "station_nm_jpn": "カジェウル",
     "station_nm_eng": "Gajaeul",
     "station_nm": "가재울",
     "fr_code": "I216"
   },
   {
     "line_num": "인천2호선",
-    "station_nm_chn": "",
+    "station_nm_chn": "朱安国家产团(仁川J谷)",
     "station_cd": "3217",
-    "station_nm_jpn": "",
+    "station_nm_jpn": "チュアンクッカサンダン",
     "station_nm_eng": "Juan National Industrial Complex",
     "station_nm": "주안국가산단",
     "fr_code": "I217"
   },
   {
     "line_num": "인천2호선",
-    "station_nm_chn": "",
+    "station_nm_chn": "朱安",
     "station_cd": "3218",
-    "station_nm_jpn": "",
+    "station_nm_jpn": "チュアン",
     "station_nm_eng": "Juan",
     "station_nm": "주안",
     "fr_code": "I218"
   },
   {
     "line_num": "인천2호선",
-    "station_nm_chn": "",
+    "station_nm_chn": "市民公园(文化创作地带)",
     "station_cd": "3219",
-    "station_nm_jpn": "",
+    "station_nm_jpn": "シミンゴンウォン",
     "station_nm_eng": "Citizens Park",
     "station_nm": "시민공원",
     "fr_code": "I219"
   },
   {
     "line_num": "인천2호선",
-    "station_nm_chn": "",
+    "station_nm_chn": "石岩市场",
     "station_cd": "3220",
-    "station_nm_jpn": "",
+    "station_nm_jpn": "ソッバウィシジャン",
     "station_nm_eng": "Seokbawi Market",
     "station_nm": "석바위시장",
     "fr_code": "I220"
   },
   {
     "line_num": "인천2호선",
-    "station_nm_chn": "",
+    "station_nm_chn": "仁川市厅",
     "station_cd": "3221",
-    "station_nm_jpn": "",
+    "station_nm_jpn": "インチョンシチョン",
     "station_nm_eng": "Inchon City Hall",
     "station_nm": "인천시청",
     "fr_code": "I221"
   },
   {
     "line_num": "인천2호선",
-    "station_nm_chn": "",
+    "station_nm_chn": "沙丘市场",
     "station_cd": "3223",
-    "station_nm_jpn": "",
+    "station_nm_jpn": "モレネシジャン",
     "station_nm_eng": "Moraenae Market",
     "station_nm": "모래내시장",
     "fr_code": "I223"
   },
   {
     "line_num": "인천2호선",
-    "station_nm_chn": "",
+    "station_nm_chn": "万寿",
     "station_cd": "3224",
-    "station_nm_jpn": "",
+    "station_nm_jpn": "マンス",
     "station_nm_eng": "Mansu",
     "station_nm": "만수",
     "fr_code": "I224"
   },
   {
     "line_num": "인천2호선",
-    "station_nm_chn": "",
+    "station_nm_chn": "南洞区厅",
     "station_cd": "3225",
-    "station_nm_jpn": "",
+    "station_nm_jpn": "ナムドングチョン",
     "station_nm_eng": "Namdong-gu Office",
     "station_nm": "남동구청",
     "fr_code": "I225"
   },
   {
     "line_num": "인천2호선",
-    "station_nm_chn": "",
+    "station_nm_chn": "仁川大公园",
     "station_cd": "3226",
-    "station_nm_jpn": "",
+    "station_nm_jpn": "インチョンテゴンウォン",
     "station_nm_eng": "Incheon Grand Park",
     "station_nm": "인천대공원",
     "fr_code": "I226"
   },
   {
     "line_num": "인천2호선",
-    "station_nm_chn": "",
+    "station_nm_chn": "云宴",
     "station_cd": "3227",
-    "station_nm_jpn": "",
+    "station_nm_jpn": "ウニョン",
     "station_nm_eng": "Unyeon",
     "station_nm": "운연",
     "fr_code": "I227"
@@ -5835,7 +5835,7 @@ final List<Map<String,String>> languageData = [
     "line_num": "09호선",
     "station_nm_chn": "高速巴士客運",
     "station_cd": "4123",
-    "station_nm_jpn": "高速バスタ?ミナル",
+    "station_nm_jpn": "コソクターミナル",
     "station_nm_eng": "Express Bus Terminal",
     "station_nm": "고속터미널",
     "fr_code": "923"
@@ -5925,25 +5925,25 @@ final List<Map<String,String>> languageData = [
     "line_num": "공항철도",
     "station_nm_chn": "空港貨物廳舍",
     "station_cd": "4212",
-    "station_nm_jpn": "空港貨物タ?ミナル",
+    "station_nm_jpn": "空港貨物ターミナル",
     "station_nm_eng": "Incheon Intl. Airport Cargo Terminal",
     "station_nm": "공항화물청사",
     "fr_code": "A09"
   },
   {
     "line_num": "공항철도",
-    "station_nm_chn": "仁川??机? 1?航站?",
+    "station_nm_chn": "仁川国际机场 1号航站楼",
     "station_cd": "4213",
-    "station_nm_jpn": "仁川?際空港 1タ?ミナル",
+    "station_nm_jpn": "仁川国際空港　1ターミナル",
     "station_nm_eng": "Incheon Intl. Airport",
     "station_nm": "인천공항1터미널",
     "fr_code": "A10"
   },
   {
     "line_num": "공항철도",
-    "station_nm_chn": "仁川??机? 2?航站?",
+    "station_nm_chn": "仁川国际机场 2号航站楼",
     "station_cd": "4215",
-    "station_nm_jpn": "仁川?際空港 ２タ?ミナル",
+    "station_nm_jpn": "仁川国際空港　２ターミナル",
     "station_nm_eng": "Incheon Int’l Airport Terminal 2",
     "station_nm": "인천공항2터미널",
     "fr_code": "A11"
@@ -5968,7 +5968,7 @@ final List<Map<String,String>> languageData = [
   },
   {
     "line_num": "신분당선",
-    "station_nm_chn": "??",
+    "station_nm_chn": "论县",
     "station_cd": "4305",
     "station_nm_jpn": "ノンヒョン",
     "station_nm_eng": "Nonhyeon",
@@ -6256,7 +6256,7 @@ final List<Map<String,String>> languageData = [
   },
   {
     "line_num": "서해선",
-    "station_nm_chn": "新?",
+    "station_nm_chn": "新岘",
     "station_cd": "4808",
     "station_nm_jpn": "シンヒョン",
     "station_nm_eng": "Sinhyeon",
@@ -6265,7 +6265,7 @@ final List<Map<String,String>> languageData = [
   },
   {
     "line_num": "서해선",
-    "station_nm_chn": "始?市?",
+    "station_nm_chn": "始兴市厅",
     "station_cd": "4809",
     "station_nm_jpn": "シフンシチョン",
     "station_nm_eng": "Siheung City Hall",
@@ -6274,7 +6274,7 @@ final List<Map<String,String>> languageData = [
   },
   {
     "line_num": "서해선",
-    "station_nm_chn": "始?陵谷",
+    "station_nm_chn": "始兴陵谷",
     "station_cd": "4810",
     "station_nm_jpn": "シフンヌンゴク",
     "station_nm_eng": "Siheung Neunggok",
@@ -6283,7 +6283,7 @@ final List<Map<String,String>> languageData = [
   },
   {
     "line_num": "서해선",
-    "station_nm_chn": "?美",
+    "station_nm_chn": "达美",
     "station_cd": "4811",
     "station_nm_jpn": "タルミ",
     "station_nm_eng": "Dalmi",
@@ -6319,7 +6319,7 @@ final List<Map<String,String>> languageData = [
   },
   {
     "line_num": "서해선",
-    "station_nm_chn": "元?",
+    "station_nm_chn": "元时",
     "station_cd": "4815",
     "station_nm_jpn": "ウォンシ",
     "station_nm_eng": "Wonsi",
@@ -6751,7 +6751,7 @@ final List<Map<String,String>> languageData = [
   },
   {
     "line_num": "서해선",
-    "station_nm_chn": "始?大也",
+    "station_nm_chn": "始兴大也",
     "station_cd": "4806",
     "station_nm_jpn": "シフンデヤ",
     "station_nm_eng": "Siheung Daeya",
@@ -6762,7 +6762,7 @@ final List<Map<String,String>> languageData = [
     "line_num": "서해선",
     "station_nm_chn": "新川",
     "station_cd": "4807",
-    "station_nm_jpn": "シンチョン(新川)?",
+    "station_nm_jpn": "シンチョン(新川)",
     "station_nm_eng": "Sincheon",
     "station_nm": "신천",
     "fr_code": "844"

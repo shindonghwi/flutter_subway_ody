@@ -1,17 +1,22 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:get_it/get_it.dart';
 import 'package:subway_ody/domain/usecases/local/GetLanguageUseCase.dart';
+import 'package:subway_ody/firebase/Analytics.dart';
 import 'package:subway_ody/presentation/navigation/Route.dart';
 import 'package:subway_ody/presentation/ui/theme.dart';
 
-class SubwayOdyApp extends StatelessWidget {
+class SubwayOdyApp extends HookWidget {
   static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-  static Locale currentLocale = Locale('ko');
+  static Locale currentLocale = const Locale('ko');
   const SubwayOdyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
+    Analytics.eventAppOpened();
+
     return LayoutBuilder(
       builder: (context, constraints) {
         if (constraints.maxWidth != 0) {

@@ -2,6 +2,13 @@ import 'package:flutter/cupertino.dart';
 
 class CollectionUtil{
 
+  static bool isNullEmptyFromString(String? data){
+    if (data == null || data.isEmpty) {
+      return true;
+    }
+    return false;
+  }
+
   static bool isNullorEmpty(List<dynamic>? items){
     if (items == null || items.isEmpty) {
       return true;

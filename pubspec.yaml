@@ -29,6 +29,11 @@ dependencies:
   app_settings: ^4.2.0
   package_info_plus: ^4.0.2
   restart_app: ^1.1.2
+  change_app_package_name: ^1.1.0
+  url_launcher: ^6.1.11
+  firebase_core: ^2.13.1
+  firebase_analytics: ^10.4.2
+  firebase_crashlytics: ^3.3.2
 
 dev_dependencies:
   flutter_test:
@@ -63,14 +68,14 @@ flutter:
           weight: 900
 
 flutter_native_splash:
-#  image: assets/imgs/logo.png
-#  image_dark: assets/imgs/logo.png
+  image: assets/imgs/splash_bg.png
+  image_dark: assets/imgs/splash_bg.png
   color: "#FC4F00"
   color_dark: "#FC4F00"
 
   # Android 12 이상 버전에서 적용
   android_12:
-#    image: assets/imgs/logo.png
-#    image_dark: assets/imgs/logo.png
+    image: assets/imgs/splash_bg.png
+    image_dark: assets/imgs/splash_bg.png
     color: "#FC4F00"
     color_dark: "#FC4F00"

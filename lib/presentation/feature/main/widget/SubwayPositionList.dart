@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -35,17 +33,31 @@ class SubwayPositionList extends HookWidget {
     LanguageType type = SystemUtil.getLanguageType(SubwayOdyApp.currentLocale);
 
     final double horizontalPadding;
-    final double spacing;
+    double spacing = 0.0;
     final double contentWidth;
 
     if (type == LanguageType.ENG) {
       horizontalPadding = getMediaQuery(context).size.width * 0.03;
-      spacing = getMediaQuery(context).size.width * 0.088;
       contentWidth = getMediaQuery(context).size.width * 0.23;
     } else {
       horizontalPadding = getMediaQuery(context).size.width * 0.064;
-      spacing = getMediaQuery(context).size.width * 0.088;
       contentWidth = getMediaQuery(context).size.width * 0.174;
+    }
+
+    if (positionList.length == 9) {
+      // 5개 역이 보일떄
+      spacing = getMediaQuery(context).size.width * 0.088;
+    } else if (positionList.length == 7) {
+      // 4개역만 보일때
+      spacing = getMediaQuery(context).size.width * 0.116;
+    } else if (positionList.length == 5) {
+      // 3개역만 보일때
+      spacing = getMediaQuery(context).size.width * 0.176;
+    } else if (positionList.length == 3) {
+      // 2개역만 보일때
+      spacing = getMediaQuery(context).size.width * 0.352;
+    } else if (positionList.length == 1) {
+      spacing = getMediaQuery(context).size.width * 0.352;
     }
 
     return Container(
@@ -58,7 +70,9 @@ class SubwayPositionList extends HookWidget {
             return Positioned.fill(
               left: index * spacing,
               child: Align(
-                alignment: Alignment.centerLeft,
+                alignment: positionList.length == 1 && !isUp
+                    ? Alignment.centerRight
+                    : Alignment.centerLeft,
                 child: positionList[index].first != -1
                     ? SizedBox(
                         width: contentWidth, // 첫 번째 아이템의 넓이
@@ -70,6 +84,15 @@ class SubwayPositionList extends HookWidget {
                         ),
                       )
                     : const SizedBox(),
+                // child:SizedBox(
+                //         width: contentWidth, // 첫 번째 아이템의 넓이
+                //         child: SubwayPositionItem(
+                //           mainColor: mainColor,
+                //           isUp: isUp,
+                //           destination: destination,
+                //           btrainSttus: btrainSttus,
+                //         ),
+                //       )
               ),
             );
           }).reversed.toList()),

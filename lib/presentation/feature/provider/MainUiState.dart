@@ -2,16 +2,14 @@ import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:subway_ody/data/models/ApiResponse.dart';
 import 'package:subway_ody/domain/models/local/LatLng.dart';
-import 'package:subway_ody/domain/models/remote/subway/SubwayRealTimeArrival.dart';
-import 'package:subway_ody/domain/models/remote/subway/SubwayResponse.dart';
 import 'package:subway_ody/domain/usecases/local/GetLatLngUseCase.dart';
 import 'package:subway_ody/domain/usecases/local/GetLocationPermissionUseCase.dart';
 import 'package:subway_ody/domain/usecases/local/GetUserDistanceUseCase.dart';
 import 'package:subway_ody/domain/usecases/remote/GetKakaoLatLngToRegionUseCase.dart';
 import 'package:subway_ody/domain/usecases/remote/GetNearBySubwayStationUseCase.dart';
 import 'package:subway_ody/domain/usecases/remote/GetSubwayArrivalUseCase.dart';
+import 'package:subway_ody/presentation/constant/language.dart';
 import 'package:subway_ody/presentation/feature/main/MainIntent.dart';
 import 'package:subway_ody/presentation/feature/main/models/NearByStation.dart';
 import 'package:subway_ody/presentation/feature/main/models/SubwayModel.dart';
@@ -43,7 +41,6 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
     _changeUiState(Loading());
 
     List<SubwayModel> subwayDataList = [];
-    Map<String, Pair<List<String>, SubwayDirectionStationModel>> updnMap = {};
 
     final isPermissionGranted = await _checkLocationPermission();
 
@@ -61,6 +58,16 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
           for (var element in nearByStationList!) {
             final subwayName = element.subwayName;
             final subwayLine = element.subwayLine;
+
+            if (subwayName.isEmpty){
+              continue;
+            }
+
+            // if (!subwayLine.contains("1")) {
+            //   continue;
+            // }
+            // debugPrint("@##@@##@ subwayame : $subwayName, subwayLine : $subwayLine");
+
             final distance = element.distance;
 
             final arrivalRes = await GetIt.instance<GetSubwayArrivalUseCase>().call(
@@ -68,8 +75,13 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
             );
 
             if (arrivalRes.data?.status == 500) {
-              _changeUiState(Failure(ErrorType.error_500.name));
-              return;
+              if (arrivalRes.data?.message?.contains("해당하는 데이터가 없습니다") == true) {
+                _changeUiState(Failure(ErrorType.not_available.name));
+                return;
+              } else {
+                _changeUiState(Failure(ErrorType.error_500.name));
+                return;
+              }
             } else if (arrivalRes.status == 200) {
               var arrivalInfo = arrivalRes.data;
               if (CollectionUtil.isNullorEmpty(arrivalInfo?.realtimeArrivalList)) {
@@ -97,6 +109,7 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
                   currentStatnId: arrivalList.first.statnId,
                   preStatnId: arrivalList.first.statnFid,
                   nextStatnId: arrivalList.first.statnTid,
+                  destination: arrivalList.first.trainLineNm.split(" ").first,
                   isUp: arrivalList.first.ordkey.startsWith("0"),
                 );
 
@@ -210,6 +223,8 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
       final sn = element.place_name.split(" ").first;
       final sl = element.place_name.split(" ").last;
       final findSn = SubwayUtil.findSubwayName(subwayName: sn, subwayLine: sl);
+
+      debugPrint("_requestNearByStation findSn : $findSn");
 
       nearByStationList.add(NearByStation(
           subwayName: findSn,

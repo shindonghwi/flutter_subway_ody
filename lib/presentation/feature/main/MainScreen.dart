@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:subway_ody/firebase/Analytics.dart';
 import 'package:subway_ody/presentation/components/CircleLoading.dart';
 import 'package:subway_ody/presentation/feature/main/MainIntent.dart';
 import 'package:subway_ody/presentation/feature/main/widget/MainAppBar.dart';
@@ -26,12 +27,15 @@ class MainScreen extends HookConsumerWidget {
     final uiState = ref.watch(mainUiStateProvider);
     final uiStateRead = ref.read(mainUiStateProvider.notifier);
     final currentRegionRead = ref.read(currentRegionProvider.notifier);
+    final floatingButtonState = useState<bool>(false);
 
     final mainIntentData = useState<MainIntent?>(null);
 
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        uiStateRead.getSubwayData(context, null);
+        throttler.run(() {
+          uiStateRead.getSubwayData(context, null);
+        }, throttle: false);
       });
     }, []);
 
@@ -40,10 +44,16 @@ class MainScreen extends HookConsumerWidget {
         uiState.when(
           success: (event) async {
             mainIntentData.value = event.value;
+            floatingButtonState.value = true;
             currentRegionRead.setRegion(event.value.userRegion);
           },
           failure: (event) async {
+            mainIntentData.value = null;
             debugPrint('failure ${event.errorMessage}');
+            floatingButtonState.value = event.errorMessage == ErrorType.not_available.name;
+          },
+          loading: (_) async {
+            floatingButtonState.value = false;
           },
         );
       });
@@ -68,11 +78,12 @@ class MainScreen extends HookConsumerWidget {
           if (uiState is Loading) const CircleLoading(),
         ],
       ),
-      floatingActionButton: (uiState is Success)
+      floatingActionButton: floatingButtonState.value
           ? FloatingActionButton(
               backgroundColor: getColorScheme(context).colorPrimary,
               onPressed: () {
                 throttler.run(() {
+                  Analytics.eventManualRefresh();
                   uiStateRead.getSubwayData(context, null);
                 }, callback: (remainTime) {
                   SnackBarUtil.show(

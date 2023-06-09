@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class Throttler {
   final int milliseconds;
 
@@ -10,11 +8,11 @@ class Throttler {
   Throttler({required this.milliseconds})
       : _lastActionTime = DateTime.now().millisecondsSinceEpoch;
 
-  void run(void Function() action, {Function(int)? callback}) {
-    if (_millisecondsSinceEpoch - _lastActionTime > milliseconds) {
+  void run(void Function() action, {Function(int)? callback, bool throttle = true}) {
+    if (!throttle || _millisecondsSinceEpoch - _lastActionTime > milliseconds) {
       action();
       _lastActionTime = _millisecondsSinceEpoch;
-    }else{
+    } else {
       callback?.call((_millisecondsSinceEpoch - _lastActionTime) ~/ 1000);
     }
   }
