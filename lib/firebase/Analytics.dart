@@ -15,7 +15,7 @@ class Analytics {
   }
 
   static void eventScreenRecord(String route) async {
-    if (Environment.buildType == BuildType.prod) instance().setCurrentScreen(screenName: route.route);
+    if (Environment.buildType == BuildType.prod) instance().setCurrentScreen(screenName: route);
   }
 
   /// 거리 설정
