@@ -33,6 +33,7 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
   MainUiStateNotifier() : super(Loading());
 
   LatLng? latLng;
+  String userRegion = "";
 
   void _changeUiState(UIState<MainIntent> s) => state = s;
 
@@ -51,6 +52,8 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
         _changeUiState(Failure(ErrorType.gps_error.name));
       } else {
         List<String>? addressList = await _requestLatLngToRegion();
+        _setUserRegion(addressList); // 사용자 위치 설정
+
         List<NearByStation>? nearByStationList = await _requestNearByStation(distance);
 
         if (!CollectionUtil.isNullorEmpty(addressList) &&
@@ -155,7 +158,7 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
             _changeUiState(
               Success(
                 MainIntent(
-                  userRegion: addressList!.join(" "),
+                  userRegion: userRegion,
                   subwayItems: subwayDataList,
                 ),
               ),
@@ -177,6 +180,12 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
   /// 위치 권한 체크
   _checkLocationPermission() async {
     return await GetIt.instance<GetLocationPermissionUseCase>().call();
+  }
+
+  _setUserRegion(List<String>? addressList){
+    if (!CollectionUtil.isNullorEmpty(addressList)){
+      userRegion = addressList!.join(" ");
+    }
   }
 
   /// 현재 위치 가져오기
