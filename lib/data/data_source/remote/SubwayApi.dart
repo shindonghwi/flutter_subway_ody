@@ -23,7 +23,7 @@ class SubwayApi {
   Future<ApiResponse<SubwayResponse>> getRealTimeStationInfo(String subwayName) async {
     debugPrint('request Data: $subwayName');
 
-    const key = '73637950736f726f313036514f647871';
+    const key = '797344686a73686936325357454b4b';
 
     final uri = Uri.http(
       'swopenapi.seoul.go.kr',
