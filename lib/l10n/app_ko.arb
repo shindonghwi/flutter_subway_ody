@@ -24,7 +24,7 @@
     "commonCancel": "취소",
     "commonEnable": "활성화 하기",
 
-    "message_remain_time": "{second} 후에 사용 가능합니다",
+    "message_remain_time": "{second}초 후에 사용 가능합니다",
     "@message_remain_time":{
         "placeholders": {
             "second": {}
