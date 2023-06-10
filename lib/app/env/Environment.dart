@@ -7,6 +7,7 @@ import 'package:subway_ody/app/SubwayOdyApp.dart';
 import 'package:subway_ody/di/locator.dart';
 import 'package:subway_ody/firebase/Analytics.dart';
 import 'package:subway_ody/firebase_options.dart';
+import 'package:subway_ody/presentation/utils/RestartWidget.dart';
 
 enum BuildType { dev, prod }
 
@@ -51,6 +52,6 @@ class Environment {
 
     initServiceLocator();
 
-    runApp(const ProviderScope(child: SubwayOdyApp()));
+    runApp(const RestartWidget(child: ProviderScope(child: SubwayOdyApp())));
   }
 }
