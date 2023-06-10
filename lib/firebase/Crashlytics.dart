@@ -9,7 +9,7 @@ import 'package:firebase_core/firebase_core.dart';
 class Crashlytics{
 
   static void init() async {
-    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+    await Firebase.initializeApp();
 
     // 모든 오류 기록
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
