@@ -63,11 +63,6 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
               continue;
             }
 
-            // if (!subwayLine.contains("1")) {
-            //   continue;
-            // }
-            // debugPrint("@##@@##@ subwayame : $subwayName, subwayLine : $subwayLine");
-
             final distance = element.distance;
 
             final arrivalRes = await GetIt.instance<GetSubwayArrivalUseCase>().call(
@@ -104,13 +99,14 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
                   .where((element) => element.subwayId == dummyData.subwayId);
 
               groupBy(tempList, (p0) => p0.updnLine).forEach((key, arrivalList) {
+                final isUp = arrivalList.first.ordkey.startsWith("0");
                 var nameList = SubwayUtil.findSubwayNameList(
                   subwayId: arrivalList.first.subwayId,
                   currentStatnId: arrivalList.first.statnId,
                   preStatnId: arrivalList.first.statnFid,
                   nextStatnId: arrivalList.first.statnTid,
                   destination: arrivalList.first.trainLineNm.split(" ").first,
-                  isUp: arrivalList.first.ordkey.startsWith("0"),
+                  isUp: isUp,
                 );
 
                 final List<Pair<int, SubwayPositionModel?>> subwayPositionList =
@@ -118,10 +114,13 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
                         nameList.length * 2 - 1, Pair(-1, null));
 
                 for (var realTimeInfo in arrivalList) {
-                  final subwayIndex = !nameList.contains(realTimeInfo.arvlMsg3)
+                  var subwayIndex = !nameList.contains(realTimeInfo.arvlMsg3)
                       ? -1
                       : (nameList.indexOf(realTimeInfo.arvlMsg3) * 2);
-                  if (subwayIndex != -1) {
+
+                  subwayIndex = subwayIndex + getSubwayAlignment(realTimeInfo.arvlCd, isUp);
+
+                  if (subwayIndex >= 0 && subwayIndex < subwayPositionList.length) {
                     subwayPositionList[subwayIndex] = Pair(
                         subwayIndex,
                         SubwayPositionModel(
@@ -236,5 +235,34 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
     debugPrint("_requestNearByStation nearByStationList : $nearByStationList");
 
     return nearByStationList;
+  }
+
+  /// 지하철 포지션 결정
+  int getSubwayAlignment(String? arvlCd, bool isUp){
+    int alignment = 0;
+    switch(arvlCd){
+      case "0" : // 진입
+        alignment = isUp ? 1 : -1;
+        break;
+      case "1" : // 도착
+        alignment = isUp ? 0 : 0;
+        break;
+      case "2" : // 출발
+        alignment = isUp ? -1 : 1;
+        break;
+      case "3" : // 전역출발
+        alignment = isUp ? -1 : 1;
+        break;
+      case "4" : // 전역진입
+        alignment = isUp ? 1 : -1;
+        break;
+      case "5" : // 전역도착
+        alignment = isUp ? 0 : 0;
+        break;
+      case "99" : // 운행중
+        alignment = isUp ? -1 : 1;
+        break;
+    }
+    return alignment;
   }
 }
