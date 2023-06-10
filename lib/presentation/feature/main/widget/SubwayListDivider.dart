@@ -21,7 +21,7 @@ class SubwayListDivider extends StatelessWidget {
   Widget build(BuildContext context) {
     final subwayList = stationInfo.nameList;
     final positionList = stationInfo.subwayPositionList;
-    final destination = stationInfo.destination;
+    final firstDestination = stationInfo.destination;
     final btrainSttus = stationInfo.btrainSttus;
 
     return Column(
@@ -34,7 +34,6 @@ class SubwayListDivider extends StatelessWidget {
             positionList: positionList,
             mainColor: mainColor,
             isUp: stationInfo.ordkey.startsWith("0"),
-            destination: destination,
             btrainSttus: btrainSttus,
           ),
         ),

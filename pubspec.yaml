@@ -28,7 +28,6 @@ dependencies:
   flutter_exit_app: ^1.1.2
   app_settings: ^4.2.0
   package_info_plus: ^4.0.2
-  restart_app: ^1.1.2
   change_app_package_name: ^1.1.0
   url_launcher: ^6.1.11
   firebase_core: ^2.13.1

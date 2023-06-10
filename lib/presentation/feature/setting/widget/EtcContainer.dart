@@ -2,17 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:get_it/get_it.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:restart_app/restart_app.dart';
 import 'package:subway_ody/app/SubwayOdyApp.dart';
-import 'package:subway_ody/app/env/Environment.dart';
-import 'package:subway_ody/domain/usecases/local/GetLanguageUseCase.dart';
 import 'package:subway_ody/domain/usecases/local/PostSaveUserLanguageUseCase.dart';
 import 'package:subway_ody/firebase/Analytics.dart';
 import 'package:subway_ody/presentation/feature/setting/models/LanguageType.dart';
-import 'package:subway_ody/presentation/navigation/Route.dart';
 import 'package:subway_ody/presentation/ui/colors.dart';
 import 'package:subway_ody/presentation/ui/typography.dart';
 import 'package:subway_ody/presentation/utils/Common.dart';
+import 'package:subway_ody/presentation/utils/RestartWidget.dart';
 import 'package:subway_ody/presentation/utils/SystemUtil.dart';
 import 'package:subway_ody/presentation/utils/dto/Pair.dart';
 
@@ -141,7 +138,7 @@ class LanguageSelector extends HookWidget {
                       Analytics.eventSetLanguage(type);
                       selectedLanguageIndex.value = type;
                       await GetIt.instance<PostSaveUserLanguageUseCase>().call(type);
-                      Restart.restartApp();
+                      RestartWidget.restartApp(context);
                     }
                   });
                 },
@@ -175,8 +172,6 @@ class VersionText extends StatelessWidget {
     super.key,
   });
 
-
-
   Future<String> getAppVersion() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     return packageInfo.version;
@@ -203,11 +198,11 @@ class VersionText extends StatelessWidget {
                 return Text(
                   snapshot.data.toString(),
                   style: getTextTheme(context).medium.copyWith(
-                    color: getColorScheme(context).colorPrimary,
-                    fontSize: 14,
-                  ),
+                        color: getColorScheme(context).colorPrimary,
+                        fontSize: 14,
+                      ),
                 );
-              }else{
+              } else {
                 return Container();
               }
             },
