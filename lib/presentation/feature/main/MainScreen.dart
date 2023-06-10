@@ -45,7 +45,6 @@ class MainScreen extends HookConsumerWidget {
           success: (event) async {
             mainIntentData.value = event.value;
             floatingButtonState.value = true;
-            currentRegionRead.setRegion(event.value.userRegion);
           },
           failure: (event) async {
             mainIntentData.value = null;
@@ -55,7 +54,9 @@ class MainScreen extends HookConsumerWidget {
           loading: (_) async {
             floatingButtonState.value = false;
           },
-        );
+        )?.whenComplete(() {
+          currentRegionRead.setRegion(uiStateRead.userRegion);
+        });
       });
     }, [uiState]);
 
