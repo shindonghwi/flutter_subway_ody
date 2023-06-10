@@ -126,6 +126,7 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
                         subwayIndex,
                         SubwayPositionModel(
                           subwayName: realTimeInfo.statnNm,
+                          destination: realTimeInfo.trainLineNm.split(" ").first.trim(),
                           arvlCd: realTimeInfo.arvlCd,
                           arvlMsg3: realTimeInfo.arvlMsg3,
                           ordkey: realTimeInfo.ordkey,

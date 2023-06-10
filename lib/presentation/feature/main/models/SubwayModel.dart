@@ -3,12 +3,14 @@ import 'package:subway_ody/presentation/utils/dto/Pair.dart';
 
 class SubwayPositionModel {
   final String subwayName;
+  final String destination;
   final String arvlMsg3;
   final String arvlCd;
   final String ordkey;
 
   SubwayPositionModel({
     required this.subwayName,
+    required this.destination,
     required this.arvlMsg3,
     required this.arvlCd,
     required this.ordkey,

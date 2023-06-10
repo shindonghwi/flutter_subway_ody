@@ -17,14 +17,12 @@ class SubwayPositionList extends HookWidget {
     required this.positionList,
     required this.mainColor,
     required this.isUp,
-    required this.destination,
     required this.btrainSttus,
   });
 
   final List<String> subwayList;
   final List<Pair<int, SubwayPositionModel?>> positionList;
   final Color mainColor;
-  final String destination;
   final String btrainSttus;
   final bool isUp;
 
@@ -67,6 +65,7 @@ class SubwayPositionList extends HookWidget {
       child: Stack(
           fit: StackFit.expand,
           children: List.generate(positionList.length, (index) {
+            final destination = positionList[index].second?.destination;
             return Positioned.fill(
               left: index * spacing,
               child: Align(
@@ -79,20 +78,11 @@ class SubwayPositionList extends HookWidget {
                         child: SubwayPositionItem(
                           mainColor: mainColor,
                           isUp: isUp,
-                          destination: destination,
+                          destination: destination.toString(),
                           btrainSttus: btrainSttus,
                         ),
                       )
                     : const SizedBox(),
-                // child:SizedBox(
-                //         width: contentWidth, // 첫 번째 아이템의 넓이
-                //         child: SubwayPositionItem(
-                //           mainColor: mainColor,
-                //           isUp: isUp,
-                //           destination: destination,
-                //           btrainSttus: btrainSttus,
-                //         ),
-                //       )
               ),
             );
           }).reversed.toList()),
