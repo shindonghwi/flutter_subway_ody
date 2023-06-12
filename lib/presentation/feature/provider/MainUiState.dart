@@ -253,23 +253,25 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
       case "0" : // 진입
         alignment = isUp ? 1 : -1;
         break;
-      case "1" : // 도착
-        alignment = isUp ? 0 : 0;
+      case "4" : // 전역진입
+        alignment = isUp ? 1 : -1;
         break;
+
       case "2" : // 출발
         alignment = isUp ? -1 : 1;
         break;
       case "3" : // 전역출발
         alignment = isUp ? -1 : 1;
         break;
-      case "4" : // 전역진입
-        alignment = isUp ? 1 : -1;
+      case "99" : // 운행중
+        alignment = isUp ? -1 : 1;
+        break;
+
+      case "1" : // 도착
+        alignment = isUp ? 0 : 0;
         break;
       case "5" : // 전역도착
         alignment = isUp ? 0 : 0;
-        break;
-      case "99" : // 운행중
-        alignment = isUp ? -1 : 1;
         break;
     }
     return alignment;
