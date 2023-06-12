@@ -29,6 +29,13 @@
             {
               "client_id": "121632395473-831195rm89629pvte1bd43vubvtc3lpf.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "121632395473-ig4pu0il0bvg5k0hcjvci2phcq0vl99i.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.orot.subwayody"
+              }
             }
           ]
         }
