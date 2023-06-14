@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
@@ -33,10 +35,8 @@ class Environment {
 
   bool get isDebuggable => _buildType == BuildType.dev;
 
-  // static String get kakaoRestApiKey => _instance._buildType == BuildType.dev
-  //     ? '06de5b28e76880404c369fcb6a81c230' // dev
-  //     // ? 'f530105b5b52ed538b03582ee0a54f11' // dev
-  //     : '9672018471d87420b9bc260308a8bc9c';
+  static String get kakaoAdFitId =>
+      Platform.isAndroid ? 'DAN-smkKi8A2hYTvXIQ9' : '';
 
   static String get kakaoRestApiKey => '9672018471d87420b9bc260308a8bc9c';
 

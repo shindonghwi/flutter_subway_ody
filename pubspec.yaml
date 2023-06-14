@@ -33,6 +33,7 @@ dependencies:
   firebase_core: ^2.13.1
   firebase_analytics: ^10.4.2
   firebase_crashlytics: ^3.3.2
+  webview_flutter: ^4.2.2
 
 dev_dependencies:
   flutter_test:
