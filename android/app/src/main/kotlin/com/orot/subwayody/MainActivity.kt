@@ -14,7 +14,7 @@ class MainActivity : FlutterActivity() {
             .platformViewsController
             .registry
             .registerViewFactory(
-                "plugin/kakao_adfit",
+                "plugin/kakao_adfit_native",
                 AdFitNativeViewFactory(flutterEngine.dartExecutor.binaryMessenger)
             )
 

@@ -11,10 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginLeft="23dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginRight="23dp"
-        android:layout_marginBottom="15dp">
+        android:padding="8dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -60,22 +57,32 @@
 
             <com.kakao.adfit.ads.na.AdFitMediaView
                 android:id="@+id/mediaView"
+                android:layout_marginVertical="6dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="3dp" />
+                android:orientation="vertical"
+                android:visibility="gone">
 
-            <TextView
-                android:id="@+id/bodyTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="3dp"
-                tools:text="AD Description" />
+                <TextView
+                    android:id="@+id/bodyTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="3dp"
+                    tools:text="AD Description" />
 
-            <Button
-                android:id="@+id/callToActionButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:text="AD Call To Action Button" />
+                <Button
+                    android:id="@+id/callToActionButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="AD Call To Action Button" />
+
+            </LinearLayout>
+
+
         </LinearLayout>
     </com.kakao.adfit.ads.na.AdFitNativeAdView>
 </FrameLayout>

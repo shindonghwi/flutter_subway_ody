@@ -9,7 +9,6 @@ import 'package:subway_ody/presentation/feature/main/widget/SubwayDirectionETA.d
 import 'package:subway_ody/presentation/feature/main/widget/SubwayListDivider.dart';
 import 'package:subway_ody/presentation/feature/main/widget/SubwayTitle.dart';
 import 'package:subway_ody/presentation/feature/main/widget/content/ErrorNotAvailableContent.dart';
-import 'package:subway_ody/presentation/utils/Common.dart';
 
 class ActiveContent extends HookWidget {
   final MainIntent subwayModel;
@@ -55,16 +54,10 @@ class ActiveContent extends HookWidget {
                             );
                           }).toList(),
                         ),
-                        if (index == 0 && Platform.isAndroid && Environment.buildType == BuildType.prod)
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: Container(
-                              width: getMediaQuery(context).size.width,
-                              height: getMediaQuery(context).size.width / 2,
-                              color: const Color(0xFFF5F5F5),
-                              child: const KakaoAdFitBanner(),
-                            ),
-                          )
+                        if (index == 0 &&
+                            Platform.isAndroid &&
+                            Environment.buildType == BuildType.dev)
+                          const KakaoAdFitBanner()
                       ],
                     )
                   : const SizedBox();

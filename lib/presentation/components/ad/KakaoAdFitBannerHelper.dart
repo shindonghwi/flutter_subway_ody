@@ -8,12 +8,12 @@ enum AdRequestType {
 }
 
 class KakaoAdFitBannerHelper {
-  static const String PLUGIN_VIEW_TYPE = "plugin/kakao_adfit";
-  static const String CHANNEL_NAME = "ad.kakao_adfit_channel";
+  static const String PLUGIN_VIEW_TYPE = "plugin/kakao_adfit_native";
+  static const String CHANNEL_NAME = "ad.kakao_adfit_native_channel";
 
   static const _platform = BasicMessageChannel(CHANNEL_NAME, StringCodec());
 
-  static void initAd(
+  static void initNativeAd(
     AdRequestType type,
     String adId,
     bool isAndroid,

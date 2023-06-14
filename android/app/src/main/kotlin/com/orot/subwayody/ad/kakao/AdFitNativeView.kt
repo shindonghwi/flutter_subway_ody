@@ -21,13 +21,11 @@ internal class AdFitNativeView(
     binaryMessenger: BinaryMessenger
 ) :
     PlatformView {
-    private val eventChannel = "ad.kakao_adfit_channel"
+    private val eventChannel = "ad.kakao_adfit_native_channel"
 
     private var nativeAdLoader: AdFitNativeAdLoader? = null
     private var nativeAdBinder: AdFitNativeAdBinder? = null
     private var nativeAdView: View? = null
-
-    private var eventSink: EventChannel.EventSink? = null
 
     private var layout: LinearLayout = LinearLayout(context).apply {
         layoutParams = LinearLayout.LayoutParams(
