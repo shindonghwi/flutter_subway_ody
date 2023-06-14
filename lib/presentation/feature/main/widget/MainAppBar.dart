@@ -42,8 +42,8 @@ class MainAppBar extends HookConsumerWidget with PreferredSizeWidget {
                 padding: const EdgeInsets.all(14.0),
                 child: SvgPicture.asset(
                   "assets/imgs/distance.svg",
-                  width: 20,
-                  height: 20,
+                  width: 24,
+                  height: 24,
                 ),
               ),
             ),
@@ -64,8 +64,8 @@ class MainAppBar extends HookConsumerWidget with PreferredSizeWidget {
                 padding: const EdgeInsets.all(14.0),
                 child: SvgPicture.asset(
                   "assets/imgs/setting.svg",
-                  width: 20,
-                  height: 20,
+                  width: 24,
+                  height: 24,
                 ),
               ),
             ),
