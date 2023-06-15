@@ -30,6 +30,8 @@
             "second": {}
         }
     },
+
+    "message_location_not_set": "場所を設定できません",
     "message_service_waiting": "サービスの準備をしています",
     "message_gps_disable": "GPSが消えました！\n近くのリアルタイム地下鉄を起動して確認する",
     "message_not_available": "近くに地下鉄の駅がないか、\nこのエリアはまだサービスをサポートしていません",

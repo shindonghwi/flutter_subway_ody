@@ -31,6 +31,8 @@
             "second": {}
         }
     },
+
+    "message_location_not_set": "Unable to set location",
     "message_service_waiting": "We're preparing for the service",
     "message_gps_disable": "GPS is off!\nActivate and check the real-time subway near me",
     "message_not_available": "There is no subway station nearby or\nThis area does not support the service yet",

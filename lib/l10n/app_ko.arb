@@ -1,7 +1,7 @@
 {
     "@@locale": "ko",
 
-   "appTitle": "지하철 오디",
+    "appTitle": "지하철 오디",
 
     "setDistanceTitle": "거리 설정",
     "setDistanceRange": "거리 범위",
@@ -30,6 +30,7 @@
             "second": {}
         }
     },
+    "message_location_not_set": "위치를 설정 할 수 없습니다",
     "message_service_waiting": "서비스 준비중입니다",
     "message_gps_disable": "GPS가 꺼져있어요!\n활성화를 하고 내 근처 실시간 지하철을 확인해보세요",
     "message_not_available": "근처에 지하철역이 없거나\n아직 서비스를 지원하지 않는 지역입니다",
