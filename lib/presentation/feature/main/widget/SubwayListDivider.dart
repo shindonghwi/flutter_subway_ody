@@ -181,8 +181,17 @@ class SubwayDividerAndNamePainter extends CustomPainter {
         circleBorderCenter = Offset(breakpointX, breakpointY);
       }
 
-      canvas.drawCircle(circleBorderCenter, radius + 2, circleBorderPaint);
-      canvas.drawCircle(circleInnerCenter, radius, circleInnerPaint);
+      if (isUp && index == 0){
+        canvas.drawCircle(circleBorderCenter, radius + 2, circleBorderPaint);
+        canvas.drawCircle(circleInnerCenter, radius, circleInnerPaint);
+      }else if (!isUp && index == subwayList.length - 1){
+        canvas.drawCircle(circleBorderCenter, radius + 2, circleBorderPaint);
+        canvas.drawCircle(circleInnerCenter, radius, circleInnerPaint);
+      }else{
+        canvas.drawCircle(circleBorderCenter, radius + 2, circleBorderPaint);
+      }
+
+
 
       final stationName = insertNewlineAfterFirstThreeCharacters(
           SubwayUtil.findLanguageSubwayName(subwayList[index],
