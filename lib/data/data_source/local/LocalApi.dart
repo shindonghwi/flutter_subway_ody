@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -40,12 +42,19 @@ class LocalApi {
   /// 현재 위치 정보 반환
   Future<LatLng> getLatLng() async {
     Location location = Location();
-    return await location.getLocation().then(
+
+    return await location
+        .getLocation()
+        .then(
           (value) => LatLng(
             value.latitude,
             value.longitude,
           ),
-        );
+        )
+        .onError((error, stackTrace) {
+      debugPrint("getLatLng error: $error");
+      return Future(() => LatLng(0, 0));
+    });
   }
 
   /// 자동 새로고침 여부 저장
@@ -68,7 +77,6 @@ class LocalApi {
     return mode;
   }
 
-
   /// 사용자가 설정한 거리 저장
   Future<bool> saveUserDistance(int distance) async {
     final prefs = await SharedPreferences.getInstance();
@@ -80,7 +88,6 @@ class LocalApi {
     });
     return isComplete;
   }
-
 
   /// 사용자가 설정한 거리 반환
   Future<int?> getUserDistance() async {
@@ -100,15 +107,14 @@ class LocalApi {
 
   /// 사용자가 설정한 언어 저장
   Future<bool> saveUserLanguage(LanguageType type) async {
-
     String language = "ko";
     if (type == LanguageType.KOR) {
       language = "ko";
-    } else if (type == LanguageType.ENG){
+    } else if (type == LanguageType.ENG) {
       language = "en";
-    } else if (type == LanguageType.JPN){
+    } else if (type == LanguageType.JPN) {
       language = "ja";
-    } else if (type == LanguageType.CHN){
+    } else if (type == LanguageType.CHN) {
       language = "zh";
     }
 
@@ -121,5 +127,4 @@ class LocalApi {
     });
     return isComplete;
   }
-
 }

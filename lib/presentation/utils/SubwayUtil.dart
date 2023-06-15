@@ -169,6 +169,13 @@ class SubwayUtil {
             return "잠실";
           }
         }
+        if (nm.contains("왕십리")) {
+          if (nm == "왕십리") {
+            return "왕십리";
+          } else {
+            return "상왕십리";
+          }
+        }
       }
       if (subwayLine == "4호선") {
         if (nm.contains("미아")) {

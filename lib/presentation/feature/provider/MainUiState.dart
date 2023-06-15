@@ -15,6 +15,7 @@ import 'package:subway_ody/presentation/feature/main/models/NearByStation.dart';
 import 'package:subway_ody/presentation/feature/main/models/SubwayModel.dart';
 import 'package:subway_ody/presentation/models/UiState.dart';
 import 'package:subway_ody/presentation/utils/CollectionUtil.dart';
+import 'package:subway_ody/presentation/utils/Common.dart';
 import 'package:subway_ody/presentation/utils/SubwayUtil.dart';
 import 'package:subway_ody/presentation/utils/dto/Pair.dart';
 
@@ -39,6 +40,7 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
 
   /// 지하철 정보 요청 API 호출
   getSubwayData(BuildContext context, int? distance) async {
+    debugPrint("getSubwayData");
     _changeUiState(Loading());
 
     List<SubwayModel> subwayDataList = [];
@@ -46,13 +48,14 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
     final isPermissionGranted = await _checkLocationPermission();
 
     if (isPermissionGranted) {
+      debugPrint("isPermissionGranted: $isPermissionGranted");
       await _requestLatLng();
 
       if (latLng == null) {
         _changeUiState(Failure(ErrorType.gps_error.name));
       } else {
         List<String>? addressList = await _requestLatLngToRegion();
-        _setUserRegion(addressList); // 사용자 위치 설정
+        _setUserRegion(context, addressList); // 사용자 위치 설정
 
         List<NearByStation>? nearByStationList = await _requestNearByStation(distance);
 
@@ -182,9 +185,11 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
     return await GetIt.instance<GetLocationPermissionUseCase>().call();
   }
 
-  _setUserRegion(List<String>? addressList){
+  _setUserRegion(BuildContext context, List<String>? addressList){
     if (!CollectionUtil.isNullorEmpty(addressList)){
       userRegion = addressList!.join(" ");
+    }else{
+      userRegion = getAppLocalizations(context).message_location_not_set;
     }
   }
 
@@ -194,6 +199,7 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
     if (gpsInfo.latitude != null && gpsInfo.longitude != null) {
       latLng = gpsInfo;
     }
+    debugPrint("_requestLatLng: $gpsInfo");
   }
 
   /// 현재 위치를 주소로 변환
@@ -203,7 +209,7 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
     if (latLng == null) return Future(() => null);
     final response = await GetIt.instance<GetKakaoLatLngToRegionUseCase>().call(latLng!);
 
-    if (response.status == 200) {
+    if (!CollectionUtil.isNullorEmpty(response.data?.documents)) {
       String? address1 = response.data?.documents?.first.address?.region_3depth_name;
       String? address2 = response.data?.documents?.first.road_address?.road_name;
       address1 != null ? addressList.add(address1) : null;
@@ -221,7 +227,7 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
     if (latLng == null) return Future(() => null);
 
     final tempDistance =
-        distance ?? await GetIt.instance<GetUserDistanceUseCase>().call() ?? 800;
+        distance ?? await GetIt.instance<GetUserDistanceUseCase>().call() ?? 500;
 
     final stationInfo = await GetIt.instance<GetNearBySubwayStationUseCase>().call(
       latLng!,

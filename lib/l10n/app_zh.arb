@@ -30,6 +30,8 @@
             "second": {}
         }
     },
+
+    "message_location_not_set": "无法设置位置",
     "message_service_waiting": "我们在准备服务",
     "message_gps_disable": "全球定位系统关闭了！\n启动并检查我附近的地铁",
     "message_not_available": "附近没有地铁站还是\n这个地区还不支持服务",

@@ -40,13 +40,13 @@ class CustomSlider extends HookWidget {
     }
 
     final ValueNotifier<double> sliderValue =
-        useState(calculateSliderValue(800).toDouble());
+        useState(calculateSliderValue(500).toDouble());
 
     useEffect(() {
       GetIt.instance<GetUserDistanceUseCase>().call().then((value) {
         debugPrint("value1: $value");
         sliderValue.value = value == null
-            ? calculateSliderValue(800).toDouble()
+            ? calculateSliderValue(500).toDouble()
             : calculateSliderValue(value).toDouble();
       });
     }, []);
