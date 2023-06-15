@@ -3,7 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:subway_ody/domain/usecases/local/PostSaveUserDistanceUseCase.dart';
+import 'package:subway_ody/domain/usecases/local/GetUserDistanceUseCase.dart';
 import 'package:subway_ody/presentation/feature/main/widget/CustomSlider.dart';
 import 'package:subway_ody/presentation/ui/colors.dart';
 import 'package:subway_ody/presentation/ui/typography.dart';
@@ -14,6 +14,7 @@ class BottomSheetUtil {
     BuildContext context, {
     required Function(int) onComplete,
   }) {
+
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -25,7 +26,14 @@ class BottomSheetUtil {
         ),
       ),
       builder: (context) => HookBuilder(builder: (BuildContext context) {
-        final currentDistance = useState(0);
+        ValueNotifier<int?> currentDistance = useState(null);
+
+        useEffect(() {
+          WidgetsBinding.instance.addPostFrameCallback((_) async{
+            currentDistance.value = await GetIt.instance<GetUserDistanceUseCase>().call();
+          });
+        }, []);
+
         return SingleChildScrollView(
           child: SafeArea(
             child: Container(
@@ -35,7 +43,7 @@ class BottomSheetUtil {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   DistanceSettingAppBar(
-                    distance: currentDistance.value == 0 ? 800 : currentDistance.value,
+                    distance: currentDistance.value ?? 500,
                     onComplete: onComplete,
                   ),
                   Container(
@@ -121,8 +129,11 @@ class DistanceSettingAppBar extends HookConsumerWidget {
           overflow: TextOverflow.ellipsis,
         ),
         _buttonText(context, () {
-          Navigator.pop(context);
+
+          debugPrint("distzxczcxcxzzxcance: $distance");
+
           onComplete.call(distance);
+          Navigator.pop(context);
         }, false),
       ],
     );

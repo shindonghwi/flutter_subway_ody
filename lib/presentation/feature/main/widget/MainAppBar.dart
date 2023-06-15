@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:subway_ody/domain/usecases/local/GetUserDistanceUseCase.dart';
 import 'package:subway_ody/domain/usecases/local/PostSaveUserDistanceUseCase.dart';
-import 'package:subway_ody/firebase/Analytics.dart';
 import 'package:subway_ody/presentation/feature/main/widget/bottom_sheet/BottomSheetUtil.dart';
 import 'package:subway_ody/presentation/feature/provider/CurrentRegionNotifier.dart';
 import 'package:subway_ody/presentation/feature/provider/MainUiState.dart';
@@ -17,6 +18,8 @@ class MainAppBar extends HookConsumerWidget with PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ValueNotifier<int?>? initDistance = useState(null);
+
     return AppBar(
       backgroundColor: const Color(0xFFFDFDFD),
       bottomOpacity: 0.0,
@@ -31,13 +34,15 @@ class MainAppBar extends HookConsumerWidget with PreferredSizeWidget {
           child: Container(
             margin: const EdgeInsets.only(right: 0),
             child: InkWell(
-              onTap: () => BottomSheetUtil.showDistanceBottomSheet(
-                context,
-                onComplete: (value) {
-                  GetIt.instance<PostSaveUserDistanceUseCase>().call(value);
-                  ref.read(mainUiStateProvider.notifier).getSubwayData(context, value);
-                },
-              ),
+              onTap: () {
+                BottomSheetUtil.showDistanceBottomSheet(
+                  context,
+                  onComplete: (value) {
+                    GetIt.instance<PostSaveUserDistanceUseCase>().call(value);
+                    ref.read(mainUiStateProvider.notifier).getSubwayData(context, value);
+                  },
+                );
+              },
               child: Padding(
                 padding: const EdgeInsets.all(14.0),
                 child: SvgPicture.asset(
@@ -89,10 +94,10 @@ class _RegionText extends HookConsumerWidget {
     return Text(
       region,
       style: getTextTheme(context).medium.copyWith(
-            color: const Color(0xFF2F2F2F),
-            fontSize: 18,
-            height: 1.28,
-          ),
+        color: const Color(0xFF2F2F2F),
+        fontSize: 18,
+        height: 1.28,
+      ),
       textAlign: TextAlign.left,
       overflow: TextOverflow.ellipsis,
     );
