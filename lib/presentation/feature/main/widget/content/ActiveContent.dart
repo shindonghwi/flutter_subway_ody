@@ -54,10 +54,6 @@ class ActiveContent extends HookWidget {
                             );
                           }).toList(),
                         ),
-                        if (index == 0 &&
-                            Platform.isAndroid &&
-                            Environment.buildType == BuildType.dev)
-                          const KakaoAdFitBanner()
                       ],
                     )
                   : const SizedBox();
