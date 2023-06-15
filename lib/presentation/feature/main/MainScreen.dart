@@ -29,6 +29,7 @@ class MainScreen extends HookConsumerWidget {
     final currentRegionRead = ref.read(currentRegionProvider.notifier);
     final floatingButtonState = useState<bool>(false);
 
+    final adCount = useState<int>(0);
     final mainIntentData = useState<MainIntent?>(null);
 
     useEffect(() {
@@ -55,6 +56,7 @@ class MainScreen extends HookConsumerWidget {
             floatingButtonState.value = false;
           },
         )?.whenComplete(() {
+          adCount.value = 0;
           currentRegionRead.setRegion(uiStateRead.userRegion);
         });
       });

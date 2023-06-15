@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:subway_ody/app/SubwayOdyApp.dart';
 import 'package:subway_ody/domain/models/local/LatLng.dart';
 import 'package:subway_ody/domain/usecases/local/GetLatLngUseCase.dart';
 import 'package:subway_ody/domain/usecases/local/GetLocationPermissionUseCase.dart';
@@ -9,7 +10,6 @@ import 'package:subway_ody/domain/usecases/local/GetUserDistanceUseCase.dart';
 import 'package:subway_ody/domain/usecases/remote/GetKakaoLatLngToRegionUseCase.dart';
 import 'package:subway_ody/domain/usecases/remote/GetNearBySubwayStationUseCase.dart';
 import 'package:subway_ody/domain/usecases/remote/GetSubwayArrivalUseCase.dart';
-import 'package:subway_ody/presentation/constant/language.dart';
 import 'package:subway_ody/presentation/feature/main/MainIntent.dart';
 import 'package:subway_ody/presentation/feature/main/models/NearByStation.dart';
 import 'package:subway_ody/presentation/feature/main/models/SubwayModel.dart';
@@ -55,7 +55,7 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
         _changeUiState(Failure(ErrorType.gps_error.name));
       } else {
         List<String>? addressList = await _requestLatLngToRegion();
-        _setUserRegion(context, addressList); // 사용자 위치 설정
+        _setUserRegion(addressList); // 사용자 위치 설정
 
         List<NearByStation>? nearByStationList = await _requestNearByStation(distance);
 
@@ -91,12 +91,16 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
 
               final subwayArrivalList = arrivalInfo?.realtimeArrivalList!;
 
+              if (subwayLine.isEmpty){
+                continue;
+              }
+
               final dummyData = SubwayModel(
                   subwayId: SubwayUtil.subwayLineToId(subwayLine),
                   subwayName: subwayName,
                   subwayLine: subwayLine,
                   distance: distance,
-                  mainColor: SubwayUtil.getMainColor(context, subwayLine),
+                  mainColor: SubwayUtil.getMainColor(subwayLine),
                   stations: []);
 
               final List<SubwayDirectionStationModel> stationList = [];
@@ -185,10 +189,11 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
     return await GetIt.instance<GetLocationPermissionUseCase>().call();
   }
 
-  _setUserRegion(BuildContext context, List<String>? addressList){
+  _setUserRegion(List<String>? addressList){
     if (!CollectionUtil.isNullorEmpty(addressList)){
       userRegion = addressList!.join(" ");
     }else{
+      final context = SubwayOdyApp.navigatorKey.currentContext as BuildContext;
       userRegion = getAppLocalizations(context).message_location_not_set;
     }
   }
