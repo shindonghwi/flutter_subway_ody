@@ -26,6 +26,7 @@ class ActiveContent extends HookWidget {
                 children: subwayModel.subwayItems.asMap().entries.map((entry) {
               final index = entry.key;
               final model = entry.value;
+              adCount.value++;
 
               return model.stations.isNotEmpty
                   ? Column(
@@ -41,7 +42,6 @@ class ActiveContent extends HookWidget {
                         ),
                         Column(
                           children: model.stations.map((e) {
-                            adCount.value += 1;
                             return Column(
                               children: [
                                 const SizedBox(height: 22),
@@ -52,11 +52,12 @@ class ActiveContent extends HookWidget {
                                   mainColor: model.mainColor,
                                 ),
                                 const SizedBox(height: 74),
-                                if (adCount.value > 5 && adCount.value % 6 == 0) const GoogleAdmobBanner(size: AdSize.largeBanner),
                               ],
                             );
                           }).toList(),
                         ),
+
+                        if (adCount.value != 0 && adCount.value % 3 == 0) const GoogleAdmobBanner(size: AdSize.largeBanner),
                       ],
                     )
                   : const SizedBox();
