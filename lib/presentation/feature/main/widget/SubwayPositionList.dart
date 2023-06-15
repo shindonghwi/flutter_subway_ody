@@ -58,34 +58,42 @@ class SubwayPositionList extends HookWidget {
       spacing = getMediaQuery(context).size.width * 0.352;
     }
 
+    var items = List.generate(positionList.length, (index) {
+      final destination = positionList[index].second?.destination;
+      return Positioned.fill(
+        left: index * spacing,
+        child: Align(
+          alignment:
+              positionList.length == 1 && !isUp ? Alignment.centerRight : Alignment.centerLeft,
+          child: positionList[index].first != -1
+              ? SizedBox(
+                  width: contentWidth, // 첫 번째 아이템의 넓이
+                  child: SubwayPositionItem(
+                    mainColor: mainColor,
+                    isUp: isUp,
+                    destination: destination.toString(),
+                    btrainSttus: btrainSttus,
+                  ),
+                )
+              : const SizedBox(),
+        ),
+      );
+    });
+
+    if (isUp) {
+      items = items.reversed.toList();
+    } else {
+      items = items.toList();
+    }
+
     return Container(
       margin: EdgeInsets.symmetric(
         horizontal: horizontalPadding,
       ),
       child: Stack(
-          fit: StackFit.expand,
-          children: List.generate(positionList.length, (index) {
-            final destination = positionList[index].second?.destination;
-            return Positioned.fill(
-              left: index * spacing,
-              child: Align(
-                alignment: positionList.length == 1 && !isUp
-                    ? Alignment.centerRight
-                    : Alignment.centerLeft,
-                child: positionList[index].first != -1
-                    ? SizedBox(
-                        width: contentWidth, // 첫 번째 아이템의 넓이
-                        child: SubwayPositionItem(
-                          mainColor: mainColor,
-                          isUp: isUp,
-                          destination: destination.toString(),
-                          btrainSttus: btrainSttus,
-                        ),
-                      )
-                    : const SizedBox(),
-              ),
-            );
-          }).reversed.toList()),
+        fit: StackFit.expand,
+        children: items,
+      ),
     );
   }
 }
