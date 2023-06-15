@@ -25,6 +25,7 @@ dependencies:
   get_it: ^7.6.0
   http: ^0.13.6
   shared_preferences: ^2.1.1
+  flutter_exit_app: ^1.1.2
   app_settings: ^4.2.0
   package_info_plus: ^4.0.2
   change_app_package_name: ^1.1.0
