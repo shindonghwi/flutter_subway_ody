@@ -7,6 +7,7 @@ import 'package:flutter_exit_app/flutter_exit_app.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:location/location.dart';
 import 'package:subway_ody/domain/usecases/local/GetAutoRefreshCallUseCase.dart';
 import 'package:subway_ody/domain/usecases/local/GetLocationPermissionUseCase.dart';
 import 'package:subway_ody/presentation/feature/provider/AutoRefreshNotifier.dart';
@@ -22,6 +23,13 @@ class SplashScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final autoRefreshRead = ref.read(autoRefreshProvider.notifier);
+
+    dummyLocation() async {
+      try{
+        Location location = Location();
+        location.getLocation();
+      }catch(e){}
+    }
 
     moveMainPage() {
       Future.delayed(const Duration(milliseconds: 300), () {
@@ -93,6 +101,7 @@ class SplashScreen extends HookConsumerWidget {
     requestGpsPermission() async {
       return await GetIt.instance<GetLocationPermissionUseCase>().call().then((value) {
         if (value) {
+          dummyLocation();
           moveMainPage();
         } else {
           // 위치 권한이 없을 경우
