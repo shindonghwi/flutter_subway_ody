@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:subway_ody/app/env/Environment.dart';
+import 'package:subway_ody/app/env/Advertisement.dart';
 import 'package:subway_ody/presentation/components/ad/KakaoAdFitBannerHelper.dart';
 
 class KakaoAdFitBanner extends HookWidget {
@@ -18,7 +18,7 @@ class KakaoAdFitBanner extends HookWidget {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         KakaoAdFitBannerHelper.initNativeAd(
           AdRequestType.initialize,
-          Environment.kakaoAdFitId,
+          Advertisement.kakaoAdFitId,
           Platform.isAndroid,
           (message) {
             debugPrint(message);

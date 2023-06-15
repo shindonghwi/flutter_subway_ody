@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:location/location.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:subway_ody/data/data_source/local/SharedKey.dart';
@@ -43,18 +45,23 @@ class LocalApi {
   Future<LatLng> getLatLng() async {
     Location location = Location();
 
-    return await location
-        .getLocation()
-        .then(
-          (value) => LatLng(
-            value.latitude,
-            value.longitude,
-          ),
-        )
-        .onError((error, stackTrace) {
-      debugPrint("getLatLng error: $error");
-      return Future(() => LatLng(0, 0));
-    });
+    if (Platform.isAndroid){
+      return await location
+          .getLocation()
+          .then(
+            (value) => LatLng(
+          value.latitude,
+          value.longitude,
+        ),
+      )
+          .onError((error, stackTrace) {
+        debugPrint("getLatLng error: $error");
+        return Future(() => LatLng(0, 0));
+      });
+    }else{
+      Position position = await Geolocator.getCurrentPosition();
+      return LatLng(position.latitude, position.longitude);
+    }
   }
 
   /// 자동 새로고침 여부 저장

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:subway_ody/app/SubwayOdyApp.dart';
+import 'package:subway_ody/app/env/Advertisement.dart';
 import 'package:subway_ody/di/locator.dart';
 import 'package:subway_ody/firebase/Analytics.dart';
 import 'package:subway_ody/firebase_options.dart';
@@ -35,9 +36,6 @@ class Environment {
 
   bool get isDebuggable => _buildType == BuildType.dev;
 
-  static String get kakaoAdFitId =>
-      Platform.isAndroid ? 'DAN-smkKi8A2hYTvXIQ9' : '';
-
   static String get kakaoRestApiKey => '9672018471d87420b9bc260308a8bc9c';
 
   void run() async {
@@ -50,6 +48,7 @@ class Environment {
       statusBarColor: Colors.transparent,
     ));
 
+    Advertisement.initAdMob();
     initServiceLocator();
 
     runApp(const RestartWidget(child: ProviderScope(child: SubwayOdyApp())));
