@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:subway_ody/app/SubwayOdyApp.dart';
 import 'package:subway_ody/presentation/constant/language.dart';
 import 'package:subway_ody/presentation/constant/subway_1001.dart';
 import 'package:subway_ody/presentation/constant/subway_1002.dart';
@@ -23,7 +24,8 @@ import 'package:subway_ody/presentation/utils/Common.dart';
 class SubwayUtil {
   /// 1001:1호선 1002:2호선 1003:3호선, 1004:4호선,1005:5호선, 1006:6호선,1007:7호선, 1008:8호선, 1009:9호선,
   /// 1063:경의중앙선, 1065:공항철도, 1067:경춘선, 1075:수인분당선 1077:신분당선, 1092:우이신설선
-  static Color getMainColor(BuildContext context, String subwayLine) {
+  static Color getMainColor(String subwayLine) {
+    final context = SubwayOdyApp.navigatorKey.currentContext as BuildContext;
     debugPrint("@@@@ subwayLine: $subwayLine");
     if (subwayLine.contains("1호선")) {
       return getColorScheme(context).colorLine1;

@@ -1,9 +1,7 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:location/location.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:subway_ody/data/data_source/local/SharedKey.dart';
 import 'package:subway_ody/domain/models/local/LatLng.dart';
@@ -18,22 +16,16 @@ class LocalApi {
 
   /// 위치 권한 요청
   Future<bool> getLocationPermission() async {
-    Location location = Location();
-
-    PermissionStatus permissionGranted = await location.hasPermission();
-    if (permissionGranted == PermissionStatus.granted) {
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied || permission == LocationPermission.deniedForever) {
+        return false;
+      }
       return true;
     } else {
-      bool serviceEnabled = await location.serviceEnabled();
+      bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
       if (!serviceEnabled) {
-        serviceEnabled = await location.requestService();
-        if (!serviceEnabled) {
-          return false;
-        }
-      }
-
-      permissionGranted = await location.requestPermission();
-      if (permissionGranted != PermissionStatus.granted) {
         return false;
       }
 
@@ -43,25 +35,8 @@ class LocalApi {
 
   /// 현재 위치 정보 반환
   Future<LatLng> getLatLng() async {
-    Location location = Location();
-
-    if (Platform.isAndroid){
-      return await location
-          .getLocation()
-          .then(
-            (value) => LatLng(
-          value.latitude,
-          value.longitude,
-        ),
-      )
-          .onError((error, stackTrace) {
-        debugPrint("getLatLng error: $error");
-        return Future(() => LatLng(0, 0));
-      });
-    }else{
-      Position position = await Geolocator.getCurrentPosition();
-      return LatLng(position.latitude, position.longitude);
-    }
+    Position position = await Geolocator.getCurrentPosition();
+    return LatLng(position.latitude, position.longitude);
   }
 
   /// 자동 새로고침 여부 저장
