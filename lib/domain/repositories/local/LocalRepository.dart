@@ -18,4 +18,8 @@ abstract class LocalRepository {
   Future<bool> saveUserLanguage(LanguageType type); // 사용자가 설정한 언어 저장
 
   Future<Locale> getUserLanguage(); // 사용자가 설정한 언어 반환
+
+  Future<bool> changeAppMode(bool isDemo); // 앱 모드 변경
+
+  Future<bool?> getAppMode(); // 앱 모드 반환
 }

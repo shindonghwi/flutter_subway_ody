@@ -13,6 +13,7 @@ class LocalApi {
   final String autoRefreshCallKey = SharedKeyHelper.fromString(SharedKey.AUTO_REFRESH_CALL);
   final String distanceKey = SharedKeyHelper.fromString(SharedKey.DISTANCE);
   final String languageKey = SharedKeyHelper.fromString(SharedKey.LANGUAGE);
+  final String appModeKey = SharedKeyHelper.fromString(SharedKey.APP_MODE);
 
   /// 위치 권한 요청
   Future<bool> getLocationPermission() async {
@@ -109,4 +110,25 @@ class LocalApi {
     });
     return isComplete;
   }
+
+  /// 앱 모드 변경
+  Future<bool> changeAppMode(bool isDemo) async {
+    final prefs = await SharedPreferences.getInstance();
+    final isComplete = await prefs.setBool(appModeKey, false).then((value) {
+      debugPrint("LocalApi - changeAppMode : $value");
+      return value;
+    }).onError((error, stackTrace) {
+      return false;
+    });
+    return isComplete;
+  }
+
+  /// 앱 모드 반환
+  Future<bool?> getAppMode() async {
+    final prefs = await SharedPreferences.getInstance();
+    final appMode = prefs.getBool(appModeKey);
+    debugPrint("LocalApi - getAppMode : $appMode");
+    return appMode;
+  }
+
 }

@@ -54,8 +54,20 @@ class LocalRepositoryImpl implements LocalRepository {
   }
 
   @override
-  Future<bool> saveUserLanguage(LanguageType type) async{
+  Future<bool> saveUserLanguage(LanguageType type) async {
     LocalApi localApi = GetIt.instance<LocalApi>();
     return await localApi.saveUserLanguage(type);
+  }
+
+  @override
+  Future<bool> changeAppMode(bool isDemo) async {
+    LocalApi localApi = GetIt.instance<LocalApi>();
+    return await localApi.changeAppMode(isDemo);
+  }
+
+  @override
+  Future<bool?> getAppMode() async {
+    LocalApi localApi = GetIt.instance<LocalApi>();
+    return await localApi.getAppMode();
   }
 }
