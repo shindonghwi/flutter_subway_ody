@@ -24,7 +24,7 @@ class PopUpHiddenMenu extends StatelessWidget {
         ),
         const SizedBox(height: 32),
         Text(
-          getAppLocalizations(context).hidden_menu_title,
+          getAppLocalizations(context).popup_hidden_menu_title,
           style: getTextTheme(context).medium.copyWith(
                 color: const Color(0xFF2F2F2F),
                 fontSize: 16,

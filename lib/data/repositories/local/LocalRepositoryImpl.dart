@@ -82,4 +82,16 @@ class LocalRepositoryImpl implements LocalRepository {
     LocalApi localApi = GetIt.instance<LocalApi>();
     return await localApi.saveDemoUserLatLng(latLng);
   }
+
+  @override
+  Future<bool> getIntroPopUpShowing() async {
+    LocalApi localApi = GetIt.instance<LocalApi>();
+    return await localApi.getIntroPopUpShowing();
+  }
+
+  @override
+  Future<bool> patchIntroPopUpShowing(bool state) async {
+    LocalApi localApi = GetIt.instance<LocalApi>();
+    return await localApi.patchIntroPopUpShowing(state);
+  }
 }

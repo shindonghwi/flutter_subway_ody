@@ -16,6 +16,7 @@ class LocalApi {
   final String languageKey = SharedKeyHelper.fromString(SharedKey.LANGUAGE);
   final String appModeKey = SharedKeyHelper.fromString(SharedKey.APP_MODE);
   final String demoUserLatLngKey = SharedKeyHelper.fromString(SharedKey.DEMO_USER_LATLNG);
+  final String introShowingKey = SharedKeyHelper.fromString(SharedKey.INTRO_SHOWING);
 
   /// 위치 권한 요청
   Future<bool> getLocationPermission() async {
@@ -160,5 +161,25 @@ class LocalApi {
     } else {
       return LatLng(double.tryParse(latLngList!.first), double.tryParse(latLngList.last));
     }
+  }
+
+  /// 초기 팝업 노출 여부 수정
+  Future<bool> patchIntroPopUpShowing(bool state) async {
+    final prefs = await SharedPreferences.getInstance();
+    final isComplete = await prefs.setBool(introShowingKey, state).then((value) {
+      debugPrint("LocalApi - saveDemoUserLatLng : $value");
+      return value;
+    }).onError((error, stackTrace) {
+      return false;
+    });
+    return isComplete;
+  }
+
+  /// 초기 팝업 노출 여부 반환
+  Future<bool> getIntroPopUpShowing() async {
+    final prefs = await SharedPreferences.getInstance();
+    final isShowing = prefs.getBool(introShowingKey) ?? true;
+    debugPrint("LocalApi - getIntroPopUpShowing : $isShowing");
+    return isShowing;
   }
 }

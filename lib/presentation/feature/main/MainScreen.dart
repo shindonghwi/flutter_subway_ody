@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get_it/get_it.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:subway_ody/domain/usecases/local/GetIntroPopUpShowingUseCase.dart';
+import 'package:subway_ody/domain/usecases/local/PatchIntroPopUpShowingUseCase.dart';
 import 'package:subway_ody/firebase/Analytics.dart';
 import 'package:subway_ody/presentation/components/CircleLoading.dart';
+import 'package:subway_ody/presentation/components/popup/PopupUtil.dart';
 import 'package:subway_ody/presentation/feature/main/MainIntent.dart';
 import 'package:subway_ody/presentation/feature/main/widget/MainAppBar.dart';
 import 'package:subway_ody/presentation/feature/main/widget/content/ActiveContent.dart';
@@ -61,6 +65,15 @@ class MainScreen extends HookConsumerWidget {
         });
       });
     }, [uiState]);
+
+    useEffect(() {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        if (await GetIt.instance<GetIntroPopUpShowingUseCase>().call()) {
+          await GetIt.instance<PatchIntroPopUpShowingUseCase>().call(false);
+          PopupUtil.showIntro(backgroundTouchCloseFlag: true);
+        }
+      });
+    }, []);
 
     return Scaffold(
       appBar: const MainAppBar(),

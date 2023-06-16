@@ -20,7 +20,12 @@
 
     "change_language_dialog_body": "确定要更改为选中的语言吗？\n（重新启动应用程序）",
 
-    "hidden_menu_title": "重新运行到演示版本",
+    "popup_intro_menu_title": "地铁(Ody)公告",
+    "popup_intro_menu_description_1": "目前的服务是 ",
+    "popup_intro_menu_description_2": "首尔、仁川、京畿道(首都圈) ",
+    "popup_intro_menu_description_3": "地铁支援服务。",
+    "popup_intro_menu_description_4": "近期将开通其他地区的地铁服务，请稍等！",
+    "popup_hidden_menu_title": "重新运行到演示版本",
 
     "commonConfirm": "确认",
     "commonCancel": "取消",

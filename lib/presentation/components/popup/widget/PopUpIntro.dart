@@ -18,9 +18,9 @@ class PopUpIntro extends StatelessWidget {
           width: 20,
           height: 24,
         ),
-        const SizedBox(height: 32),
+        const SizedBox(height: 16),
         Text(
-          '지하철 오디 알림',
+          getAppLocalizations(context).popup_intro_menu_title,
           style: getTextTheme(context).bold.copyWith(
                 color: const Color(0xFF2F2F2F),
                 fontSize: 16,
@@ -32,16 +32,39 @@ class PopUpIntro extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                '현재는 서울 지하철(서울, 경기 또는 수도권 지역) 서비스를 제공하고 있습니다.',
-                style: getTextTheme(context).regular.copyWith(
-                      color: const Color(0xFF7C7C7C),
-                      fontSize: 12,
+              RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: getAppLocalizations(context).popup_intro_menu_description_1,
+                      style: getTextTheme(context).medium.copyWith(
+                            color: const Color(0xFF7C7C7C),
+                            fontSize: 12,
+                            height: 1.28,
+                          ),
                     ),
+                    TextSpan(
+                      text: getAppLocalizations(context).popup_intro_menu_description_2,
+                      style: getTextTheme(context).medium.copyWith(
+                            color: getColorScheme(context).colorPrimary,
+                            fontSize: 12,
+                            height: 1.28,
+                          ),
+                    ),
+                    TextSpan(
+                      text: getAppLocalizations(context).popup_intro_menu_description_3,
+                      style: getTextTheme(context).medium.copyWith(
+                            color: const Color(0xFF7C7C7C),
+                            fontSize: 12,
+                            height: 1.28,
+                          ),
+                    ),
+                  ],
+                ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 12),
               Text(
-                '곧 부산지하철(부산지역)이 오픈됩니다. 커밍 쑨!!',
+                getAppLocalizations(context).popup_intro_menu_description_4,
                 style: getTextTheme(context).regular.copyWith(
                       color: const Color(0xFF7C7C7C),
                       fontSize: 12,

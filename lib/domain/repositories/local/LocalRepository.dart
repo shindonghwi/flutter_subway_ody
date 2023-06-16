@@ -26,4 +26,8 @@ abstract class LocalRepository {
   Future<bool> saveDemoUserLatLng(LatLng latLng); // 데모 모드에서 사용자의 위치 저장
 
   Future<LatLng?> getDemoUserLatLng(); // 데모 모드에서 사용자의 위치 반환
+
+  Future<bool> patchIntroPopUpShowing(bool state); // 초기 팝업 노출 여부 수정
+
+  Future<bool> getIntroPopUpShowing(); // 초기 팝업 노출 여부 반환
 }

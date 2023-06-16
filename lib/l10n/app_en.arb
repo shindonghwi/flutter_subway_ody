@@ -20,7 +20,12 @@
 
     "change_language_dialog_body": "Do you want to change\nto the selected language?\n(App will restart)",
 
-    "hidden_menu_title": "Re-run to demo version",
+    "popup_intro_menu_title": "Subway Ody Notice",
+    "popup_intro_menu_description_1": "The current service is ",
+    "popup_intro_menu_description_2": "Subway in Seoul, Incheon, and Gyeonggi (metropolitan area) ",
+    "popup_intro_menu_description_3": "Supporting the service.",
+    "popup_intro_menu_description_4": "We are planning to open a subway service in another area soon, so please wait a little bit!",
+    "popup_hidden_menu_title": "Re-run to demo version",
 
     "commonConfirm": "check",
     "commonCancel": "cancel",
