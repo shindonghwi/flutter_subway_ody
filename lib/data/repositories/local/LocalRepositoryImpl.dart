@@ -70,4 +70,16 @@ class LocalRepositoryImpl implements LocalRepository {
     LocalApi localApi = GetIt.instance<LocalApi>();
     return await localApi.getAppMode();
   }
+
+  @override
+  Future<LatLng?> getDemoUserLatLng() async {
+    LocalApi localApi = GetIt.instance<LocalApi>();
+    return await localApi.getDemoUserLatLng();
+  }
+
+  @override
+  Future<bool> saveDemoUserLatLng(LatLng latLng) async {
+    LocalApi localApi = GetIt.instance<LocalApi>();
+    return await localApi.saveDemoUserLatLng(latLng);
+  }
 }

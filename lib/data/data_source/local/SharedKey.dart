@@ -3,6 +3,7 @@ enum SharedKey {
   DISTANCE, // 사용자가 설정한 거리
   LANGUAGE, // 사용자가 설정한 언어
   APP_MODE, // 앱 모드 ( 데모, 실제 )
+  DEMO_USER_LATLNG, // 데모모드에서 사용자의 위치
 }
 
 class SharedKeyHelper {
@@ -11,6 +12,7 @@ class SharedKeyHelper {
     SharedKey.DISTANCE: "DISTANCE",
     SharedKey.LANGUAGE: "LANGUAGE",
     SharedKey.APP_MODE: "APP_MODE",
+    SharedKey.DEMO_USER_LATLNG: "APP_MODE",
   };
 
   static String fromString(SharedKey key) => _stringToEnum[key]!;
