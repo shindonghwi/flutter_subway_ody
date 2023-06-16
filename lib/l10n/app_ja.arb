@@ -20,6 +20,8 @@
 
     "change_language_dialog_body": "選択した言語に変更しますか？\n(アプリが再起動します)",
 
+    "hidden_menu_title": "デモバージョンに再実行",
+
     "commonConfirm": "かくにん",
     "commonCancel": "キャンセル",
     "commonEnable": "可能にする",

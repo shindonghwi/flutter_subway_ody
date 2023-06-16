@@ -20,6 +20,8 @@
 
     "change_language_dialog_body": "선택한 언어로 변경하시겠습니까?\n(앱이 재시작됩니다)",
 
+    "hidden_menu_title": "데모 버전으로 재 실행 합니다",
+
     "commonConfirm": "확인",
     "commonCancel": "취소",
     "commonEnable": "활성화 하기",

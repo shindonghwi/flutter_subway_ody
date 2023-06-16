@@ -66,9 +66,9 @@ class LocalRepositoryImpl implements LocalRepository {
   }
 
   @override
-  Future<bool?> getAppMode() async {
+  Future<bool> getAppDemoMode() async {
     LocalApi localApi = GetIt.instance<LocalApi>();
-    return await localApi.getAppMode();
+    return await localApi.getAppDemoMode();
   }
 
   @override

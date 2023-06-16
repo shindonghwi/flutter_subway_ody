@@ -20,6 +20,8 @@
 
     "change_language_dialog_body": "Do you want to change\nto the selected language?\n(App will restart)",
 
+    "hidden_menu_title": "Re-run to demo version",
+
     "commonConfirm": "check",
     "commonCancel": "cancel",
     "commonEnable": "enable",

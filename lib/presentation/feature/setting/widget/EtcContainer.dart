@@ -3,8 +3,11 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:get_it/get_it.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:subway_ody/app/SubwayOdyApp.dart';
+import 'package:subway_ody/domain/usecases/local/GetAppModeUseCase.dart';
+import 'package:subway_ody/domain/usecases/local/PatchAppModeUseCase.dart';
 import 'package:subway_ody/domain/usecases/local/PostSaveUserLanguageUseCase.dart';
 import 'package:subway_ody/firebase/Analytics.dart';
+import 'package:subway_ody/presentation/components/popup/PopupUtil.dart';
 import 'package:subway_ody/presentation/feature/setting/models/LanguageType.dart';
 import 'package:subway_ody/presentation/ui/colors.dart';
 import 'package:subway_ody/presentation/ui/typography.dart';
@@ -179,6 +182,8 @@ class VersionText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int hiddenMenuClickCount = 0;
+
     return Container(
       margin: const EdgeInsets.only(top: 24),
       child: Row(
@@ -195,12 +200,22 @@ class VersionText extends StatelessWidget {
             future: getAppVersion(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return Text(
-                  snapshot.data.toString(),
-                  style: getTextTheme(context).medium.copyWith(
-                        color: getColorScheme(context).colorPrimary,
-                        fontSize: 14,
-                      ),
+                return GestureDetector(
+                  onTap: () async {
+                    hiddenMenuClickCount++;
+
+                    if (hiddenMenuClickCount == 10) {
+                      PopupUtil.showHiddenMenu(backgroundTouchCloseFlag: false);
+                      hiddenMenuClickCount = 0;
+                    }
+                  },
+                  child: Text(
+                    snapshot.data.toString(),
+                    style: getTextTheme(context).medium.copyWith(
+                          color: getColorScheme(context).colorPrimary,
+                          fontSize: 14,
+                        ),
+                  ),
                 );
               } else {
                 return Container();

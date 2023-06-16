@@ -127,11 +127,11 @@ class LocalApi {
   }
 
   /// 앱 모드 반환
-  Future<bool?> getAppMode() async {
+  Future<bool> getAppDemoMode() async {
     final prefs = await SharedPreferences.getInstance();
     final appMode = prefs.getBool(appModeKey);
     debugPrint("LocalApi - getAppMode : $appMode");
-    return appMode;
+    return appMode ?? false;
   }
 
   /// 데모 모드에서 사용자의 위치 저장

@@ -6,7 +6,7 @@ class GetAppModeUseCase {
 
   final LocalRepository _localRepository = GetIt.instance<LocalRepository>();
 
-  Future<bool?> call() async {
-    return await _localRepository.getAppMode();
+  Future<bool> call() async {
+    return await _localRepository.getAppDemoMode();
   }
 }

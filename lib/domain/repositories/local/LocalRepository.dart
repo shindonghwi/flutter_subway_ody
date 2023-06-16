@@ -21,7 +21,7 @@ abstract class LocalRepository {
 
   Future<bool> changeAppMode(bool isDemo); // 앱 모드 변경
 
-  Future<bool?> getAppMode(); // 앱 모드 반환
+  Future<bool> getAppDemoMode(); // 앱 모드 반환
 
   Future<bool> saveDemoUserLatLng(LatLng latLng); // 데모 모드에서 사용자의 위치 저장
 
