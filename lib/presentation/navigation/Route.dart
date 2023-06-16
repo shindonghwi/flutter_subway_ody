@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:subway_ody/firebase/Analytics.dart';
+import 'package:subway_ody/presentation/feature/hidden/HiddenScreen.dart';
 import 'package:subway_ody/presentation/feature/main/MainScreen.dart';
 import 'package:subway_ody/presentation/feature/setting/SettingScreen.dart';
 import 'package:subway_ody/presentation/feature/splash/SplashScreen.dart';
@@ -7,7 +8,8 @@ import 'package:subway_ody/presentation/feature/splash/SplashScreen.dart';
 enum RoutingScreen {
   Splash(route: "/splash"), // 스플래시
   Main(route: "/main"), // 메인
-  Setting(route: "/setting"); // 설정
+  Setting(route: "/setting"), // 설정
+  Hidden(route: "/hidden"); // 숨겨진 화면 ( 위치 수동 설정 )
 
   final String route;
 
@@ -20,6 +22,7 @@ enum RoutingScreen {
       RoutingScreen.Splash.route: (context) => const SplashScreen(),
       RoutingScreen.Main.route: (context) => MainScreen(),
       RoutingScreen.Setting.route: (context) => const SettingScreen(),
+      RoutingScreen.Hidden.route: (context) => HiddenScreen(),
     };
   }
 
@@ -32,6 +35,8 @@ enum RoutingScreen {
         return MainScreen();
       case "/setting":
         return const SettingScreen();
+      case "/hidden":
+        return HiddenScreen();
       default: // default는 무조건 splash로 이동
         return const SplashScreen();
     }

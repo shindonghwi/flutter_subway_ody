@@ -13,7 +13,7 @@ class SharedKeyHelper {
     SharedKey.DISTANCE: "DISTANCE",
     SharedKey.LANGUAGE: "LANGUAGE",
     SharedKey.APP_MODE: "APP_MODE",
-    SharedKey.DEMO_USER_LATLNG: "APP_MODE",
+    SharedKey.DEMO_USER_LATLNG: "DEMO_USER_LATLNG",
     SharedKey.INTRO_SHOWING: "INTRO_SHOWING",
   };
 

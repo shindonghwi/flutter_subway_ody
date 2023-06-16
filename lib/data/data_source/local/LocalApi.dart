@@ -139,10 +139,11 @@ class LocalApi {
   Future<bool> saveDemoUserLatLng(LatLng latLng) async {
     final prefs = await SharedPreferences.getInstance();
     final isComplete = await prefs.setStringList(demoUserLatLngKey, [
-      latLng.latitude.toString(),
       latLng.longitude.toString(),
+      latLng.latitude.toString(),
     ]).then((value) {
       debugPrint("LocalApi - saveDemoUserLatLng : $value");
+      debugPrint("LocalApi - saveDemoUserLatLng : ${prefs.getStringList(demoUserLatLngKey)}");
       return value;
     }).onError((error, stackTrace) {
       return false;

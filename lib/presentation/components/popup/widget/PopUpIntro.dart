@@ -61,6 +61,7 @@ class PopUpIntro extends StatelessWidget {
                     ),
                   ],
                 ),
+                textAlign: TextAlign.center,
               ),
               const SizedBox(height: 12),
               Text(
@@ -68,7 +69,10 @@ class PopUpIntro extends StatelessWidget {
                 style: getTextTheme(context).regular.copyWith(
                       color: const Color(0xFF7C7C7C),
                       fontSize: 12,
-                    ),
+                  height: 1.28,
+                ),
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.clip,
               ),
             ],
           ),

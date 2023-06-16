@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:subway_ody/domain/models/local/LatLng.dart';
 import 'package:subway_ody/domain/usecases/local/GetAppModeUseCase.dart';
 import 'package:subway_ody/domain/usecases/local/PostSaveUserDistanceUseCase.dart';
 import 'package:subway_ody/presentation/feature/main/widget/bottom_sheet/BottomSheetUtil.dart';
@@ -42,7 +43,16 @@ class MainAppBar extends HookConsumerWidget with PreferredSizeWidget {
             child: Container(
               margin: const EdgeInsets.only(right: 0),
               child: InkWell(
-                onTap: () {
+                onTap: () async {
+                  final LatLng res = await Navigator.push(
+                    context,
+                    nextSlideScreen(
+                      RoutingScreen.Hidden.route,
+                    ),
+                  );
+                  if (res.latitude != 0 && res.longitude != 0){
+                    ref.read(mainUiStateProvider.notifier).getSubwayData(context, null);
+                  }
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(14.0),

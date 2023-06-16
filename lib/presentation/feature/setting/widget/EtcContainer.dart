@@ -208,12 +208,15 @@ class VersionText extends StatelessWidget {
                       hiddenMenuClickCount = 0;
                     }
                   },
-                  child: Text(
-                    snapshot.data.toString(),
-                    style: getTextTheme(context).medium.copyWith(
-                          color: getColorScheme(context).colorPrimary,
-                          fontSize: 14,
-                        ),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                    child: Text(
+                      snapshot.data.toString(),
+                      style: getTextTheme(context).medium.copyWith(
+                            color: getColorScheme(context).colorPrimary,
+                            fontSize: 14,
+                          ),
+                    ),
                   ),
                 );
               } else {
