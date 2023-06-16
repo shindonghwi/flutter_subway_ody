@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:subway_ody/data/data_source/local/SharedKey.dart';
 import 'package:subway_ody/domain/models/local/LatLng.dart';
 import 'package:subway_ody/presentation/feature/setting/models/LanguageType.dart';
+import 'package:subway_ody/presentation/utils/CollectionUtil.dart';
 
 class LocalApi {
   LocalApi();
@@ -13,13 +14,17 @@ class LocalApi {
   final String autoRefreshCallKey = SharedKeyHelper.fromString(SharedKey.AUTO_REFRESH_CALL);
   final String distanceKey = SharedKeyHelper.fromString(SharedKey.DISTANCE);
   final String languageKey = SharedKeyHelper.fromString(SharedKey.LANGUAGE);
+  final String appModeKey = SharedKeyHelper.fromString(SharedKey.APP_MODE);
+  final String demoUserLatLngKey = SharedKeyHelper.fromString(SharedKey.DEMO_USER_LATLNG);
+  final String introShowingKey = SharedKeyHelper.fromString(SharedKey.INTRO_SHOWING);
 
   /// 위치 권한 요청
   Future<bool> getLocationPermission() async {
     LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied || permission == LocationPermission.deniedForever) {
+      if (permission == LocationPermission.denied ||
+          permission == LocationPermission.deniedForever) {
         return false;
       }
       return true;
@@ -108,5 +113,74 @@ class LocalApi {
       return false;
     });
     return isComplete;
+  }
+
+  /// 앱 모드 변경
+  Future<bool> changeAppMode(bool isDemo) async {
+    final prefs = await SharedPreferences.getInstance();
+    final isComplete = await prefs.setBool(appModeKey, isDemo).then((value) {
+      debugPrint("LocalApi - changeAppMode : $value");
+      return value;
+    }).onError((error, stackTrace) {
+      return false;
+    });
+    return isComplete;
+  }
+
+  /// 앱 모드 반환
+  Future<bool> getAppDemoMode() async {
+    final prefs = await SharedPreferences.getInstance();
+    final appMode = prefs.getBool(appModeKey);
+    debugPrint("LocalApi - getAppMode : $appMode");
+    return appMode ?? false;
+  }
+
+  /// 데모 모드에서 사용자의 위치 저장
+  Future<bool> saveDemoUserLatLng(LatLng latLng) async {
+    final prefs = await SharedPreferences.getInstance();
+    final isComplete = await prefs.setStringList(demoUserLatLngKey, [
+      latLng.longitude.toString(),
+      latLng.latitude.toString(),
+    ]).then((value) {
+      debugPrint("LocalApi - saveDemoUserLatLng : $value");
+      debugPrint("LocalApi - saveDemoUserLatLng : ${prefs.getStringList(demoUserLatLngKey)}");
+      return value;
+    }).onError((error, stackTrace) {
+      return false;
+    });
+    return isComplete;
+  }
+
+  /// 데모 모드에서 사용자의 위치 반환
+  Future<LatLng?> getDemoUserLatLng() async {
+    final prefs = await SharedPreferences.getInstance();
+    final latLngList = prefs.getStringList(demoUserLatLngKey);
+    debugPrint("LocalApi - getDemoUserLatLng : $latLngList");
+
+    if (CollectionUtil.isNullorEmpty(latLngList)) {
+      return null;
+    } else {
+      return LatLng(double.tryParse(latLngList!.first), double.tryParse(latLngList.last));
+    }
+  }
+
+  /// 초기 팝업 노출 여부 수정
+  Future<bool> patchIntroPopUpShowing(bool state) async {
+    final prefs = await SharedPreferences.getInstance();
+    final isComplete = await prefs.setBool(introShowingKey, state).then((value) {
+      debugPrint("LocalApi - saveDemoUserLatLng : $value");
+      return value;
+    }).onError((error, stackTrace) {
+      return false;
+    });
+    return isComplete;
+  }
+
+  /// 초기 팝업 노출 여부 반환
+  Future<bool> getIntroPopUpShowing() async {
+    final prefs = await SharedPreferences.getInstance();
+    final isShowing = prefs.getBool(introShowingKey) ?? true;
+    debugPrint("LocalApi - getIntroPopUpShowing : $isShowing");
+    return isShowing;
   }
 }

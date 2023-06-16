@@ -54,8 +54,44 @@ class LocalRepositoryImpl implements LocalRepository {
   }
 
   @override
-  Future<bool> saveUserLanguage(LanguageType type) async{
+  Future<bool> saveUserLanguage(LanguageType type) async {
     LocalApi localApi = GetIt.instance<LocalApi>();
     return await localApi.saveUserLanguage(type);
+  }
+
+  @override
+  Future<bool> changeAppMode(bool isDemo) async {
+    LocalApi localApi = GetIt.instance<LocalApi>();
+    return await localApi.changeAppMode(isDemo);
+  }
+
+  @override
+  Future<bool> getAppDemoMode() async {
+    LocalApi localApi = GetIt.instance<LocalApi>();
+    return await localApi.getAppDemoMode();
+  }
+
+  @override
+  Future<LatLng?> getDemoUserLatLng() async {
+    LocalApi localApi = GetIt.instance<LocalApi>();
+    return await localApi.getDemoUserLatLng();
+  }
+
+  @override
+  Future<bool> saveDemoUserLatLng(LatLng latLng) async {
+    LocalApi localApi = GetIt.instance<LocalApi>();
+    return await localApi.saveDemoUserLatLng(latLng);
+  }
+
+  @override
+  Future<bool> getIntroPopUpShowing() async {
+    LocalApi localApi = GetIt.instance<LocalApi>();
+    return await localApi.getIntroPopUpShowing();
+  }
+
+  @override
+  Future<bool> patchIntroPopUpShowing(bool state) async {
+    LocalApi localApi = GetIt.instance<LocalApi>();
+    return await localApi.patchIntroPopUpShowing(state);
   }
 }

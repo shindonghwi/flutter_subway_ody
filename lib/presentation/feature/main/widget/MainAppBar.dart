@@ -3,7 +3,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:subway_ody/domain/usecases/local/GetUserDistanceUseCase.dart';
+import 'package:subway_ody/domain/models/local/LatLng.dart';
+import 'package:subway_ody/domain/usecases/local/GetAppModeUseCase.dart';
 import 'package:subway_ody/domain/usecases/local/PostSaveUserDistanceUseCase.dart';
 import 'package:subway_ody/presentation/feature/main/widget/bottom_sheet/BottomSheetUtil.dart';
 import 'package:subway_ody/presentation/feature/provider/CurrentRegionNotifier.dart';
@@ -18,7 +19,14 @@ class MainAppBar extends HookConsumerWidget with PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ValueNotifier<int?>? initDistance = useState(null);
+
+    final hiddenMenu = useState<bool>(false);
+
+    useEffect(() {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        hiddenMenu.value = await GetIt.instance<GetAppModeUseCase>().call();
+      });
+    }, []);
 
     return AppBar(
       backgroundColor: const Color(0xFFFDFDFD),
@@ -29,6 +37,34 @@ class MainAppBar extends HookConsumerWidget with PreferredSizeWidget {
       title: const _RegionText(),
       centerTitle: false,
       actions: [
+        if (hiddenMenu.value)
+          Align(
+            alignment: Alignment.center,
+            child: Container(
+              margin: const EdgeInsets.only(right: 0),
+              child: InkWell(
+                onTap: () async {
+                  final LatLng res = await Navigator.push(
+                    context,
+                    nextSlideScreen(
+                      RoutingScreen.Hidden.route,
+                    ),
+                  );
+                  if (res.latitude != 0 && res.longitude != 0){
+                    ref.read(mainUiStateProvider.notifier).getSubwayData(context, null);
+                  }
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(14.0),
+                  child: SvgPicture.asset(
+                    "assets/imgs/hidden.svg",
+                    width: 24,
+                    height: 24,
+                  ),
+                ),
+              ),
+            ),
+          ),
         Align(
           alignment: Alignment.center,
           child: Container(
@@ -94,10 +130,10 @@ class _RegionText extends HookConsumerWidget {
     return Text(
       region,
       style: getTextTheme(context).medium.copyWith(
-        color: const Color(0xFF2F2F2F),
-        fontSize: 18,
-        height: 1.28,
-      ),
+            color: const Color(0xFF2F2F2F),
+            fontSize: 18,
+            height: 1.28,
+          ),
       textAlign: TextAlign.left,
       overflow: TextOverflow.ellipsis,
     );
