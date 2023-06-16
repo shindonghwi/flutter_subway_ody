@@ -26,7 +26,8 @@
     "popup_intro_menu_description_2": "서울·인천·경기(수도권) 지역의 지하철 ",
     "popup_intro_menu_description_3": "서비스를 지원하고 있습니다.",
     "popup_intro_menu_description_4": "조만간 다른 지역의 지하철 서비스를 오픈할 예정이오니 조금만 기다려주세요!",
-    "popup_hidden_menu_title": "데모 버전으로 재 실행 합니다",
+    "popup_hidden_menu_on_title": "데모 버전으로 재 실행 합니다.",
+    "popup_hidden_menu_off_title": "상용 버전으로 재 실행 합니다.",
 
     "commonConfirm": "확인",
     "commonCancel": "취소",

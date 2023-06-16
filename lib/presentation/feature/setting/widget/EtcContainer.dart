@@ -203,7 +203,6 @@ class VersionText extends StatelessWidget {
                 return GestureDetector(
                   onTap: () async {
                     hiddenMenuClickCount++;
-
                     if (hiddenMenuClickCount == 10) {
                       PopupUtil.showHiddenMenu(backgroundTouchCloseFlag: false);
                       hiddenMenuClickCount = 0;

@@ -25,7 +25,8 @@
     "popup_intro_menu_description_2": "ソウル、仁川、京畿道(首都圏) ",
     "popup_intro_menu_description_3": "支援サービスです。",
     "popup_intro_menu_description_4": "近いうちに他地域の地下鉄サービスをオープンする予定ですので、少々お待ちください！",
-    "popup_hidden_menu_title": "デモバージョンに再実行",
+    "popup_hidden_menu_on_title": "デモバージョンに再実行",
+    "popup_hidden_menu_off_title": "商用バージョンに再実行します。",
 
     "commonConfirm": "かくにん",
     "commonCancel": "キャンセル",

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:get_it/get_it.dart';
 import 'package:subway_ody/domain/usecases/local/GetAppModeUseCase.dart';
 import 'package:subway_ody/domain/usecases/local/PatchAppModeUseCase.dart';
@@ -7,11 +8,19 @@ import 'package:subway_ody/presentation/ui/typography.dart';
 import 'package:subway_ody/presentation/utils/Common.dart';
 import 'package:subway_ody/presentation/utils/RestartWidget.dart';
 
-class PopUpHiddenMenu extends StatelessWidget {
+class PopUpHiddenMenu extends HookWidget {
   const PopUpHiddenMenu({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final hiddenState = useState<bool>(false);
+
+    useEffect(() {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        hiddenState.value = await GetIt.instance<GetAppModeUseCase>().call();
+      });
+    }, []);
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -24,7 +33,9 @@ class PopUpHiddenMenu extends StatelessWidget {
         ),
         const SizedBox(height: 32),
         Text(
-          getAppLocalizations(context).popup_hidden_menu_title,
+          hiddenState.value
+              ? getAppLocalizations(context).popup_hidden_menu_off_title
+              : getAppLocalizations(context).popup_hidden_menu_on_title,
           style: getTextTheme(context).medium.copyWith(
                 color: const Color(0xFF2F2F2F),
                 fontSize: 16,
@@ -43,9 +54,8 @@ class PopUpHiddenMenu extends StatelessWidget {
             color: Colors.transparent,
             child: InkWell(
               onTap: () async {
+                await GetIt.instance<PatchAppModeUseCase>().call(!hiddenState.value);
                 Navigator.of(context).pop();
-                final getAppDemoMode = await GetIt.instance<GetAppModeUseCase>().call();
-                await GetIt.instance<PatchAppModeUseCase>().call(!getAppDemoMode);
                 RestartWidget.restartApp(context);
               },
               child: Align(

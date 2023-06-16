@@ -118,7 +118,7 @@ class LocalApi {
   /// 앱 모드 변경
   Future<bool> changeAppMode(bool isDemo) async {
     final prefs = await SharedPreferences.getInstance();
-    final isComplete = await prefs.setBool(appModeKey, false).then((value) {
+    final isComplete = await prefs.setBool(appModeKey, isDemo).then((value) {
       debugPrint("LocalApi - changeAppMode : $value");
       return value;
     }).onError((error, stackTrace) {
