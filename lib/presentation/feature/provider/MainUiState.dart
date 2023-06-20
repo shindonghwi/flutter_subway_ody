@@ -25,8 +25,7 @@ enum ErrorType {
   error_500,
 }
 
-final mainUiStateProvider =
-    StateNotifierProvider<MainUiStateNotifier, UIState<MainIntent>>(
+final mainUiStateProvider = StateNotifierProvider<MainUiStateNotifier, UIState<MainIntent>>(
   (_) => MainUiStateNotifier(),
 );
 
@@ -65,7 +64,7 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
             final subwayName = element.subwayName;
             final subwayLine = element.subwayLine;
 
-            if (subwayName.isEmpty){
+            if (subwayName.isEmpty) {
               continue;
             }
 
@@ -91,7 +90,7 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
 
               final subwayArrivalList = arrivalInfo?.realtimeArrivalList!;
 
-              if (subwayLine.isEmpty){
+              if (subwayLine.isEmpty) {
                 continue;
               }
 
@@ -105,8 +104,8 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
 
               final List<SubwayDirectionStationModel> stationList = [];
 
-              final tempList = subwayArrivalList!
-                  .where((element) => element.subwayId == dummyData.subwayId);
+              final tempList =
+                  subwayArrivalList!.where((element) => element.subwayId == dummyData.subwayId);
 
               groupBy(tempList, (p0) => p0.updnLine).forEach((key, arrivalList) {
                 final isUp = arrivalList.first.ordkey.startsWith("0");
@@ -189,10 +188,10 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
     return await GetIt.instance<GetLocationPermissionUseCase>().call();
   }
 
-  _setUserRegion(List<String>? addressList){
-    if (!CollectionUtil.isNullorEmpty(addressList)){
+  _setUserRegion(List<String>? addressList) {
+    if (!CollectionUtil.isNullorEmpty(addressList)) {
       userRegion = addressList!.join(" ");
-    }else{
+    } else {
       final context = SubwayOdyApp.navigatorKey.currentContext as BuildContext;
       userRegion = getAppLocalizations(context).message_location_not_set;
     }
@@ -231,8 +230,7 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
     debugPrint("_requestNearByStation latLng : $latLng");
     if (latLng == null) return Future(() => null);
 
-    final tempDistance =
-        distance ?? await GetIt.instance<GetUserDistanceUseCase>().call() ?? 500;
+    final tempDistance = distance ?? await GetIt.instance<GetUserDistanceUseCase>().call() ?? 500;
 
     final stationInfo = await GetIt.instance<GetNearBySubwayStationUseCase>().call(
       latLng!,
@@ -240,16 +238,21 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
     );
 
     stationInfo.data?.documents?.forEach((element) {
-      final sn = element.place_name.split(" ").first;
-      final sl = element.place_name.split(" ").last;
-      final findSn = SubwayUtil.findSubwayName(subwayName: sn, subwayLine: sl);
+      if (!CollectionUtil.isNullEmptyFromString(element.place_name)) {
+        final sn = element.place_name!.split(" ").first;
+        final sl = element.place_name!.split(" ").last;
+        final findSn = SubwayUtil.findSubwayName(subwayName: sn, subwayLine: sl);
 
-      debugPrint("_requestNearByStation findSn : $findSn");
+        debugPrint("_requestNearByStation findSn : $findSn");
 
-      nearByStationList.add(NearByStation(
-          subwayName: findSn,
-          subwayLine: element.place_name.split(" ").last,
-          distance: element.distance));
+        nearByStationList.add(
+          NearByStation(
+            subwayName: findSn,
+            subwayLine: element.place_name!.split(" ").last,
+            distance: element.distance.toString(),
+          ),
+        );
+      }
     });
 
     debugPrint("_requestNearByStation nearByStationList : $nearByStationList");
@@ -258,30 +261,30 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
   }
 
   /// 지하철 포지션 결정
-  int getSubwayAlignment(String? arvlCd, bool isUp){
+  int getSubwayAlignment(String? arvlCd, bool isUp) {
     int alignment = 0;
-    switch(arvlCd){
-      case "0" : // 진입
+    switch (arvlCd) {
+      case "0": // 진입
         alignment = isUp ? 1 : -1;
         break;
-      case "4" : // 전역진입
+      case "4": // 전역진입
         alignment = isUp ? 1 : -1;
         break;
 
-      case "2" : // 출발
+      case "2": // 출발
         alignment = isUp ? -1 : 1;
         break;
-      case "3" : // 전역출발
+      case "3": // 전역출발
         alignment = isUp ? -1 : 1;
         break;
-      case "99" : // 운행중
+      case "99": // 운행중
         alignment = isUp ? -1 : 1;
         break;
 
-      case "1" : // 도착
+      case "1": // 도착
         alignment = isUp ? 0 : 0;
         break;
-      case "5" : // 전역도착
+      case "5": // 전역도착
         alignment = isUp ? 0 : 0;
         break;
     }

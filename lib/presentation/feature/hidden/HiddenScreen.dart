@@ -133,8 +133,8 @@ class HiddenScreen extends HookWidget {
                   width: 1,
                 ),
                 color: mainColor.withOpacity(
-                    item.second.latitude == isSelectedLatLng.value?.latitude &&
-                            item.second.longitude == isSelectedLatLng.value?.longitude
+                    item.second.latitude == isSelectedLatLng.value?.longitude &&
+                            item.second.longitude == isSelectedLatLng.value?.latitude
                         ? 0.3
                         : 0.0),
               ),

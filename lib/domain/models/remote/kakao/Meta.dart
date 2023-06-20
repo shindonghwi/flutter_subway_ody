@@ -6,9 +6,9 @@ part 'Meta.g.dart';
 
 @JsonSerializable()
 class Meta {
-  bool is_end;
-  int total_count;
-  int pageable_count;
+  bool? is_end;
+  int? total_count;
+  int? pageable_count;
   MetaSameName? same_name;
 
   Meta({

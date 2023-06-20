@@ -4,8 +4,8 @@ part 'MetaSameName.g.dart';
 
 @JsonSerializable()
 class MetaSameName {
-  String keyword;
-  String selected_region;
+  String? keyword;
+  String? selected_region;
   List<String>? region;
 
   MetaSameName({

@@ -7,8 +7,8 @@ part of 'MetaSameName.dart';
 // **************************************************************************
 
 MetaSameName _$MetaSameNameFromJson(Map<String, dynamic> json) => MetaSameName(
-      keyword: json['keyword'] as String,
-      selected_region: json['selected_region'] as String,
+      keyword: json['keyword'] as String?,
+      selected_region: json['selected_region'] as String?,
       region:
           (json['region'] as List<dynamic>?)?.map((e) => e as String).toList(),
     );
