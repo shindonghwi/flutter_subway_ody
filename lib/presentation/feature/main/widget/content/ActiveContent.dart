@@ -31,7 +31,6 @@ class ActiveContent extends HookWidget {
               return model.stations.isNotEmpty
                   ? Column(
                       children: [
-                        const SizedBox(height: 20),
                         if (index == 0) const GoogleAdmobBanner(size: AdSize.banner),
                         const SizedBox(height: 32),
                         SubwayTitle(
@@ -56,7 +55,6 @@ class ActiveContent extends HookWidget {
                             );
                           }).toList(),
                         ),
-
                         if (adCount.value != 0 && adCount.value % 3 == 0) const GoogleAdmobBanner(size: AdSize.largeBanner),
                       ],
                     )

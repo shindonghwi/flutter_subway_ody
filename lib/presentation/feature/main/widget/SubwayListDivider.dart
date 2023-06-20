@@ -129,7 +129,7 @@ class SubwayDividerAndNamePainter extends CustomPainter {
   Future<void> paint(Canvas canvas, Size size) async {
     final paint = Paint()
       ..color = mainColor
-      ..strokeWidth = size.height
+      ..strokeWidth = (size.height / 2)
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.fill;
 
@@ -158,6 +158,7 @@ class SubwayDividerAndNamePainter extends CustomPainter {
     final circleBorderPaint = Paint()
       ..color = mainColor
       ..strokeCap = StrokeCap.round
+      ..strokeWidth = 2
       ..style = PaintingStyle.fill;
 
 
