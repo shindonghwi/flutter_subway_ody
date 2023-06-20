@@ -4,7 +4,8 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:subway_ody/app/env/Environment.dart';
 
 class Advertisement {
-  static String get kakaoAdFitId => Platform.isAndroid ? 'DAN-smkKi8A2hYTvXIQ9' : '';
+  static String get kakaoNativeAdFitId => Platform.isAndroid ? 'DAN-smkKi8A2hYTvXIQ9' : '';
+  static String get kakaoBannerAdFitId => Platform.isAndroid ? 'DAN-8LSWPmMIAoxXYhXZ' : '';
 
   static String get admobBannerId => Platform.isAndroid
       ? Environment.buildType == BuildType.dev

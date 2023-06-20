@@ -16,9 +16,9 @@ class KakaoAdFitBanner extends HookWidget {
   Widget build(BuildContext context) {
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        KakaoAdFitBannerHelper.initNativeAd(
+        KakaoAdFitBannerHelper.initBannerAd(
           AdRequestType.initialize,
-          Advertisement.kakaoAdFitId,
+          Advertisement.kakaoBannerAdFitId,
           Platform.isAndroid,
           (message) {
             debugPrint(message);
@@ -27,44 +27,43 @@ class KakaoAdFitBanner extends HookWidget {
       });
     }, []);
 
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Container(
-        width: double.infinity,
-        color: const Color(0xFFF5F5F5),
-        child: AspectRatio(
-          aspectRatio: 1.43 / 1.00,
-          child: Platform.isAndroid
-              ? PlatformViewLink(
-                  viewType: KakaoAdFitBannerHelper.PLUGIN_VIEW_TYPE,
-                  surfaceFactory: (context, controller) {
-                    return AndroidViewSurface(
-                      controller: controller as AndroidViewController,
-                      gestureRecognizers: const <Factory<OneSequenceGestureRecognizer>>{},
-                      hitTestBehavior: PlatformViewHitTestBehavior.opaque,
-                    );
-                  },
-                  onCreatePlatformView: (params) {
-                    return PlatformViewsService.initSurfaceAndroidView(
-                      id: params.id,
-                      viewType: KakaoAdFitBannerHelper.PLUGIN_VIEW_TYPE,
-                      layoutDirection: TextDirection.ltr,
-                      // creationParams: creationParams,
-                      creationParamsCodec: const StandardMessageCodec(),
-                      onFocus: () {
-                        params.onFocusChanged(true);
-                      },
-                    )
-                      ..addOnPlatformViewCreatedListener(params.onPlatformViewCreated)
-                      ..create();
-                  },
-                )
-              : const UiKitView(
-                  viewType: KakaoAdFitBannerHelper.PLUGIN_VIEW_TYPE,
-                  layoutDirection: TextDirection.ltr,
-                  creationParamsCodec: StandardMessageCodec(),
-                ),
-        ),
+        margin: const EdgeInsets.only(top: 20),
+        width: 320,
+        height: 50,
+        child: Platform.isAndroid
+            ? PlatformViewLink(
+                viewType: KakaoAdFitBannerHelper.PLUGIN_BANNER,
+                surfaceFactory: (context, controller) {
+                  return AndroidViewSurface(
+                    controller: controller as AndroidViewController,
+                    gestureRecognizers: const <Factory<OneSequenceGestureRecognizer>>{},
+                    hitTestBehavior: PlatformViewHitTestBehavior.opaque,
+                  );
+                },
+                onCreatePlatformView: (params) {
+                  return PlatformViewsService.initSurfaceAndroidView(
+                    id: params.id,
+                    viewType: KakaoAdFitBannerHelper.PLUGIN_BANNER,
+                    layoutDirection: TextDirection.ltr,
+                    // creationParams: creationParams,
+                    creationParamsCodec: const StandardMessageCodec(),
+                    onFocus: () {
+                      params.onFocusChanged(true);
+                    },
+                  )
+                    ..addOnPlatformViewCreatedListener(params.onPlatformViewCreated)
+                    ..create();
+                },
+              )
+            : const UiKitView(
+                viewType: KakaoAdFitBannerHelper.PLUGIN_BANNER,
+                layoutDirection: TextDirection.ltr,
+                creationParamsCodec: StandardMessageCodec(),
+              ),
       ),
     );
   }
