@@ -9,8 +9,8 @@ part 'Document.g.dart';
 class Document {
   DocumentRoadAddress? road_address;
   DocumentAddress? address;
-  String place_name;
-  String distance;
+  String? place_name;
+  String? distance;
 
   Document({
     required this.road_address,

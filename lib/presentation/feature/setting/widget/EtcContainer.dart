@@ -209,6 +209,7 @@ class VersionText extends StatelessWidget {
                     }
                   },
                   child: Container(
+                    color: getColorScheme(context).light,
                     padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
                     child: Text(
                       snapshot.data.toString(),
