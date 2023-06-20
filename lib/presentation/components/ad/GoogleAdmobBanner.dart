@@ -29,6 +29,7 @@ class GoogleAdmobBanner extends HookWidget {
           },
           onAdFailedToLoad: (ad, err) {
             ad.dispose();
+            bannerAd.value = null;
           },
           onAdOpened: (Ad ad) {},
           onAdClosed: (Ad ad) {},
@@ -38,18 +39,23 @@ class GoogleAdmobBanner extends HookWidget {
     }
 
     useEffect(() {
-      if (Environment.buildType == BuildType.prod && Platform.isAndroid) {
+      if (Environment.buildType == BuildType.dev && Platform.isAndroid) {
         loadAd();
       }
     }, []);
 
-    return Environment.buildType == BuildType.prod && Platform.isAndroid
-        ? Container(
-            width: size.width.toDouble(),
-            height: size.height.toDouble(),
-            color: const Color(0xFFF5F5F5),
-            child: bannerAd.value != null ? AdWidget(ad: bannerAd.value!) : const SizedBox(),
-          )
+    return Environment.buildType == BuildType.dev && Platform.isAndroid
+        ? bannerAd.value != null
+            ? Container(
+                color: const Color(0xFFF5F5F5),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 20),
+                    AdWidget(ad: bannerAd.value!),
+                  ],
+                ),
+              )
+            : const SizedBox()
         : const SizedBox();
   }
 }
