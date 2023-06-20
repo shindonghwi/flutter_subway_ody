@@ -8,8 +8,7 @@ class Advertisement {
 
   static String get admobBannerId => Platform.isAndroid
       ? Environment.buildType == BuildType.dev
-          // ? 'ca-app-pub-3940256099942544/6300978111'
-          ? 'ca-app-pub-3488970363462155/2301086782'
+          ? 'ca-app-pub-3940256099942544/6300978111'
           : 'ca-app-pub-3488970363462155/2301086782'
       : Environment.buildType == BuildType.dev
           ? 'ca-app-pub-3940256099942544/2934735716'

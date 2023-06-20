@@ -39,12 +39,12 @@ class GoogleAdmobBanner extends HookWidget {
     }
 
     useEffect(() {
-      if (Environment.buildType == BuildType.dev && Platform.isAndroid) {
+      if (Environment.buildType == BuildType.prod && Platform.isAndroid) {
         loadAd();
       }
     }, []);
 
-    return Environment.buildType == BuildType.dev && Platform.isAndroid
+    return Environment.buildType == BuildType.prod && Platform.isAndroid
         ? bannerAd.value != null
             ? Container(
                 color: const Color(0xFFF5F5F5),
