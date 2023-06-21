@@ -83,15 +83,12 @@ internal class AdFitBannerView(
             setClientId(adId)
             setAdListener(object : AdListener{
                 override fun onAdLoaded() {
-                    reply.reply("onAdLoaded")
                 }
 
                 override fun onAdFailed(p0: Int) {
-                    reply.reply("onAdFailed $p0")
                 }
 
                 override fun onAdClicked() {
-                    reply.reply("onAdClicked")
                 }
             })
         }.run {

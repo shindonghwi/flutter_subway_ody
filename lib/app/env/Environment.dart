@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
@@ -47,6 +48,15 @@ class Environment {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
     ));
+
+    if (Platform.isIOS){
+      if (await AppTrackingTransparency.trackingAuthorizationStatus ==
+          TrackingStatus.notDetermined) {
+        // Wait for dialog popping animation
+        await Future.delayed(const Duration(milliseconds: 200));
+        await AppTrackingTransparency.requestTrackingAuthorization();
+      }
+    }
 
     Advertisement.initAdMob();
     initServiceLocator();
