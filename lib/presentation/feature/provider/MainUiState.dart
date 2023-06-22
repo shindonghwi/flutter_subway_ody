@@ -74,15 +74,7 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
               subwayName,
             );
 
-            if (arrivalRes.data?.status == 500) {
-              if (arrivalRes.data?.message?.contains("해당하는 데이터가 없습니다") == true) {
-                _changeUiState(Failure(ErrorType.not_available.name));
-                return;
-              } else {
-                _changeUiState(Failure(ErrorType.error_500.name));
-                return;
-              }
-            } else if (arrivalRes.status == 200) {
+            if (arrivalRes.status == 200) {
               var arrivalInfo = arrivalRes.data;
               if (CollectionUtil.isNullorEmpty(arrivalInfo?.realtimeArrivalList)) {
                 continue;
@@ -159,6 +151,8 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
               subwayDataList.add(dummyData);
             }
           }
+
+          debugPrint("subwayDataList: $subwayDataList");
 
           if (!CollectionUtil.isNullorEmpty(subwayDataList)) {
             _changeUiState(

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -39,22 +37,23 @@ class GoogleAdmobBanner extends HookWidget {
     }
 
     useEffect(() {
-      if (Environment.buildType == BuildType.prod && Platform.isAndroid) {
+      if (Environment.buildType == BuildType.prod) {
         loadAd();
       }
     }, []);
 
-    return Environment.buildType == BuildType.prod && Platform.isAndroid
+    return Environment.buildType == BuildType.prod
         ? bannerAd.value != null
-            ? Container(
-                color: const Color(0xFFF5F5F5),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 20),
-                    AdWidget(ad: bannerAd.value!),
-                  ],
+            ? Column(
+              children: [
+                const SizedBox(height: 20),
+                SizedBox(
+                  width: size.width.toDouble(),
+                  height: size.height.toDouble(),
+                  child: AdWidget(ad: bannerAd.value!),
                 ),
-              )
+              ],
+            )
             : const SizedBox()
         : const SizedBox();
   }
