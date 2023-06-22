@@ -13,7 +13,7 @@ class Advertisement {
           : 'ca-app-pub-3488970363462155/2301086782'
       : Environment.buildType == BuildType.dev
           ? 'ca-app-pub-3940256099942544/2934735716'
-          : '';
+          : 'ca-app-pub-3488970363462155/3903211986';
 
   static Future<InitializationStatus> initAdMob() {
     return MobileAds.instance.initialize();
