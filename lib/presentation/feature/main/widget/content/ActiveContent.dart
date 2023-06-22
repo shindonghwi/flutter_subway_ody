@@ -60,7 +60,7 @@ class ActiveContent extends HookWidget {
                           }).toList(),
                         ),
                         if (adCount.value != 0 && adCount.value % 3 == 0 && Platform.isIOS) const GoogleAdmobBanner(size: AdSize.largeBanner),
-                        if (adCount.value != 0 && adCount.value % 3 == 0 && Platform.isAndroid) const KakaoAdFitBanner(),
+                        // if (adCount.value == 3 && Platform.isAndroid) const KakaoAdFitBanner(),
                       ],
                     )
                   : const SizedBox();
