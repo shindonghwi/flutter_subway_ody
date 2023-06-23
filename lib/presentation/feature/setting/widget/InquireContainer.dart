@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:subway_ody/presentation/ui/typography.dart';
 import 'package:subway_ody/presentation/utils/Common.dart';
-import 'package:subway_ody/presentation/utils/SnackBarUtil.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class InquireContainer extends StatelessWidget {
@@ -34,7 +33,7 @@ class InquireContainer extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
               onTap: () async {
                 final url = Uri.parse(inquireLink);
-                launchUrl(url, mode: LaunchMode.externalApplication);
+                launchUrl(url, mode: LaunchMode.inAppWebView);
               },
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

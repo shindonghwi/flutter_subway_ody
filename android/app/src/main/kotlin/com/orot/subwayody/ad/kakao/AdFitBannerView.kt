@@ -1,10 +1,16 @@
 package com.orot.subwayody.ad.kakao
 
+import android.app.Activity
 import android.content.Context
+import android.content.ContextWrapper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.OnLifecycleEvent
 import com.kakao.adfit.ads.AdError
 import com.kakao.adfit.ads.AdListener
 import com.kakao.adfit.ads.ba.BannerAdView
@@ -79,20 +85,72 @@ internal class AdFitBannerView(
         layout.removeAllViews()
         layout.addView(bannerAdView)
 
-        layout.findViewById<BannerAdView>(R.id.adView).apply {
+        val adView = layout.findViewById<BannerAdView>(R.id.adView)
+
+        adView.apply {
+            Log.w("zxccxzcxzzxczcx", "adId:  $adId", )
             setClientId(adId)
             setAdListener(object : AdListener{
                 override fun onAdLoaded() {
+                    Log.w("zxccxzcxzzxczcx", "onAdLoaded: ", )
                 }
 
                 override fun onAdFailed(p0: Int) {
+                    Log.w("zxccxzcxzzxczcx", "onAdFailed: ", )
                 }
 
                 override fun onAdClicked() {
+                    Log.w("zxccxzcxzzxczcx", "onAdClicked: ", )
                 }
             })
         }.run {
             loadAd()
         }
+
+        val lifecycle: Lifecycle? = getLifecycleFromContext(context)
+        attachLifecycleToAdView(context, lifecycle, adView)
     }
+
+    fun getActivityFromContext(context: Context?): Activity? {
+        if (context is Activity) {
+            return context
+        } else if (context is ContextWrapper) {
+            return getActivityFromContext(context.baseContext)
+        }
+        return null
+    }
+
+    fun getLifecycleFromContext(context: Context?): Lifecycle? {
+        if (context is LifecycleOwner) {
+            return context.lifecycle
+        } else if (context is ContextWrapper) {
+            return getLifecycleFromContext(context.baseContext)
+        }
+        return null
+    }
+
+
+    fun attachLifecycleToAdView(context: Context?, lifecycle: Lifecycle?, adView: BannerAdView) {
+        getActivityFromContext(context)?.apply {
+            lifecycle?.addObserver(object : LifecycleObserver {
+
+                @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+                fun onResume() {
+                    adView.resume()
+                }
+
+                @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+                fun onPause() {
+                    adView.pause()
+                }
+
+                @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+                fun onDestroy() {
+                    adView.destroy()
+                }
+            })
+        }
+    }
+
+
 }
