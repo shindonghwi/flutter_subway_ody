@@ -81,25 +81,27 @@ class MainScreen extends HookConsumerWidget {
     return Scaffold(
       appBar: const MainAppBar(),
       backgroundColor: getColorScheme(context).light,
-      body: Stack(
+      body: Column(
         children: [
-          Column(
-            children: [
-              if (Platform.isAndroid) const KakaoAdFitBanner(),
-              mainIntentData.value == null
-                  ? uiState is Success<MainIntent>
-                  ? ActiveContent(subwayModel: uiState.value)
-                  : const SizedBox()
-                  : ActiveContent(subwayModel: mainIntentData.value!),
-              if (uiState is Failure<MainIntent>)
-                uiState.errorMessage == ErrorType.gps_error.name
-                    ? const ErrorGpsContent()
-                    : uiState.errorMessage == ErrorType.not_available.name
-                    ? const ErrorNotAvailableContent()
-                    : const Error500Content(),
-            ],
+          if (Platform.isAndroid) const KakaoAdFitBanner(),
+          Expanded(
+            child: Stack(
+              children: [
+                mainIntentData.value == null
+                    ? uiState is Success<MainIntent>
+                    ? ActiveContent(subwayModel: uiState.value)
+                    : const SizedBox()
+                    : ActiveContent(subwayModel: mainIntentData.value!),
+                if (uiState is Failure<MainIntent>)
+                  uiState.errorMessage == ErrorType.gps_error.name
+                      ? const ErrorGpsContent()
+                      : uiState.errorMessage == ErrorType.not_available.name
+                      ? const ErrorNotAvailableContent()
+                      : const Error500Content(),
+                if (uiState is Loading) const CircleLoading(),
+              ],
+            ),
           ),
-          if (uiState is Loading) const CircleLoading(),
         ],
       ),
       floatingActionButton: floatingButtonState.value

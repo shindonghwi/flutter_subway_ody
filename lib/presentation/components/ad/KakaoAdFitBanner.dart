@@ -30,40 +30,43 @@ class KakaoAdFitBanner extends HookWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Container(
-        margin: const EdgeInsets.only(top: 20),
-        width: 320,
-        height: 50,
-        child: Platform.isAndroid
-            ? PlatformViewLink(
-                viewType: KakaoAdFitBannerHelper.PLUGIN_BANNER,
-                surfaceFactory: (context, controller) {
-                  return AndroidViewSurface(
-                    controller: controller as AndroidViewController,
-                    gestureRecognizers: const <Factory<OneSequenceGestureRecognizer>>{},
-                    hitTestBehavior: PlatformViewHitTestBehavior.opaque,
-                  );
-                },
-                onCreatePlatformView: (params) {
-                  return PlatformViewsService.initSurfaceAndroidView(
-                    id: params.id,
-                    viewType: KakaoAdFitBannerHelper.PLUGIN_BANNER,
-                    layoutDirection: TextDirection.ltr,
-                    // creationParams: creationParams,
-                    creationParamsCodec: const StandardMessageCodec(),
-                    onFocus: () {
-                      params.onFocusChanged(true);
-                    },
-                  )
-                    ..addOnPlatformViewCreatedListener(params.onPlatformViewCreated)
-                    ..create();
-                },
-              )
-            : const UiKitView(
-                viewType: KakaoAdFitBannerHelper.PLUGIN_BANNER,
-                layoutDirection: TextDirection.ltr,
-                creationParamsCodec: StandardMessageCodec(),
-              ),
+      child: Align(
+        alignment: Alignment.center,
+        child: Container(
+          margin: const EdgeInsets.only(top: 20),
+          width: 320,
+          height: 50,
+          child: Platform.isAndroid
+              ? PlatformViewLink(
+                  viewType: KakaoAdFitBannerHelper.PLUGIN_BANNER,
+                  surfaceFactory: (context, controller) {
+                    return AndroidViewSurface(
+                      controller: controller as AndroidViewController,
+                      gestureRecognizers: const <Factory<OneSequenceGestureRecognizer>>{},
+                      hitTestBehavior: PlatformViewHitTestBehavior.opaque,
+                    );
+                  },
+                  onCreatePlatformView: (params) {
+                    return PlatformViewsService.initSurfaceAndroidView(
+                      id: params.id,
+                      viewType: KakaoAdFitBannerHelper.PLUGIN_BANNER,
+                      layoutDirection: TextDirection.ltr,
+                      // creationParams: creationParams,
+                      creationParamsCodec: const StandardMessageCodec(),
+                      onFocus: () {
+                        params.onFocusChanged(true);
+                      },
+                    )
+                      ..addOnPlatformViewCreatedListener(params.onPlatformViewCreated)
+                      ..create();
+                  },
+                )
+              : const UiKitView(
+                  viewType: KakaoAdFitBannerHelper.PLUGIN_BANNER,
+                  layoutDirection: TextDirection.ltr,
+                  creationParamsCodec: StandardMessageCodec(),
+                ),
+        ),
       ),
     );
   }
