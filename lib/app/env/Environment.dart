@@ -1,16 +1,12 @@
 import 'dart:io';
 
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:subway_ody/app/SubwayOdyApp.dart';
 import 'package:subway_ody/app/env/Advertisement.dart';
 import 'package:subway_ody/di/locator.dart';
-import 'package:subway_ody/firebase/Analytics.dart';
-import 'package:subway_ody/firebase_options.dart';
 import 'package:subway_ody/presentation/utils/RestartWidget.dart';
 
 enum BuildType { dev, prod }
@@ -49,7 +45,7 @@ class Environment {
       statusBarColor: Colors.transparent,
     ));
 
-    if (Platform.isIOS){
+    if (Platform.isIOS) {
       if (await AppTrackingTransparency.trackingAuthorizationStatus ==
           TrackingStatus.notDetermined) {
         // Wait for dialog popping animation

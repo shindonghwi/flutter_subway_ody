@@ -35,7 +35,6 @@ class ActiveContent extends HookWidget {
                   ? Column(
                       children: [
                         if (index == 0 && Platform.isIOS) const GoogleAdmobBanner(size: AdSize.banner),
-                        if (index == 0 && Platform.isAndroid) const KakaoAdFitBanner(),
                         const SizedBox(height: 32),
                         SubwayTitle(
                           subwayLine: model.subwayLine,
@@ -60,7 +59,6 @@ class ActiveContent extends HookWidget {
                           }).toList(),
                         ),
                         if (adCount.value != 0 && adCount.value % 3 == 0 && Platform.isIOS) const GoogleAdmobBanner(size: AdSize.largeBanner),
-                        // if (adCount.value == 3 && Platform.isAndroid) const KakaoAdFitBanner(),
                       ],
                     )
                   : const SizedBox();

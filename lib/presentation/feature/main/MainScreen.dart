@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -7,6 +9,7 @@ import 'package:subway_ody/domain/usecases/local/GetIntroPopUpShowingUseCase.dar
 import 'package:subway_ody/domain/usecases/local/PatchIntroPopUpShowingUseCase.dart';
 import 'package:subway_ody/firebase/Analytics.dart';
 import 'package:subway_ody/presentation/components/CircleLoading.dart';
+import 'package:subway_ody/presentation/components/ad/KakaoAdFitBanner.dart';
 import 'package:subway_ody/presentation/components/popup/PopupUtil.dart';
 import 'package:subway_ody/presentation/feature/main/MainIntent.dart';
 import 'package:subway_ody/presentation/feature/main/widget/MainAppBar.dart';
@@ -80,17 +83,22 @@ class MainScreen extends HookConsumerWidget {
       backgroundColor: getColorScheme(context).light,
       body: Stack(
         children: [
-          mainIntentData.value == null
-              ? uiState is Success<MainIntent>
+          Column(
+            children: [
+              if (Platform.isAndroid) const KakaoAdFitBanner(),
+              mainIntentData.value == null
+                  ? uiState is Success<MainIntent>
                   ? ActiveContent(subwayModel: uiState.value)
                   : const SizedBox()
-              : ActiveContent(subwayModel: mainIntentData.value!),
-          if (uiState is Failure<MainIntent>)
-            uiState.errorMessage == ErrorType.gps_error.name
-                ? const ErrorGpsContent()
-                : uiState.errorMessage == ErrorType.not_available.name
+                  : ActiveContent(subwayModel: mainIntentData.value!),
+              if (uiState is Failure<MainIntent>)
+                uiState.errorMessage == ErrorType.gps_error.name
+                    ? const ErrorGpsContent()
+                    : uiState.errorMessage == ErrorType.not_available.name
                     ? const ErrorNotAvailableContent()
                     : const Error500Content(),
+            ],
+          ),
           if (uiState is Loading) const CircleLoading(),
         ],
       ),
