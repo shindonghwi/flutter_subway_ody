@@ -9,6 +9,7 @@ import 'package:get_it/get_it.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:subway_ody/domain/usecases/local/GetAutoRefreshCallUseCase.dart';
 import 'package:subway_ody/domain/usecases/local/GetLocationPermissionUseCase.dart';
+import 'package:subway_ody/firebase/FirebaseRemoteConfigService.dart';
 import 'package:subway_ody/presentation/feature/provider/AutoRefreshNotifier.dart';
 import 'package:subway_ody/presentation/navigation/PageMoveUtil.dart';
 import 'package:subway_ody/presentation/navigation/Route.dart';
