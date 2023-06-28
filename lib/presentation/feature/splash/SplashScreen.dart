@@ -9,13 +9,13 @@ import 'package:get_it/get_it.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:subway_ody/domain/usecases/local/GetAutoRefreshCallUseCase.dart';
 import 'package:subway_ody/domain/usecases/local/GetLocationPermissionUseCase.dart';
-import 'package:subway_ody/firebase/FirebaseRemoteConfigService.dart';
 import 'package:subway_ody/presentation/feature/provider/AutoRefreshNotifier.dart';
 import 'package:subway_ody/presentation/navigation/PageMoveUtil.dart';
 import 'package:subway_ody/presentation/navigation/Route.dart';
 import 'package:subway_ody/presentation/ui/colors.dart';
 import 'package:subway_ody/presentation/ui/typography.dart';
 import 'package:subway_ody/presentation/utils/Common.dart';
+import 'package:subway_ody/presentation/utils/LifecycleWatcher.dart';
 
 class SplashScreen extends HookConsumerWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -125,67 +125,12 @@ class SplashScreen extends HookConsumerWidget {
             requestGpsPermission();
           }
         },
-      ),
-    );
-  }
-}
-
-class LifecycleWatcher extends StatefulWidget {
-  final Function(dynamic state) onLifeCycleChanged;
-
-  const LifecycleWatcher({
-    Key? key,
-    required this.onLifeCycleChanged,
-  }) : super(key: key);
-
-  @override
-  State<LifecycleWatcher> createState() => _LifecycleWatcherState();
-}
-
-class _LifecycleWatcherState extends State<LifecycleWatcher> with WidgetsBindingObserver {
-  late AppLifecycleState _lastLifecycleState;
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addObserver(this);
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    switch (state) {
-      case AppLifecycleState.detached:
-        print("## detached");
-        break;
-      case AppLifecycleState.inactive:
-        print("## inactive");
-        break;
-      case AppLifecycleState.paused:
-        print("## paused");
-        break;
-      case AppLifecycleState.resumed:
-        print("## resumed");
-        break;
-    }
-
-    setState(() {
-      widget.onLifeCycleChanged(state);
-      _lastLifecycleState = state;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Image.asset(
-        "assets/imgs/splash_image.png",
-        fit: BoxFit.cover,
+        child: Center(
+          child: Image.asset(
+            "assets/imgs/splash_image.png",
+            fit: BoxFit.cover,
+          ),
+        ),
       ),
     );
   }

@@ -22,6 +22,7 @@ import 'package:subway_ody/presentation/feature/provider/MainUiState.dart';
 import 'package:subway_ody/presentation/models/UiState.dart';
 import 'package:subway_ody/presentation/ui/colors.dart';
 import 'package:subway_ody/presentation/utils/Common.dart';
+import 'package:subway_ody/presentation/utils/LifecycleWatcher.dart';
 import 'package:subway_ody/presentation/utils/SnackBarUtil.dart';
 import 'package:subway_ody/presentation/utils/Throttler.dart';
 
@@ -78,49 +79,57 @@ class MainScreen extends HookConsumerWidget {
       });
     }, []);
 
-    return Scaffold(
-      appBar: const MainAppBar(),
-      backgroundColor: getColorScheme(context).light,
-      body: Column(
-        children: [
-          if (Platform.isAndroid) const KakaoAdFitBanner(),
-          Expanded(
-            child: Stack(
-              children: [
-                mainIntentData.value == null
-                    ? uiState is Success<MainIntent>
-                    ? ActiveContent(subwayModel: uiState.value)
-                    : const SizedBox()
-                    : ActiveContent(subwayModel: mainIntentData.value!),
-                if (uiState is Failure<MainIntent>)
-                  uiState.errorMessage == ErrorType.gps_error.name
-                      ? const ErrorGpsContent()
-                      : uiState.errorMessage == ErrorType.not_available.name
-                      ? const ErrorNotAvailableContent()
-                      : const Error500Content(),
-                if (uiState is Loading) const CircleLoading(),
-              ],
+    return LifecycleWatcher(
+      onLifeCycleChanged: (state) {
+        if (state == AppLifecycleState.resumed) {
+          Analytics.eventManualRefresh();
+          uiStateRead.getSubwayData(context, null);
+        }
+      },
+      child: Scaffold(
+        appBar: const MainAppBar(),
+        backgroundColor: getColorScheme(context).light,
+        body: Column(
+          children: [
+            if (Platform.isAndroid) const KakaoAdFitBanner(),
+            Expanded(
+              child: Stack(
+                children: [
+                  mainIntentData.value == null
+                      ? uiState is Success<MainIntent>
+                          ? ActiveContent(subwayModel: uiState.value)
+                          : const SizedBox()
+                      : ActiveContent(subwayModel: mainIntentData.value!),
+                  if (uiState is Failure<MainIntent>)
+                    uiState.errorMessage == ErrorType.gps_error.name
+                        ? const ErrorGpsContent()
+                        : uiState.errorMessage == ErrorType.not_available.name
+                            ? const ErrorNotAvailableContent()
+                            : const Error500Content(),
+                  if (uiState is Loading) const CircleLoading(),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
+        floatingActionButton: floatingButtonState.value
+            ? FloatingActionButton(
+                backgroundColor: getColorScheme(context).colorPrimary,
+                onPressed: () {
+                  throttler.run(() {
+                    Analytics.eventManualRefresh();
+                    uiStateRead.getSubwayData(context, null);
+                  }, callback: (remainTime) {
+                    SnackBarUtil.show(
+                        context,
+                        getAppLocalizations(context).message_remain_time(
+                          5 - remainTime,
+                        ));
+                  });
+                },
+                child: SvgPicture.asset('assets/imgs/refresh.svg'))
+            : const SizedBox(),
       ),
-      floatingActionButton: floatingButtonState.value
-          ? FloatingActionButton(
-              backgroundColor: getColorScheme(context).colorPrimary,
-              onPressed: () {
-                throttler.run(() {
-                  Analytics.eventManualRefresh();
-                  uiStateRead.getSubwayData(context, null);
-                }, callback: (remainTime) {
-                  SnackBarUtil.show(
-                      context,
-                      getAppLocalizations(context).message_remain_time(
-                        5 - remainTime,
-                      ));
-                });
-              },
-              child: SvgPicture.asset('assets/imgs/refresh.svg'))
-          : const SizedBox(),
     );
   }
 }
