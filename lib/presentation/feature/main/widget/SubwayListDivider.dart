@@ -98,6 +98,18 @@ class SubwayDividerAndNamePainter extends CustomPainter {
       return text;
     }
 
+    if (text.contains("디지털미디어시티")) {
+      return "디지털\n미디어시티";
+    }else if(text.contains("중앙보훈병원")){
+      return "중앙\n보훈병원";
+    }else if(text.contains("남한산성입구")){
+      return "남한산성\n입구\n${text.replaceAll("남한산성입구", "")}";
+    }else if(text.contains("가산디지털단지")){
+      return "가산\n${text.replaceAll("가산", "")}";
+    }else if(text.contains("동대문역사문화공원")){
+      return "동대문\n${text.replaceAll("동대문", "")}";
+    }
+
     if (parseText.contains("(")) {
       final mainText = text.substring(0, text.indexOf("("));
       var detailText = text.substring(text.indexOf("(")).length > lineLimit
@@ -112,6 +124,7 @@ class SubwayDividerAndNamePainter extends CustomPainter {
       parseText = "$mainText\n$detailText";
       return parseText;
     } else {
+
       final firstThreeCharacters = text.substring(0, firstLineLimit - 1);
       var remainingCharacters = text.substring(firstLineLimit - 1);
 

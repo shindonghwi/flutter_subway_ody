@@ -63,8 +63,7 @@ class SubwayPositionList extends HookWidget {
       return Positioned.fill(
         left: index * spacing,
         child: Align(
-          alignment:
-              positionList.length == 1 && !isUp ? Alignment.centerRight : Alignment.centerLeft,
+          alignment: positionList.length == 1 && !isUp ? Alignment.centerRight : Alignment.centerLeft,
           child: positionList[index].first != -1
               ? SizedBox(
                   width: contentWidth, // 첫 번째 아이템의 넓이
@@ -116,7 +115,7 @@ class SubwayPositionItem extends StatelessWidget {
   Widget build(BuildContext context) {
     LanguageType type = SystemUtil.getLanguageType(SubwayOdyApp.currentLocale);
 
-    final languageDestination = SubwayUtil.findLanguageSubwayName(
+    var languageDestination = SubwayUtil.findLanguageSubwayName(
       destination,
       isDestination: true,
       isPositionData: true,
@@ -144,6 +143,24 @@ class SubwayPositionItem extends StatelessWidget {
         languageBtrainStttus = "普通";
       }
     }
+
+    String getKrNameParser() {
+      var parserName = languageDestination;
+      if (destination.contains("디지털미디어시티")) {
+        parserName = "디지털\n미디어시티${destination.replaceAll("디지털미디어시티", "")}";
+      } else if (destination.contains("중앙보훈병원")) {
+        parserName = "중앙\n보훈병원${destination.replaceAll("중앙보훈병원", "")}";
+      } else if (destination.contains("남한산성입구")) {
+        parserName = "남한산성\n입구\n${destination.replaceAll("남한산성입구", "")}";
+      } else if (destination.contains("가산디지털단지")) {
+        parserName = "가산\n${destination.replaceAll("가산", "")}";
+      } else if (destination.contains("동대문역사문화공원")) {
+        parserName = "동대문\n${destination.replaceAll("동대문", "")}";
+      }
+      return parserName;
+    }
+
+    languageDestination = getKrNameParser();
 
     return Column(
       mainAxisSize: MainAxisSize.max,

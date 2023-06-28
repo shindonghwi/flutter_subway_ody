@@ -38,7 +38,7 @@ class BottomSheetUtil {
           child: SafeArea(
             child: Container(
               padding: const EdgeInsets.all(8),
-              margin: const EdgeInsets.only(bottom: 32),
+              margin: const EdgeInsets.only(bottom: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -52,7 +52,6 @@ class BottomSheetUtil {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CustomSlider(onSliderChanged: (value) {
-                          debugPrint("value: $value");
                           currentDistance.value = value;
                         }),
                         _distanceDescription(context),
