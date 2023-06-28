@@ -23,12 +23,9 @@ import 'package:subway_ody/presentation/models/UiState.dart';
 import 'package:subway_ody/presentation/ui/colors.dart';
 import 'package:subway_ody/presentation/utils/Common.dart';
 import 'package:subway_ody/presentation/utils/LifecycleWatcher.dart';
-import 'package:subway_ody/presentation/utils/SnackBarUtil.dart';
-import 'package:subway_ody/presentation/utils/Throttler.dart';
 
 class MainScreen extends HookConsumerWidget {
   MainScreen({Key? key}) : super(key: key);
-  Throttler throttler = Throttler(milliseconds: 5000);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -42,9 +39,7 @@ class MainScreen extends HookConsumerWidget {
 
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        throttler.run(() {
-          uiStateRead.getSubwayData(context, null);
-        }, throttle: false);
+        uiStateRead.getSubwayData(context, null);
       });
     }, []);
 
@@ -116,16 +111,8 @@ class MainScreen extends HookConsumerWidget {
             ? FloatingActionButton(
                 backgroundColor: getColorScheme(context).colorPrimary,
                 onPressed: () {
-                  throttler.run(() {
-                    Analytics.eventManualRefresh();
-                    uiStateRead.getSubwayData(context, null);
-                  }, callback: (remainTime) {
-                    SnackBarUtil.show(
-                        context,
-                        getAppLocalizations(context).message_remain_time(
-                          5 - remainTime,
-                        ));
-                  });
+                  Analytics.eventManualRefresh();
+                  uiStateRead.getSubwayData(context, null);
                 },
                 child: SvgPicture.asset('assets/imgs/refresh.svg'))
             : const SizedBox(),
