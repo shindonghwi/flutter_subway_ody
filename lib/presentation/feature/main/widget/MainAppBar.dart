@@ -14,7 +14,7 @@ import 'package:subway_ody/presentation/navigation/Route.dart';
 import 'package:subway_ody/presentation/ui/typography.dart';
 import 'package:subway_ody/presentation/utils/Common.dart';
 
-class MainAppBar extends HookConsumerWidget with PreferredSizeWidget {
+class MainAppBar extends HookConsumerWidget implements PreferredSizeWidget {
   const MainAppBar({Key? key}) : super(key: key);
 
   @override

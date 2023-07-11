@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:subway_ody/presentation/ui/typography.dart';
 import 'package:subway_ody/presentation/utils/Common.dart';
 
-class HiddenAppBar extends HookWidget with PreferredSizeWidget {
+class HiddenAppBar extends HookWidget implements PreferredSizeWidget {
   const HiddenAppBar({Key? key}) : super(key: key);
 
   @override

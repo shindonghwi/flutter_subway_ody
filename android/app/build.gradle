@@ -82,6 +82,7 @@ android {
 
         release {
             debuggable false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
     }
@@ -105,4 +106,5 @@ dependencies {
     implementation "com.kakao.adfit:ads-base:$adfit_version"
     implementation 'com.google.android.gms:play-services-location:21.0.1'
 
+    implementation 'com.pangle.global:ads-sdk:5.3.0.4'
 }
