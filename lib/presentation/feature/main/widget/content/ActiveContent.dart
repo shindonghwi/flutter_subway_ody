@@ -33,13 +33,13 @@ class ActiveContent extends HookWidget {
               return model.stations.isNotEmpty
                   ? Column(
                       children: [
-                        if (index == 0 && Platform.isIOS) const GoogleAdmobBanner(size: AdSize.banner),
                         const SizedBox(height: 32),
                         SubwayTitle(
                           subwayLine: model.subwayLine,
                           subwayName: model.subwayName,
                           distance: model.distance,
                           mainColor: model.mainColor,
+                          latLng: model.latLng,
                         ),
                         Column(
                           children: model.stations.map((e) {

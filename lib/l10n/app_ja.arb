@@ -46,6 +46,7 @@
     "message_server_error_5xx": "サーバーエラーが発生しました\n後で再試行してください",
     "message_api_success": "success",
 
+    "common_close": "閉じる",
     "common_location": "場所"
 
 }

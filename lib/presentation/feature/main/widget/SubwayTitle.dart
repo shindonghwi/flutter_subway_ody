@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:subway_ody/app/SubwayOdyApp.dart';
-import 'package:subway_ody/presentation/constant/language.dart';
-import 'package:subway_ody/presentation/feature/main/models/NearByStation.dart';
-import 'package:subway_ody/presentation/feature/setting/models/LanguageType.dart';
+import 'package:subway_ody/app/env/Environment.dart';
+import 'package:subway_ody/domain/models/local/LatLng.dart';
+import 'package:subway_ody/presentation/feature/naver_map/model/MapAppBarModel.dart';
+import 'package:subway_ody/presentation/navigation/PageMoveUtil.dart';
+import 'package:subway_ody/presentation/navigation/Route.dart';
 import 'package:subway_ody/presentation/ui/colors.dart';
 import 'package:subway_ody/presentation/ui/typography.dart';
 import 'package:subway_ody/presentation/utils/Common.dart';
@@ -16,6 +19,7 @@ class SubwayTitle extends StatelessWidget {
   final String subwayName;
   final String distance;
   final Color mainColor;
+  final LatLng latLng;
 
   const SubwayTitle({
     super.key,
@@ -23,6 +27,7 @@ class SubwayTitle extends StatelessWidget {
     required this.subwayName,
     required this.distance,
     required this.mainColor,
+    required this.latLng,
   });
 
   @override
@@ -83,6 +88,7 @@ class SubwayTitle extends StatelessWidget {
           width: 8,
         ),
         Container(
+          height: 25,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(100),
             color: getColorScheme(context).colorPrimary,
@@ -90,7 +96,21 @@ class SubwayTitle extends StatelessWidget {
           child: Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  nextSlideScreen(
+                    RoutingScreen.NaverMap.route,
+                    parameter: MapAppBarModel(
+                      hosun: hosun,
+                      subwayName: subwayName,
+                      mainColor: mainColor,
+                      distance: distance,
+                      latLng: latLng,
+                    ),
+                  ),
+                );
+              },
               borderRadius: BorderRadius.circular(100),
               child: Padding(
                 padding: const EdgeInsets.symmetric(
@@ -101,9 +121,7 @@ class SubwayTitle extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SvgPicture.asset(
-                      "assets/imgs/location.svg"
-                    ),
+                    SvgPicture.asset("assets/imgs/location.svg"),
                     const SizedBox(
                       width: 4,
                     ),

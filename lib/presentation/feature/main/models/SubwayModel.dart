@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:subway_ody/domain/models/local/LatLng.dart';
 import 'package:subway_ody/presentation/utils/dto/Pair.dart';
 
 class SubwayPositionModel {
@@ -24,6 +25,7 @@ class SubwayModel {
   final String subwayLine; // 1호선
   final String distance; // 거리
   final Color mainColor; // 지하철 컬러
+  final LatLng latLng; // 지하철 위,경도
 
   List<SubwayDirectionStationModel> stations; // 상행/내선 정보
 
@@ -34,6 +36,7 @@ class SubwayModel {
     required this.distance,
     required this.mainColor,
     required this.stations,
+    required this.latLng,
   });
 }
 

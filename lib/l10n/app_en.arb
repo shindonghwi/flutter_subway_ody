@@ -47,5 +47,6 @@
     "message_server_error_5xx": "Server error has occurred\nPlease try again later",
     "message_api_success": "success",
 
+    "common_close": "Close",
     "common_location": "Location"
 }

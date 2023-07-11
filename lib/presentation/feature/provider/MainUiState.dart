@@ -58,8 +58,7 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
 
         List<NearByStation>? nearByStationList = await _requestNearByStation(distance);
 
-        if (!CollectionUtil.isNullorEmpty(addressList) &&
-            !CollectionUtil.isNullorEmpty(nearByStationList)) {
+        if (!CollectionUtil.isNullorEmpty(addressList) && !CollectionUtil.isNullorEmpty(nearByStationList)) {
           for (var element in nearByStationList!) {
             final subwayName = element.subwayName;
             final subwayLine = element.subwayLine;
@@ -87,17 +86,21 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
               }
 
               final dummyData = SubwayModel(
-                  subwayId: SubwayUtil.subwayLineToId(subwayLine),
-                  subwayName: subwayName,
-                  subwayLine: subwayLine,
-                  distance: distance,
-                  mainColor: SubwayUtil.getMainColor(subwayLine),
-                  stations: []);
+                subwayId: SubwayUtil.subwayLineToId(subwayLine),
+                subwayName: subwayName,
+                subwayLine: subwayLine,
+                distance: distance,
+                mainColor: SubwayUtil.getMainColor(subwayLine),
+                stations: [],
+                latLng: LatLng(
+                  double.parse(element.latitude),
+                  double.parse(element.longitude),
+                ),
+              );
 
               final List<SubwayDirectionStationModel> stationList = [];
 
-              final tempList =
-                  subwayArrivalList!.where((element) => element.subwayId == dummyData.subwayId);
+              final tempList = subwayArrivalList!.where((element) => element.subwayId == dummyData.subwayId);
 
               groupBy(tempList, (p0) => p0.updnLine).forEach((key, arrivalList) {
                 final isUp = arrivalList.first.ordkey.startsWith("0");
@@ -111,13 +114,11 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
                 );
 
                 final List<Pair<int, SubwayPositionModel?>> subwayPositionList =
-                    List<Pair<int, SubwayPositionModel?>>.filled(
-                        nameList.length * 2 - 1, Pair(-1, null));
+                    List<Pair<int, SubwayPositionModel?>>.filled(nameList.length * 2 - 1, Pair(-1, null));
 
                 for (var realTimeInfo in arrivalList) {
-                  var subwayIndex = !nameList.contains(realTimeInfo.arvlMsg3)
-                      ? -1
-                      : (nameList.indexOf(realTimeInfo.arvlMsg3) * 2);
+                  var subwayIndex =
+                      !nameList.contains(realTimeInfo.arvlMsg3) ? -1 : (nameList.indexOf(realTimeInfo.arvlMsg3) * 2);
 
                   subwayIndex = subwayIndex + getSubwayAlignment(realTimeInfo.arvlCd, isUp);
 
@@ -244,6 +245,8 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
             subwayName: findSn,
             subwayLine: element.place_name!.split(" ").last,
             distance: element.distance.toString(),
+            latitude: element.x.toString(),
+            longitude: element.y.toString(),
           ),
         );
       }

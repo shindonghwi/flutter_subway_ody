@@ -46,6 +46,7 @@
     "message_server_error_5xx": "服务器发生错误\n请稍后再试",
     "message_api_success": "success",
 
+    "common_close": "关闭",
     "common_location": "地点"
 
 }
