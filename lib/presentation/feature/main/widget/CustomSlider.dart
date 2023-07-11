@@ -7,9 +7,9 @@ import 'package:subway_ody/presentation/ui/typography.dart';
 import 'package:subway_ody/presentation/utils/Common.dart';
 
 class CustomSlider extends HookWidget {
-  Function(int) onSliderChanged;
+  final Function(int) onSliderChanged;
 
-  CustomSlider({
+  const CustomSlider({
     Key? key,
     required this.onSliderChanged,
   }) : super(key: key);
@@ -23,32 +23,30 @@ class CustomSlider extends HookWidget {
 
     // slider value to distance
     int calculateSliderDistance(int value) {
-      final distance =
-          ((distanceMax - distanceMin) * (value - sliderMin) / (sliderMax - sliderMin)) +
-              distanceMin;
+      final distance = ((distanceMax - distanceMin) * (value - sliderMin) / (sliderMax - sliderMin)) + distanceMin;
 
       return distance.round();
     }
 
     // distance to slider value
     int calculateSliderValue(int distance) {
-      final value = ((distance - distanceMin) *
-              (sliderMax - sliderMin) /
-              (distanceMax - distanceMin)) +
-          sliderMin;
+      final value = ((distance - distanceMin) * (sliderMax - sliderMin) / (distanceMax - distanceMin)) + sliderMin;
       return value.round();
     }
 
-    final ValueNotifier<double> sliderValue =
-        useState(calculateSliderValue(500).toDouble());
+    double metersToKilometers(double meters) {
+      double kilometers = meters / 1000;
+      return double.parse(kilometers.toStringAsFixed(1));
+    }
+
+    final ValueNotifier<double> sliderValue = useState(calculateSliderValue(500).toDouble());
 
     useEffect(() {
       GetIt.instance<GetUserDistanceUseCase>().call().then((value) {
-        debugPrint("value1: $value");
-        sliderValue.value = value == null
-            ? calculateSliderValue(500).toDouble()
-            : calculateSliderValue(value).toDouble();
+        sliderValue.value =
+            value == null ? calculateSliderValue(500).toDouble() : calculateSliderValue(value).toDouble();
       });
+      return null;
     }, []);
 
     return Container(
@@ -56,14 +54,30 @@ class CustomSlider extends HookWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            getAppLocalizations(context).setDistanceRange,
-            style: getTextTheme(context).bold.copyWith(
-                  color: const Color(0xFF2F2F2F),
-                  fontSize: 16,
-                ),
-            textAlign: TextAlign.center,
-            overflow: TextOverflow.ellipsis,
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(
+                getAppLocalizations(context).setDistanceRange,
+                style: getTextTheme(context).bold.copyWith(
+                      color: const Color(0xFF2F2F2F),
+                      fontSize: 16,
+                    ),
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                "${metersToKilometers(calculateSliderDistance(sliderValue.value.toInt()).toDouble())}km",
+                style: getTextTheme(context).bold.copyWith(
+                      color: getColorScheme(context).colorPrimary,
+                      fontSize: 14,
+                    ),
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
           ),
           const SizedBox(height: 24),
           SliderTheme(
