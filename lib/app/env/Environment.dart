@@ -5,11 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:subway_ody/app/SubwayOdyApp.dart';
-import 'package:subway_ody/app/env/Advertisement.dart';
 import 'package:subway_ody/di/locator.dart';
+import 'package:subway_ody/presentation/components/ad/AdvertiseHelper.dart';
 import 'package:subway_ody/presentation/utils/RestartWidget.dart';
-
-import '../../presentation/components/ad/AdvertiseHelper.dart';
 
 enum BuildType { dev, prod }
 
@@ -56,7 +54,7 @@ class Environment {
       }
     }
 
-    Advertisement.initAdMob();
+    AdvertiseHelper.initAdMob();
     initServiceLocator();
 
     runApp(const RestartWidget(child: ProviderScope(child: SubwayOdyApp())));

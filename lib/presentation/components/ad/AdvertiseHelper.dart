@@ -1,9 +1,13 @@
-import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:subway_ody/app/env/Environment.dart';
 
 class AdvertiseHelper {
+
+  /// Pangle AD
   static const String PLUGIN_PANGLE_BANNER = "plugin/pangle_banner";
   static const String CHANNEL_PANGLE_BANNER = "channel/pangle_banner";
 
@@ -19,7 +23,7 @@ class AdvertiseHelper {
     Future.delayed(const Duration(seconds: 1), () async {
       _platform.receiveBroadcastStream().listen((event) {
         debugPrint("initPangleBannerAd event: ${event.toString()}");
-        switch(event){
+        switch (event) {
           case "onAdLoaded":
             onAdLoaded();
             break;
@@ -39,4 +43,19 @@ class AdvertiseHelper {
       });
     });
   }
+
+
+  /// Ad Mob
+  static String admobBannerId = Platform.isAndroid
+      ? Environment.buildType == BuildType.dev
+          ? 'ca-app-pub-3940256099942544/6300978111'
+          : 'ca-app-pub-3488970363462155/2301086782'
+      : Environment.buildType == BuildType.dev
+          ? 'ca-app-pub-3940256099942544/2934735716'
+          : 'ca-app-pub-3488970363462155/3903211986';
+
+  static Future<InitializationStatus> initAdMob() {
+    return MobileAds.instance.initialize();
+  }
+
 }

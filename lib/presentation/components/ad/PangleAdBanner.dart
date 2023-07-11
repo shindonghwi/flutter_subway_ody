@@ -33,6 +33,7 @@ class PangleAdBanner extends HookWidget {
 
     return isShowing.value
         ? Container(
+            color: const Color(0xFFF5F5F5),
             alignment: Alignment.bottomCenter,
             width: double.infinity,
             height: 50,

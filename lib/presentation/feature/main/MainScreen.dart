@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -88,22 +86,24 @@ class MainScreen extends HookConsumerWidget {
       child: Scaffold(
         appBar: const MainAppBar(),
         backgroundColor: getColorScheme(context).light,
-        body: Stack(
-          children: [
-            mainIntentData.value == null
-                ? uiState is Success<MainIntent>
-                    ? ActiveContent(subwayModel: uiState.value)
-                    : const SizedBox()
-                : ActiveContent(subwayModel: mainIntentData.value!),
-            if (uiState is Failure<MainIntent>)
-              uiState.errorMessage == ErrorType.gps_error.name
-                  ? const ErrorGpsContent()
-                  : uiState.errorMessage == ErrorType.not_available.name
-                      ? const ErrorNotAvailableContent()
-                      : const Error500Content(),
-            if (uiState is Loading) const CircleLoading(),
-            const BottomContent()
-          ],
+        body: SafeArea(
+          child: Stack(
+            children: [
+              mainIntentData.value == null
+                  ? uiState is Success<MainIntent>
+                      ? ActiveContent(subwayModel: uiState.value)
+                      : const SizedBox()
+                  : ActiveContent(subwayModel: mainIntentData.value!),
+              if (uiState is Failure<MainIntent>)
+                uiState.errorMessage == ErrorType.gps_error.name
+                    ? const ErrorGpsContent()
+                    : uiState.errorMessage == ErrorType.not_available.name
+                        ? const ErrorNotAvailableContent()
+                        : const Error500Content(),
+              if (uiState is Loading) const CircleLoading(),
+              const BottomContent()
+            ],
+          ),
         ),
       ),
     );
@@ -117,7 +117,6 @@ class BottomContent extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
     final uiStateRead = ref.read(mainUiStateProvider.notifier);
 
     return Container(
@@ -128,7 +127,7 @@ class BottomContent extends HookConsumerWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            margin: const EdgeInsets.only(right: 12, bottom: 12),
+            margin: const EdgeInsets.only(right: 20, bottom: 20),
             child: Align(
               alignment: Alignment.centerRight,
               child: FloatingActionButton(
@@ -141,7 +140,7 @@ class BottomContent extends HookConsumerWidget {
               ),
             ),
           ),
-          Platform.isAndroid ? const PangleAdBanner() : const SizedBox(),
+          const PangleAdBanner(),
         ],
       ),
     );
