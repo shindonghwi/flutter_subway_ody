@@ -40,6 +40,7 @@ class GoogleAdmobBanner extends HookWidget {
       if (Environment.buildType == BuildType.prod) {
         loadAd();
       }
+      return null;
     }, []);
 
     return Environment.buildType == BuildType.prod
