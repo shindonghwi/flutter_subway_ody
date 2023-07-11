@@ -45,6 +45,7 @@
     "message_gps_disable": "GPS is off!\nActivate and check the real-time subway near me",
     "message_not_available": "There is no subway station nearby or\nThis area does not support the service yet",
     "message_server_error_5xx": "Server error has occurred\nPlease try again later",
-    "message_api_success": "success"
+    "message_api_success": "success",
 
+    "common_location": "Location"
 }

@@ -44,6 +44,8 @@
     "message_gps_disable": "全球定位系统关闭了！\n启动并检查我附近的地铁",
     "message_not_available": "附近没有地铁站还是\n这个地区还不支持服务",
     "message_server_error_5xx": "服务器发生错误\n请稍后再试",
-    "message_api_success": "success"
+    "message_api_success": "success",
+
+    "common_location": "地点"
 
 }

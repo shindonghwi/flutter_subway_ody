@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:subway_ody/app/SubwayOdyApp.dart';
 import 'package:subway_ody/presentation/constant/language.dart';
 import 'package:subway_ody/presentation/feature/main/models/NearByStation.dart';
 import 'package:subway_ody/presentation/feature/setting/models/LanguageType.dart';
+import 'package:subway_ody/presentation/ui/colors.dart';
 import 'package:subway_ody/presentation/ui/typography.dart';
 import 'package:subway_ody/presentation/utils/Common.dart';
 import 'package:subway_ody/presentation/utils/SubwayUtil.dart';
@@ -76,6 +78,48 @@ class SubwayTitle extends StatelessWidget {
                 fontSize: 16,
               ),
           textAlign: TextAlign.center,
+        ),
+        const SizedBox(
+          width: 8,
+        ),
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(100),
+            color: getColorScheme(context).colorPrimary,
+          ),
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () {},
+              borderRadius: BorderRadius.circular(100),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 8,
+                  vertical: 4,
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SvgPicture.asset(
+                      "assets/imgs/location.svg"
+                    ),
+                    const SizedBox(
+                      width: 4,
+                    ),
+                    Text(
+                      getAppLocalizations(context).common_location,
+                      style: getTextTheme(context).medium.copyWith(
+                            color: getColorScheme(context).white,
+                            fontSize: 12,
+                          ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
         ),
       ],
     );
