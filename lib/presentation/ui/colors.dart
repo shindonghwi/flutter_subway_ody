@@ -8,6 +8,8 @@ extension StyleColor on ColorScheme{
   Color get black => brightness == Brightness.light ? const Color(0xFF000000) : const Color(0xFF000000);
   Color get white => brightness == Brightness.light ? const Color(0xFFFFFFFF) : const Color(0xFFFFFFFF);
   Color get light => brightness == Brightness.light ? const Color(0xFFFDFDFD) : const Color(0xFFFDFDFD);
+  Color get colorError => brightness == Brightness.light ? Color(0xFFFF6868) : Color(0xFFFF6868);
+  Color get neutral80 => brightness == Brightness.light ? Color(0xFF666666) : Color(0xFF666666);
 
   Color get colorLine1 => brightness == Brightness.light ? const Color(0xFF0052A4) : const Color(0xFF0052A4);
   Color get colorLine2 => brightness == Brightness.light ? const Color(0xFF00A84D) : const Color(0xFF00A84D);
@@ -24,5 +26,9 @@ extension StyleColor on ColorScheme{
   Color get colorLineNewParty => brightness == Brightness.light ? const Color(0xFFD4003B) : const Color(0xFFD4003B);
   Color get colorLineAirportRailroad => brightness == Brightness.light ? const Color(0xFF0090D2) : const Color(0xFF0090D2);
   Color get colorLineNewUisun => brightness == Brightness.light ? const Color(0xFFB0CE18) : const Color(0xFFB0CE18);
+
+
+
+
 
 }
