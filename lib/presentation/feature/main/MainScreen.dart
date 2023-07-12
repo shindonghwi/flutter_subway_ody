@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -38,7 +40,11 @@ class MainScreen extends HookConsumerWidget {
 
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        uiStateRead.getSubwayData(context, null);
+
+        Timer.periodic(Duration(seconds: 15), (timer) {
+          uiStateRead.getSubwayData(context, null);
+        });
+
       });
       return null;
     }, []);

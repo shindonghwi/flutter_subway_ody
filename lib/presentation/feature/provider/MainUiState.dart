@@ -111,16 +111,57 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
                   nextStatnId: arrivalList.first.statnTid,
                   destination: arrivalList.first.trainLineNm.split(" ").first,
                   isUp: isUp,
+                  arvlMsg3: arrivalList.first.arvlMsg3,
                 );
 
                 final List<Pair<int, SubwayPositionModel?>> subwayPositionList =
                     List<Pair<int, SubwayPositionModel?>>.filled(nameList.length * 2 - 1, Pair(-1, null));
 
                 for (var realTimeInfo in arrivalList) {
-                  var subwayIndex =
-                      !nameList.contains(realTimeInfo.arvlMsg3) ? -1 : (nameList.indexOf(realTimeInfo.arvlMsg3) * 2);
 
-                  subwayIndex = subwayIndex + getSubwayAlignment(realTimeInfo.arvlCd, isUp);
+                  // arvlMsg2
+                  // "강동 전역출발"
+                  // "강동 출발"
+                  // "강동 도착"
+                  // "전전역 출발"
+                  // "8분 후 (군자(능동))"
+                  var subwayIndex = 0;
+
+                  bool isFirstCharacterNumber(String input) {
+                    // 첫번째 메세지가 숫자인 경우
+                    if (input.isEmpty) return false;
+                    int? firstCharacter = int.tryParse(input[0]);
+                    return firstCharacter != null;
+                  }
+
+                  int? getNameIndex(){
+                    // 역 이름이 들어간 인덱스를 찾기 위한 함수. api에서 역 이름에 () 가 들어가는것 때문에 못찾는 경우가 있음.
+                    for (int index = 0; index < nameList.length; index++) {
+                      if (nameList[index].split("(").first.contains(realTimeInfo.arvlMsg3.split("(").first)){
+                        return index;
+                      }
+                    }
+                    return null;
+                  }
+
+                  // n분 후 (역이름)
+                  if (getNameIndex() == null){
+                    subwayIndex = -1;
+                  } else if (isFirstCharacterNumber(realTimeInfo.arvlMsg2)){
+                    subwayIndex = (getNameIndex()! * 2);
+                  } else if (realTimeInfo.arvlMsg2 == "전전역 출발"){
+                    subwayIndex = (getNameIndex()! * 2) + (isUp ? 1 : -1);
+                  } else if (realTimeInfo.arvlMsg2 == "전역 도착"){
+                    subwayIndex = (getNameIndex()! * 2);
+                  }else{
+                    subwayIndex = (getNameIndex()! * 2) + getSubwayAlignment(realTimeInfo.arvlCd, isUp);
+                  }
+
+                  if (getNameIndex() != null){
+                    debugPrint("@#@##@#subwayIndex: ${(getNameIndex()! * 2)} ${realTimeInfo.arvlMsg2} ${realTimeInfo.arvlMsg3} $subwayIndex");
+                  }else{
+                    debugPrint("@#@##@#subwayIndex: 0 ${realTimeInfo.arvlMsg2} ${realTimeInfo.arvlMsg3} $subwayIndex");
+                  }
 
                   if (subwayIndex >= 0 && subwayIndex < subwayPositionList.length) {
                     subwayPositionList[subwayIndex] = Pair(
@@ -135,6 +176,7 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
                   }
                 }
 
+                // final firstData = isUp ? arrivalList.first : arrivalList.last;
                 final firstData = arrivalList.first;
                 stationList.add(SubwayDirectionStationModel(
                   nameList: nameList,
@@ -262,27 +304,19 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
     int alignment = 0;
     switch (arvlCd) {
       case "0": // 진입
-        alignment = isUp ? 1 : -1;
-        break;
       case "4": // 전역진입
-        alignment = isUp ? 1 : -1;
+        alignment = 1;
         break;
 
       case "2": // 출발
-        alignment = isUp ? -1 : 1;
-        break;
       case "3": // 전역출발
-        alignment = isUp ? -1 : 1;
-        break;
-      case "99": // 운행중
-        alignment = isUp ? -1 : 1;
+        alignment = -1;
         break;
 
       case "1": // 도착
-        alignment = isUp ? 0 : 0;
-        break;
       case "5": // 전역도착
-        alignment = isUp ? 0 : 0;
+      case "99": // 운행중
+        alignment = 0;
         break;
     }
     return alignment;
