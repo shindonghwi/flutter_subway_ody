@@ -40,11 +40,7 @@ class MainScreen extends HookConsumerWidget {
 
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-
-        Timer.periodic(Duration(seconds: 15), (timer) {
-          uiStateRead.getSubwayData(context, null);
-        });
-
+        uiStateRead.getSubwayData(context, null);
       });
       return null;
     }, []);
