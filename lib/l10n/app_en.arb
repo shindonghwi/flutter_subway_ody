@@ -47,7 +47,7 @@
     "message_server_error_5xx": "Server error has occurred\nPlease try again later",
     "message_api_success": "success",
 
-    "toast_not_found": "Search results within {distance}m.\nPlease increase the distance a little more",
+    "toast_not_found": "Search results within {distance}km.\nPlease increase the distance a little more",
     "@toast_not_found":{
         "placeholders": {
             "distance": {}
