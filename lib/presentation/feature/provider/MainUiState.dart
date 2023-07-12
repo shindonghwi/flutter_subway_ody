@@ -10,6 +10,7 @@ import 'package:subway_ody/domain/usecases/local/GetUserDistanceUseCase.dart';
 import 'package:subway_ody/domain/usecases/remote/GetKakaoLatLngToRegionUseCase.dart';
 import 'package:subway_ody/domain/usecases/remote/GetNearBySubwayStationUseCase.dart';
 import 'package:subway_ody/domain/usecases/remote/GetSubwayArrivalUseCase.dart';
+import 'package:subway_ody/presentation/components/toast/Toast.dart';
 import 'package:subway_ody/presentation/feature/main/MainIntent.dart';
 import 'package:subway_ody/presentation/feature/main/models/NearByStation.dart';
 import 'package:subway_ody/presentation/feature/main/models/SubwayModel.dart';
@@ -32,13 +33,15 @@ final mainUiStateProvider = StateNotifierProvider<MainUiStateNotifier, UIState<M
 class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
   MainUiStateNotifier() : super(Loading());
 
+  AppLocalization get _getAppLocalization => GetIt.instance<AppLocalization>();
+
   LatLng? latLng;
   String userRegion = "";
 
   void _changeUiState(UIState<MainIntent> s) => state = s;
 
   /// 지하철 정보 요청 API 호출
-  getSubwayData(BuildContext context, int? distance) async {
+  getSubwayData(BuildContext context, int? userDistance) async {
     debugPrint("getSubwayData");
     _changeUiState(Loading());
 
@@ -56,7 +59,7 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
         List<String>? addressList = await _requestLatLngToRegion();
         _setUserRegion(addressList); // 사용자 위치 설정
 
-        List<NearByStation>? nearByStationList = await _requestNearByStation(distance);
+        List<NearByStation>? nearByStationList = await _requestNearByStation(userDistance);
 
         if (!CollectionUtil.isNullorEmpty(addressList) && !CollectionUtil.isNullorEmpty(nearByStationList)) {
           for (var element in nearByStationList!) {
@@ -118,13 +121,6 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
                     List<Pair<int, SubwayPositionModel?>>.filled(nameList.length * 2 - 1, Pair(-1, null));
 
                 for (var realTimeInfo in arrivalList) {
-
-                  // arvlMsg2
-                  // "강동 전역출발"
-                  // "강동 출발"
-                  // "강동 도착"
-                  // "전전역 출발"
-                  // "8분 후 (군자(능동))"
                   var subwayIndex = 0;
 
                   bool isFirstCharacterNumber(String input) {
@@ -134,10 +130,10 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
                     return firstCharacter != null;
                   }
 
-                  int? getNameIndex(){
+                  int? getNameIndex() {
                     // 역 이름이 들어간 인덱스를 찾기 위한 함수. api에서 역 이름에 () 가 들어가는것 때문에 못찾는 경우가 있음.
                     for (int index = 0; index < nameList.length; index++) {
-                      if (nameList[index].split("(").first.contains(realTimeInfo.arvlMsg3.split("(").first)){
+                      if (nameList[index].split("(").first.contains(realTimeInfo.arvlMsg3.split("(").first)) {
                         return index;
                       }
                     }
@@ -145,22 +141,16 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
                   }
 
                   // n분 후 (역이름)
-                  if (getNameIndex() == null){
+                  if (getNameIndex() == null) {
                     subwayIndex = -1;
-                  } else if (isFirstCharacterNumber(realTimeInfo.arvlMsg2)){
+                  } else if (isFirstCharacterNumber(realTimeInfo.arvlMsg2)) {
                     subwayIndex = (getNameIndex()! * 2);
-                  } else if (realTimeInfo.arvlMsg2 == "전전역 출발"){
+                  } else if (realTimeInfo.arvlMsg2 == "전전역 출발") {
                     subwayIndex = (getNameIndex()! * 2) + (isUp ? 1 : -1);
-                  } else if (realTimeInfo.arvlMsg2 == "전역 도착"){
+                  } else if (realTimeInfo.arvlMsg2 == "전역 도착") {
                     subwayIndex = (getNameIndex()! * 2);
-                  }else{
+                  } else {
                     subwayIndex = (getNameIndex()! * 2) + getSubwayAlignment(realTimeInfo.arvlCd, isUp);
-                  }
-
-                  if (getNameIndex() != null){
-                    debugPrint("@#@##@#subwayIndex: ${(getNameIndex()! * 2)} ${realTimeInfo.arvlMsg2} ${realTimeInfo.arvlMsg3} $subwayIndex");
-                  }else{
-                    debugPrint("@#@##@#subwayIndex: 0 ${realTimeInfo.arvlMsg2} ${realTimeInfo.arvlMsg3} $subwayIndex");
                   }
 
                   if (subwayIndex >= 0 && subwayIndex < subwayPositionList.length) {
@@ -195,8 +185,6 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
             }
           }
 
-          debugPrint("subwayDataList: $subwayDataList");
-
           if (!CollectionUtil.isNullorEmpty(subwayDataList)) {
             _changeUiState(
               Success(
@@ -207,10 +195,12 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
               ),
             );
           } else {
-            debugPrint("arrivalInfoList is empty");
+            _showNotFoundStation(context);
             _changeUiState(Failure(ErrorType.not_available.name));
           }
         } else {
+          debugPrint("@#@#@#1 subwayDataList is empty : ${await GetIt.instance<GetUserDistanceUseCase>().call()}");
+          _showNotFoundStation(context);
           debugPrint("addressList or nearByStationList is empty");
           _changeUiState(Failure(ErrorType.not_available.name));
         }
@@ -218,6 +208,17 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
     } else {
       _changeUiState(Failure(ErrorType.gps_error.name));
     }
+  }
+
+  /// 데이터가 없을때 토스트 띄우기
+  _showNotFoundStation(BuildContext context) async {
+    ToastUtil.defaultToast(
+      _getAppLocalization.get().toast_not_found(
+            metersToKilometers(
+              (await GetIt.instance<GetUserDistanceUseCase>().call() ?? 0.0).toDouble(),
+            ),
+          ),
+    );
   }
 
   /// 위치 권한 체크
@@ -320,5 +321,10 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
         break;
     }
     return alignment;
+  }
+
+  double metersToKilometers(double meters) {
+    double kilometers = meters / 1000;
+    return double.parse(kilometers.toStringAsFixed(1));
   }
 }

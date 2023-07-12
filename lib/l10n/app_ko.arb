@@ -46,6 +46,12 @@
     "message_server_error_5xx": "서버 오류가 발생했습니다\n잠시 후에 다시 시도해주세요",
     "message_api_success": "success",
 
+    "toast_not_found": "{distance}m 이내에서 검색 한 결과입니다.\n거리를 조금 더 늘려보세요",
+    "@toast_not_found":{
+        "placeholders": {
+            "distance": {}
+        }
+    },
     "common_close": "종료",
     "common_location": "위치"
 

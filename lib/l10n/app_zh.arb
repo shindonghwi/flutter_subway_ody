@@ -46,6 +46,13 @@
     "message_server_error_5xx": "服务器发生错误\n请稍后再试",
     "message_api_success": "success",
 
+    "toast_not_found": "在 {distance}m 范围内搜索结果。\n请加长距离。",
+    "@toast_not_found":{
+        "placeholders": {
+            "distance": {}
+        }
+    },
+
     "common_close": "关闭",
     "common_location": "地点"
 
