@@ -6,19 +6,32 @@ import 'package:subway_ody/presentation/ui/typography.dart';
 import 'package:subway_ody/presentation/utils/Common.dart';
 
 class ToastUtil {
+
+  static OverlayEntry? _overlay;
+
   static void errorToast(String message) async {
+    final context = SubwayOdyApp.navigatorKey.currentContext as BuildContext;
+
+    if (Navigator.of(context).overlay?.mounted == true){
+      _overlay?.remove(); // 저장한 OverlayEntry 해제
+    }
+
     if (message.isNotEmpty) {
-      OverlayEntry overlay = OverlayEntry(builder: (_) => Toast(type: ToastType.Error, message: message));
-      final context = SubwayOdyApp.navigatorKey.currentContext as BuildContext;
-      Navigator.of(context).overlay?.insert(overlay);
+      _overlay = OverlayEntry(builder: (_) => Toast(type: ToastType.Default, message: message, overlay: _overlay));
+      Navigator.of(context).overlay?.insert(_overlay!);
     }
   }
 
   static void defaultToast(String message) async {
+    final context = SubwayOdyApp.navigatorKey.currentContext as BuildContext;
+
+    if (Navigator.of(context).overlay?.mounted == true){
+        _overlay?.remove(); // 저장한 OverlayEntry 해제
+    }
+
     if (message.isNotEmpty) {
-      OverlayEntry overlay = OverlayEntry(builder: (_) => Toast(type: ToastType.Default, message: message));
-      final context = SubwayOdyApp.navigatorKey.currentContext as BuildContext;
-      Navigator.of(context).overlay?.insert(overlay);
+      _overlay = OverlayEntry(builder: (_) => Toast(type: ToastType.Default, message: message, overlay: _overlay));
+      Navigator.of(context).overlay?.insert(_overlay!);
     }
   }
 }
@@ -28,11 +41,13 @@ enum ToastType { Default, Error }
 class Toast extends StatefulWidget {
   final ToastType type;
   final String message;
+  final OverlayEntry? overlay;
 
   const Toast({
     Key? key,
     required this.type,
     required this.message,
+    required this.overlay,
   }) : super(key: key);
 
   @override
@@ -59,7 +74,7 @@ class _ToastState extends State<Toast> with SingleTickerProviderStateMixin {
 
     _slideAnimation = TweenSequence<Offset>([
       TweenSequenceItem<Offset>(
-        tween: Tween<Offset>(begin: const Offset(0.0, -0.2), end: const Offset(0.0, 0.5)),
+        tween: Tween<Offset>(begin: const Offset(0.0, -0.2), end: const Offset(0.0, 0.2)),
         weight: 1,
       ),
       TweenSequenceItem<Offset>(
@@ -78,12 +93,6 @@ class _ToastState extends State<Toast> with SingleTickerProviderStateMixin {
     _controller.forward();
   }
 
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
   Future<void> _startFadeOutAnimation() async {
     await Future.delayed(const Duration(seconds: 3));
     await _controller.reverse();
@@ -93,8 +102,8 @@ class _ToastState extends State<Toast> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Align(
       alignment: Alignment.topCenter,
-      child: Padding(
-        padding: const EdgeInsets.only(top: 60.0),
+      child: Container(
+        margin: const EdgeInsets.only(top: 80.0),
         child: SlideTransition(
           position: _slideAnimation,
           child: FadeTransition(
@@ -103,7 +112,7 @@ class _ToastState extends State<Toast> with SingleTickerProviderStateMixin {
               color: Colors.transparent,
               child: Container(
                 width: getMediaQuery(context).size.width * 0.9,
-                height: 60,
+                padding: const EdgeInsets.symmetric(vertical: 12),
                 decoration: BoxDecoration(
                   color: widget.type == ToastType.Default
                       ? getColorScheme(context).neutral80
