@@ -113,6 +113,7 @@ class LanguageSelector extends HookWidget {
       }
 
       initLanguage();
+      return null;
     }, [selectedLanguageIndex]);
 
     return Container(

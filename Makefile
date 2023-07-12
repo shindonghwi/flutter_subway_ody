@@ -24,7 +24,7 @@ run-icon:
 
 # DebugDev Run
 run:
-	flutter run --debug --no-sound-null-safety -t lib/app/env/dev.dart
+	flutter run --debug -t lib/app/env/dev.dart
 
 # DebugDev Rebuild
 run-rebuild:
@@ -32,11 +32,11 @@ run-rebuild:
 	flutter pub get
 	cd ios && pod install
 	flutter pub run build_runner build --delete-conflicting-outputs
-	flutter run --debug --no-sound-null-safety -t lib/app/env/dev.dart
+	flutter run --debug -t lib/app/env/dev.dart
 
 # ProdRelease Run
 run-prod:
-	flutter run --release --no-sound-null-safety -t lib/app/env/prod.dart
+	flutter run --release -t lib/app/env/prod.dart
 
 # ProdRelease Rebuild
 run-prod-rebuild:
@@ -44,7 +44,7 @@ run-prod-rebuild:
 	flutter pub get
 	cd ios && pod install
 	flutter pub run build_runner build --delete-conflicting-outputs
-	flutter run --release --no-sound-null-safety -t lib/app/env/prod.dart
+	flutter run --release -t lib/app/env/prod.dart
 
 
 ########################
@@ -53,14 +53,14 @@ run-prod-rebuild:
 
 # android apk-release create
 create-apk-prod:
-	flutter build apk --release --no-tree-shake-icons --no-sound-null-safety -t lib/app/env/prod.dart
+	flutter build apk --release --no-tree-shake-icons -t lib/app/env/prod.dart
 
 # android apk-debug create
 create-apk-dev:
-	flutter build apk --debug --no-tree-shake-icons --no-sound-null-safety -t lib/app/env/dev.dart
+	flutter build apk --debug --no-tree-shake-icons -t lib/app/env/dev.dart
 
 # android aab-prod create
 create-aab-prod:
-	flutter build appbundle --release --no-tree-shake-icons --no-sound-null-safety -t lib/app/env/prod.dart
+	flutter build appbundle --release --no-tree-shake-icons -t lib/app/env/prod.dart
 
 

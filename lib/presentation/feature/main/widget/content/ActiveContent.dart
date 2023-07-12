@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:subway_ody/presentation/components/ad/GoogleAdmobBanner.dart';
-import 'package:subway_ody/presentation/components/ad/KakaoAdFitBanner.dart';
 import 'package:subway_ody/presentation/feature/main/MainIntent.dart';
 import 'package:subway_ody/presentation/feature/main/widget/SubwayDirectionETA.dart';
 import 'package:subway_ody/presentation/feature/main/widget/SubwayListDivider.dart';
@@ -34,13 +33,13 @@ class ActiveContent extends HookWidget {
               return model.stations.isNotEmpty
                   ? Column(
                       children: [
-                        if (index == 0 && Platform.isIOS) const GoogleAdmobBanner(size: AdSize.banner),
                         const SizedBox(height: 32),
                         SubwayTitle(
                           subwayLine: model.subwayLine,
                           subwayName: model.subwayName,
                           distance: model.distance,
                           mainColor: model.mainColor,
+                          latLng: model.latLng,
                         ),
                         Column(
                           children: model.stations.map((e) {
@@ -58,7 +57,6 @@ class ActiveContent extends HookWidget {
                             );
                           }).toList(),
                         ),
-                        if (adCount.value != 0 && adCount.value % 3 == 0 && Platform.isIOS) const GoogleAdmobBanner(size: AdSize.largeBanner),
                       ],
                     )
                   : const SizedBox();

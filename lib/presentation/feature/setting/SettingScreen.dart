@@ -14,15 +14,15 @@ class SettingScreen extends StatelessWidget {
     return Scaffold(
       appBar: const SettingAppBar(),
       backgroundColor: getColorScheme(context).light,
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
+      body: const SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
         child: Column(
           children: [
             // const GeneralContainer(),
             // _divider(context),
-            const EtcContainer(),
-            _divider(context),
-            const InquireContainer(),
+            EtcContainer(),
+            // _divider(context),
+            // const InquireContainer(),
           ],
         ),
       ),

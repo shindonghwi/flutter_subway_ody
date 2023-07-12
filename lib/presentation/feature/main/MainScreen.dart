@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -9,7 +9,6 @@ import 'package:subway_ody/domain/usecases/local/GetIntroPopUpShowingUseCase.dar
 import 'package:subway_ody/domain/usecases/local/PatchIntroPopUpShowingUseCase.dart';
 import 'package:subway_ody/firebase/Analytics.dart';
 import 'package:subway_ody/presentation/components/CircleLoading.dart';
-import 'package:subway_ody/presentation/components/ad/KakaoAdFitBanner.dart';
 import 'package:subway_ody/presentation/components/popup/PopupUtil.dart';
 import 'package:subway_ody/presentation/feature/main/MainIntent.dart';
 import 'package:subway_ody/presentation/feature/main/widget/MainAppBar.dart';
@@ -23,12 +22,11 @@ import 'package:subway_ody/presentation/models/UiState.dart';
 import 'package:subway_ody/presentation/ui/colors.dart';
 import 'package:subway_ody/presentation/utils/Common.dart';
 import 'package:subway_ody/presentation/utils/LifecycleWatcher.dart';
-import 'package:subway_ody/presentation/utils/SnackBarUtil.dart';
-import 'package:subway_ody/presentation/utils/Throttler.dart';
+
+import '../../components/ad/PangleAdBanner.dart';
 
 class MainScreen extends HookConsumerWidget {
-  MainScreen({Key? key}) : super(key: key);
-  Throttler throttler = Throttler(milliseconds: 5000);
+  const MainScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -42,10 +40,9 @@ class MainScreen extends HookConsumerWidget {
 
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        throttler.run(() {
-          uiStateRead.getSubwayData(context, null);
-        }, throttle: false);
+        uiStateRead.getSubwayData(context, null);
       });
+      return null;
     }, []);
 
     useEffect(() {
@@ -68,6 +65,7 @@ class MainScreen extends HookConsumerWidget {
           currentRegionRead.setRegion(uiStateRead.userRegion);
         });
       });
+      return null;
     }, [uiState]);
 
     useEffect(() {
@@ -77,6 +75,7 @@ class MainScreen extends HookConsumerWidget {
           PopupUtil.showIntro(backgroundTouchCloseFlag: true);
         }
       });
+      return null;
     }, []);
 
     return LifecycleWatcher(
@@ -89,46 +88,62 @@ class MainScreen extends HookConsumerWidget {
       child: Scaffold(
         appBar: const MainAppBar(),
         backgroundColor: getColorScheme(context).light,
-        body: Column(
-          children: [
-            if (Platform.isAndroid) const KakaoAdFitBanner(),
-            Expanded(
-              child: Stack(
-                children: [
-                  mainIntentData.value == null
-                      ? uiState is Success<MainIntent>
-                          ? ActiveContent(subwayModel: uiState.value)
-                          : const SizedBox()
-                      : ActiveContent(subwayModel: mainIntentData.value!),
-                  if (uiState is Failure<MainIntent>)
-                    uiState.errorMessage == ErrorType.gps_error.name
-                        ? const ErrorGpsContent()
-                        : uiState.errorMessage == ErrorType.not_available.name
-                            ? const ErrorNotAvailableContent()
-                            : const Error500Content(),
-                  if (uiState is Loading) const CircleLoading(),
-                ],
-              ),
-            ),
-          ],
+        body: SafeArea(
+          child: Stack(
+            children: [
+              mainIntentData.value == null
+                  ? uiState is Success<MainIntent>
+                      ? ActiveContent(subwayModel: uiState.value)
+                      : const SizedBox()
+                  : ActiveContent(subwayModel: mainIntentData.value!),
+              if (uiState is Failure<MainIntent>)
+                uiState.errorMessage == ErrorType.gps_error.name
+                    ? const ErrorGpsContent()
+                    : uiState.errorMessage == ErrorType.not_available.name
+                        ? const ErrorNotAvailableContent()
+                        : const Error500Content(),
+              if (uiState is Loading) const CircleLoading(),
+              const BottomContent()
+            ],
+          ),
         ),
-        floatingActionButton: floatingButtonState.value
-            ? FloatingActionButton(
+      ),
+    );
+  }
+}
+
+class BottomContent extends HookConsumerWidget {
+  const BottomContent({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final uiStateRead = ref.read(mainUiStateProvider.notifier);
+
+    return Container(
+      alignment: Alignment.bottomCenter,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            margin: const EdgeInsets.only(right: 20, bottom: 20),
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: FloatingActionButton(
                 backgroundColor: getColorScheme(context).colorPrimary,
                 onPressed: () {
-                  throttler.run(() {
-                    Analytics.eventManualRefresh();
-                    uiStateRead.getSubwayData(context, null);
-                  }, callback: (remainTime) {
-                    SnackBarUtil.show(
-                        context,
-                        getAppLocalizations(context).message_remain_time(
-                          5 - remainTime,
-                        ));
-                  });
+                  Analytics.eventManualRefresh();
+                  uiStateRead.getSubwayData(context, null);
                 },
-                child: SvgPicture.asset('assets/imgs/refresh.svg'))
-            : const SizedBox(),
+                child: SvgPicture.asset('assets/imgs/refresh.svg'),
+              ),
+            ),
+          ),
+          const PangleAdBanner(),
+        ],
       ),
     );
   }

@@ -128,9 +128,6 @@ class DistanceSettingAppBar extends HookConsumerWidget {
           overflow: TextOverflow.ellipsis,
         ),
         _buttonText(context, () {
-
-          debugPrint("distzxczcxcxzzxcance: $distance");
-
           onComplete.call(distance);
           Navigator.pop(context);
         }, false),

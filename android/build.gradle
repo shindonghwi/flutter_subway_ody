@@ -17,7 +17,7 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        maven { url 'https://devrepo.kakao.com/nexus/content/groups/public/' }
+        maven { url 'https://artifact.bytedance.com/repository/pangle' }
     }
 }
 
@@ -29,6 +29,6 @@ subprojects {
     project.evaluationDependsOn(':app')
 }
 
-task clean(type: Delete) {
+tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }

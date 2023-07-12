@@ -16,6 +16,8 @@ Document _$DocumentFromJson(Map<String, dynamic> json) => Document(
           : DocumentAddress.fromJson(json['address'] as Map<String, dynamic>),
       place_name: json['place_name'] as String?,
       distance: json['distance'] as String?,
+      x: json['x'] as String?,
+      y: json['y'] as String?,
     );
 
 Map<String, dynamic> _$DocumentToJson(Document instance) => <String, dynamic>{
@@ -23,4 +25,6 @@ Map<String, dynamic> _$DocumentToJson(Document instance) => <String, dynamic>{
       'address': instance.address,
       'place_name': instance.place_name,
       'distance': instance.distance,
+      'x': instance.x,
+      'y': instance.y,
     };

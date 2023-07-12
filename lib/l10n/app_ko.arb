@@ -44,6 +44,9 @@
     "message_gps_disable": "GPS가 꺼져있어요!\n활성화를 하고 내 근처 실시간 지하철을 확인해보세요",
     "message_not_available": "근처에 지하철역이 없거나\n아직 서비스를 지원하지 않는 지역입니다",
     "message_server_error_5xx": "서버 오류가 발생했습니다\n잠시 후에 다시 시도해주세요",
-    "message_api_success": "success"
+    "message_api_success": "success",
+
+    "common_close": "종료",
+    "common_location": "위치"
 
 }

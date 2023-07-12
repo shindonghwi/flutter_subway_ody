@@ -327,6 +327,7 @@ class SubwayUtil {
     required String nextStatnId,
     required String destination,
     required bool isUp,
+    required String arvlMsg3,
   }) {
     // 상행 여부
     final List<String> subwayNameList = [];
@@ -495,14 +496,15 @@ class SubwayUtil {
     else if (subwayId == "1005") {
       int maxLength = subway1005Lines.length;
       int count = 5;
-
       if (!isUp) {
-        if (currentStatnId.compareTo("1005000549") >= 0 &&
-            currentStatnId.compareTo("1005000558") <= 0) {
+        bool isExist = subway1005HanamLines.every((element) {
+          return element["statnName"] == arvlMsg3;
+        });
+        if (isExist){
           int curIndex = subway1005HanamLines.indexWhere((map) => map["statnId"] == currentStatnId);
           int endIndex = curIndex - 4 < 0 ? 0 : curIndex - 4;
           subwayList = subway1005HanamLines.sublist(endIndex, curIndex + 1);
-        } else {
+        }else{
           int curIndex = subway1005Lines.indexWhere((map) => map["statnId"] == currentStatnId);
           int endIndex = curIndex - 4 < 0 ? 0 : curIndex - 4;
           subwayList = subway1005Lines.sublist(endIndex, curIndex + 1);

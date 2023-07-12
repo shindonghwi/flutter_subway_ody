@@ -11,12 +11,16 @@ class Document {
   DocumentAddress? address;
   String? place_name;
   String? distance;
+  String? x;
+  String? y;
 
   Document({
     required this.road_address,
     required this.address,
     required this.place_name,
     required this.distance,
+    required this.x,
+    required this.y,
   });
 
   factory Document.fromJson(Map<String, dynamic> json) => _$DocumentFromJson(json);

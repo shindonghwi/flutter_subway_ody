@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:subway_ody/app/env/Advertisement.dart';
 import 'package:subway_ody/app/env/Environment.dart';
+import 'package:subway_ody/presentation/components/ad/AdvertiseHelper.dart';
 
 class GoogleAdmobBanner extends HookWidget {
   final AdSize size;
@@ -18,7 +18,7 @@ class GoogleAdmobBanner extends HookWidget {
 
     void loadAd() {
       BannerAd(
-        adUnitId: Advertisement.admobBannerId,
+        adUnitId: AdvertiseHelper.admobBannerId,
         request: const AdRequest(),
         size: size,
         listener: BannerAdListener(
@@ -40,6 +40,7 @@ class GoogleAdmobBanner extends HookWidget {
       if (Environment.buildType == BuildType.prod) {
         loadAd();
       }
+      return null;
     }, []);
 
     return Environment.buildType == BuildType.prod
