@@ -35,7 +35,7 @@ class Environment {
 
   static String get kakaoRestApiKey => '9672018471d87420b9bc260308a8bc9c';
 
-  static String get naverClientId => 'k13loq5gf7';
+  static String get naverClientId => 'rtujewrui1';
 
   void run() async {
     SystemChrome.setEnabledSystemUIMode(
