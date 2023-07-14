@@ -52,6 +52,12 @@
             "distance": {}
         }
     },
+    "toast_search_result": "{distance}km 范围内搜索结果。",
+    "@toast_search_result":{
+        "placeholders": {
+            "distance": {}
+        }
+    },
 
     "common_close": "关闭",
     "common_location": "地点"

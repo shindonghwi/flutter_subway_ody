@@ -74,11 +74,11 @@ class _ToastState extends State<Toast> with SingleTickerProviderStateMixin {
 
     _slideAnimation = TweenSequence<Offset>([
       TweenSequenceItem<Offset>(
-        tween: Tween<Offset>(begin: const Offset(0.0, -0.2), end: const Offset(0.0, 0.2)),
+        tween: Tween<Offset>(begin: const Offset(0.0, -0.2), end: const Offset(0.0, 0.5)),
         weight: 1,
       ),
       TweenSequenceItem<Offset>(
-        tween: Tween<Offset>(begin: const Offset(0.0, 0.5), end: const Offset(0.0, 0.7))
+        tween: Tween<Offset>(begin: const Offset(0.0, 0.3), end: const Offset(0.0, 0.9))
             .chain(CurveTween(curve: Curves.bounceOut)),
         weight: 3,
       ),
@@ -100,46 +100,48 @@ class _ToastState extends State<Toast> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.topCenter,
-      child: Container(
-        margin: const EdgeInsets.only(top: 80.0),
-        child: SlideTransition(
-          position: _slideAnimation,
-          child: FadeTransition(
-            opacity: _fadeAnimation,
-            child: Material(
-              color: Colors.transparent,
-              child: Container(
-                width: getMediaQuery(context).size.width * 0.9,
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                decoration: BoxDecoration(
-                  color: widget.type == ToastType.Default
-                      ? getColorScheme(context).neutral80
-                      : getColorScheme(context).colorError,
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    if (widget.type == ToastType.Error)
-                      Container(
-                        margin: const EdgeInsets.only(right: 12),
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: SvgPicture.asset(
-                          "assets/imgs/icon_information.svg",
-                          width: 24,
-                          height: 24,
-                          colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+    return IgnorePointer(
+      child: Align(
+        alignment: Alignment.topCenter,
+        child: Container(
+          margin: const EdgeInsets.only(top: 60.0),
+          child: SlideTransition(
+            position: _slideAnimation,
+            child: FadeTransition(
+              opacity: _fadeAnimation,
+              child: Material(
+                color: Colors.transparent,
+                child: Container(
+                  width: getMediaQuery(context).size.width * 0.9,
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  decoration: BoxDecoration(
+                    color: widget.type == ToastType.Default
+                        ? getColorScheme(context).neutral80
+                        : getColorScheme(context).colorError,
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      if (widget.type == ToastType.Error)
+                        Container(
+                          margin: const EdgeInsets.only(right: 12),
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: SvgPicture.asset(
+                            "assets/imgs/icon_information.svg",
+                            width: 24,
+                            height: 24,
+                            colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                          ),
                         ),
+                      Text(
+                        widget.message.toString(),
+                        style: getTextTheme(context).regular.copyWith(color: Colors.white, height: 1.44),
+                        textAlign: TextAlign.center,
                       ),
-                    Text(
-                      widget.message.toString(),
-                      style: getTextTheme(context).medium.copyWith(color: Colors.white, height: 1.44),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

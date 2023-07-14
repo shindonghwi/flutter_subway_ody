@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -10,6 +8,7 @@ import 'package:subway_ody/domain/usecases/local/PatchIntroPopUpShowingUseCase.d
 import 'package:subway_ody/firebase/Analytics.dart';
 import 'package:subway_ody/presentation/components/CircleLoading.dart';
 import 'package:subway_ody/presentation/components/popup/PopupUtil.dart';
+import 'package:subway_ody/presentation/components/toast/Toast.dart';
 import 'package:subway_ody/presentation/feature/main/MainIntent.dart';
 import 'package:subway_ody/presentation/feature/main/widget/MainAppBar.dart';
 import 'package:subway_ody/presentation/feature/main/widget/content/ActiveContent.dart';
@@ -35,7 +34,6 @@ class MainScreen extends HookConsumerWidget {
     final currentRegionRead = ref.read(currentRegionProvider.notifier);
     final floatingButtonState = useState<bool>(false);
 
-    final adCount = useState<int>(0);
     final mainIntentData = useState<MainIntent?>(null);
 
     useEffect(() {
@@ -61,7 +59,6 @@ class MainScreen extends HookConsumerWidget {
             floatingButtonState.value = false;
           },
         )?.whenComplete(() {
-          adCount.value = 0;
           currentRegionRead.setRegion(uiStateRead.userRegion);
         });
       });

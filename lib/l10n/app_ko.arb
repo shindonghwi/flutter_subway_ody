@@ -52,6 +52,12 @@
             "distance": {}
         }
     },
+    "toast_search_result": "{distance}km 이내에서 검색 한 결과입니다.",
+    "@toast_search_result":{
+        "placeholders": {
+            "distance": {}
+        }
+    },
     "common_close": "종료",
     "common_location": "위치"
 

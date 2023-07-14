@@ -37,6 +37,7 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
 
   LatLng? latLng;
   String userRegion = "";
+  var isFirstToastShowing = false;
 
   void _changeUiState(UIState<MainIntent> s) => state = s;
 
@@ -166,7 +167,6 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
                   }
                 }
 
-                // final firstData = isUp ? arrivalList.first : arrivalList.last;
                 final firstData = arrivalList.first;
                 stationList.add(SubwayDirectionStationModel(
                   nameList: nameList,
@@ -194,13 +194,14 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
                 ),
               ),
             );
+            _showToastSearchResult(context);
           } else {
-            _showNotFoundStation(context);
+            _showToastNotFoundStation(context);
             _changeUiState(Failure(ErrorType.not_available.name));
           }
         } else {
           debugPrint("@#@#@#1 subwayDataList is empty : ${await GetIt.instance<GetUserDistanceUseCase>().call()}");
-          _showNotFoundStation(context);
+          _showToastNotFoundStation(context);
           debugPrint("addressList or nearByStationList is empty");
           _changeUiState(Failure(ErrorType.not_available.name));
         }
@@ -211,7 +212,7 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
   }
 
   /// 데이터가 없을때 토스트 띄우기
-  _showNotFoundStation(BuildContext context) async {
+  _showToastNotFoundStation(BuildContext context) async {
     ToastUtil.defaultToast(
       _getAppLocalization.get().toast_not_found(
             metersToKilometers(
@@ -219,6 +220,22 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
             ),
           ),
     );
+  }
+
+  /// 거리 검색결과 토스트 띄우기
+  _showToastSearchResult(BuildContext context) async {
+    if (!isFirstToastShowing) {
+      isFirstToastShowing = true;
+      Future.delayed(const Duration(milliseconds: 500), () async {
+        ToastUtil.defaultToast(
+          _getAppLocalization.get().toast_search_result(
+                metersToKilometers(
+                  (await GetIt.instance<GetUserDistanceUseCase>().call() ?? 0.0).toDouble(),
+                ),
+              ),
+        );
+      });
+    }
   }
 
   /// 위치 권한 체크
@@ -305,18 +322,21 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
     int alignment = 0;
     switch (arvlCd) {
       case "0": // 진입
+        alignment = isUp ? 1 : -1;
+        break;
+
       case "4": // 전역진입
-        alignment = 1;
+        alignment = isUp ? -1 : 1;
         break;
 
       case "2": // 출발
-      case "3": // 전역출발
-        alignment = -1;
+      case "3": // 전역출발 - 문제없음
+        alignment = isUp ? -1 : 1;
         break;
 
-      case "1": // 도착
-      case "5": // 전역도착
-      case "99": // 운행중
+      case "1": // 도착  - 문제없음
+      case "5": // 전역도착  - 문제없음
+      case "99": // 운행중  - 문제없음
         alignment = 0;
         break;
     }
