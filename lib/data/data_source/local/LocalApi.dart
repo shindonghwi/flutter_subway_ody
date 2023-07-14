@@ -81,7 +81,7 @@ class LocalApi {
     final prefs = await SharedPreferences.getInstance();
     final distance = prefs.getInt(distanceKey);
     debugPrint("LocalApi - getUserDistance : $distance");
-    return distance;
+    return distance ?? 1000;
   }
 
   /// 사용자가 설정한 Locale 반환

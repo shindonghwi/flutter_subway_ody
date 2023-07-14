@@ -43,7 +43,7 @@ class BottomSheetUtil {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   DistanceSettingAppBar(
-                    distance: currentDistance.value ?? 500,
+                    distance: currentDistance.value ?? 1000,
                     onComplete: onComplete,
                   ),
                   Container(

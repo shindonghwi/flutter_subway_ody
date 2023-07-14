@@ -17,10 +17,10 @@ class ActiveContent extends HookWidget {
 
     final subWayInfoWidget = ListView.separated(
       physics: const BouncingScrollPhysics(),
-      padding: const EdgeInsets.all(0),
+      padding: const EdgeInsets.only(bottom: 140),
       shrinkWrap: true,
       separatorBuilder: (BuildContext context, int index) {
-        return const SizedBox(height: 16); // Adjust the height as needed
+        return const SizedBox(height: 0); // Adjust the height as needed
       },
       itemBuilder: (BuildContext context, int index) {
         final item = subwayModel.subwayItems[index];
@@ -40,7 +40,7 @@ class ActiveContent extends HookWidget {
               padding: const EdgeInsets.all(0),
               shrinkWrap: true,
               separatorBuilder: (BuildContext context, int index) {
-                return const SizedBox(height: 16); // Adjust the height as needed
+                return const SizedBox(height: 0); // Adjust the height as needed
               },
               itemBuilder: (BuildContext context, int index) {
                 final model = item.stations[index];
@@ -54,7 +54,7 @@ class ActiveContent extends HookWidget {
                       stationInfo: model,
                       mainColor: item.mainColor,
                     ),
-                    const SizedBox(height: 74),
+                    const SizedBox(height: 44),
                   ],
                 );
               },
