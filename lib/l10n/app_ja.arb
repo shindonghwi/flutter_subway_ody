@@ -52,6 +52,12 @@
             "distance": {}
         }
     },
+    "toast_search_result": "{distance}km以内で検索した結果です。",
+    "@toast_search_result":{
+        "placeholders": {
+            "distance": {}
+        }
+    },
 
     "common_close": "閉じる",
     "common_location": "場所"

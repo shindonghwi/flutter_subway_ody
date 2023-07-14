@@ -53,6 +53,12 @@
             "distance": {}
         }
     },
+    "toast_search_result": "Search results within {distance}km.",
+    "@toast_search_result":{
+        "placeholders": {
+            "distance": {}
+        }
+    },
 
     "common_close": "Close",
     "common_location": "Location"

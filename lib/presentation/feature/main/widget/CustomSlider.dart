@@ -39,12 +39,12 @@ class CustomSlider extends HookWidget {
       return double.parse(kilometers.toStringAsFixed(1));
     }
 
-    final ValueNotifier<double> sliderValue = useState(calculateSliderValue(500).toDouble());
+    final ValueNotifier<double> sliderValue = useState(calculateSliderValue(1000).toDouble());
 
     useEffect(() {
       GetIt.instance<GetUserDistanceUseCase>().call().then((value) {
         sliderValue.value =
-            value == null ? calculateSliderValue(500).toDouble() : calculateSliderValue(value).toDouble();
+            value == null ? calculateSliderValue(1000).toDouble() : calculateSliderValue(value).toDouble();
       });
       return null;
     }, []);
