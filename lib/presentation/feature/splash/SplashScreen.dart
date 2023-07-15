@@ -11,6 +11,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:subway_ody/data/data_source/remote/Service.dart';
 import 'package:subway_ody/domain/usecases/local/GetAutoRefreshCallUseCase.dart';
 import 'package:subway_ody/domain/usecases/local/GetLocationPermissionUseCase.dart';
+import 'package:subway_ody/firebase/FirebaseRemoteConfigService.dart';
 import 'package:subway_ody/presentation/components/toast/Toast.dart';
 import 'package:subway_ody/presentation/feature/provider/AutoRefreshNotifier.dart';
 import 'package:subway_ody/presentation/navigation/PageMoveUtil.dart';
@@ -180,6 +181,7 @@ class SplashScreen extends HookConsumerWidget {
                               if (!await Service.isNetworkAvailable()) {
                                 ToastUtil.errorToast(getAppLocalizations(context).message_network_error);
                               } else {
+                                await FirebaseRemoteConfigService().initialize();
                                 requestGpsPermission();
                               }
                             },

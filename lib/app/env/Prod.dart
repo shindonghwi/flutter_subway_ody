@@ -9,7 +9,6 @@ import 'package:subway_ody/firebase/FirebaseRemoteConfigService.dart';
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  await FirebaseRemoteConfigService().initialize();
 
   // 모든 오류 기록
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
