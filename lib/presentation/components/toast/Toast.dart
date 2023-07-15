@@ -6,18 +6,19 @@ import 'package:subway_ody/presentation/ui/typography.dart';
 import 'package:subway_ody/presentation/utils/Common.dart';
 
 class ToastUtil {
-
   static OverlayEntry? _overlay;
 
   static void errorToast(String message) async {
     final context = SubwayOdyApp.navigatorKey.currentContext as BuildContext;
 
-    if (Navigator.of(context).overlay?.mounted == true){
+    if (Navigator.of(context).overlay?.mounted == true) {
       _overlay?.remove(); // 저장한 OverlayEntry 해제
     }
 
     if (message.isNotEmpty) {
-      _overlay = OverlayEntry(builder: (_) => Toast(type: ToastType.Default, message: message, overlay: _overlay));
+      _overlay = OverlayEntry(
+        builder: (_) => Toast(type: ToastType.Error, message: message, overlay: _overlay),
+      );
       Navigator.of(context).overlay?.insert(_overlay!);
     }
   }
@@ -25,12 +26,14 @@ class ToastUtil {
   static void defaultToast(String message) async {
     final context = SubwayOdyApp.navigatorKey.currentContext as BuildContext;
 
-    if (Navigator.of(context).overlay?.mounted == true){
-        _overlay?.remove(); // 저장한 OverlayEntry 해제
+    if (Navigator.of(context).overlay?.mounted == true) {
+      _overlay?.remove(); // 저장한 OverlayEntry 해제
     }
 
     if (message.isNotEmpty) {
-      _overlay = OverlayEntry(builder: (_) => Toast(type: ToastType.Default, message: message, overlay: _overlay));
+      _overlay = OverlayEntry(
+        builder: (_) => Toast(type: ToastType.Default, message: message, overlay: _overlay),
+      );
       Navigator.of(context).overlay?.insert(_overlay!);
     }
   }

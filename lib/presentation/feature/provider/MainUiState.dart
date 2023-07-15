@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:subway_ody/app/SubwayOdyApp.dart';
+import 'package:subway_ody/data/data_source/remote/Service.dart';
 import 'package:subway_ody/domain/models/local/LatLng.dart';
 import 'package:subway_ody/domain/usecases/local/GetLatLngUseCase.dart';
 import 'package:subway_ody/domain/usecases/local/GetLocationPermissionUseCase.dart';
@@ -57,153 +58,157 @@ class MainUiStateNotifier extends StateNotifier<UIState<MainIntent>> {
       if (latLng == null) {
         _changeUiState(Failure(ErrorType.gps_error.name));
       } else {
-        List<String>? addressList = await _requestLatLngToRegion();
-        _setUserRegion(addressList); // 사용자 위치 설정
+        if (await Service.isNetworkAvailable()){
+          List<String>? addressList = await _requestLatLngToRegion();
+          _setUserRegion(addressList); // 사용자 위치 설정
 
-        List<NearByStation>? nearByStationList = await _requestNearByStation(userDistance);
+          List<NearByStation>? nearByStationList = await _requestNearByStation(userDistance);
 
-        if (!CollectionUtil.isNullorEmpty(addressList) && !CollectionUtil.isNullorEmpty(nearByStationList)) {
-          for (var element in nearByStationList!) {
-            final subwayName = element.subwayName;
-            final subwayLine = element.subwayLine;
+          if (!CollectionUtil.isNullorEmpty(addressList) && !CollectionUtil.isNullorEmpty(nearByStationList)) {
+            for (var element in nearByStationList!) {
+              final subwayName = element.subwayName;
+              final subwayLine = element.subwayLine;
 
-            if (subwayName.isEmpty) {
-              continue;
-            }
-
-            final distance = element.distance;
-
-            final arrivalRes = await GetIt.instance<GetSubwayArrivalUseCase>().call(
-              subwayName,
-            );
-
-            if (arrivalRes.status == 200) {
-              var arrivalInfo = arrivalRes.data;
-              if (CollectionUtil.isNullorEmpty(arrivalInfo?.realtimeArrivalList)) {
+              if (subwayName.isEmpty) {
                 continue;
               }
 
-              final subwayArrivalList = arrivalInfo?.realtimeArrivalList!;
+              final distance = element.distance;
 
-              if (subwayLine.isEmpty) {
-                continue;
-              }
-
-              final dummyData = SubwayModel(
-                subwayId: SubwayUtil.subwayLineToId(subwayLine),
-                subwayName: subwayName,
-                subwayLine: subwayLine,
-                distance: distance,
-                mainColor: SubwayUtil.getMainColor(subwayLine),
-                stations: [],
-                latLng: LatLng(
-                  double.parse(element.latitude),
-                  double.parse(element.longitude),
-                ),
+              final arrivalRes = await GetIt.instance<GetSubwayArrivalUseCase>().call(
+                subwayName,
               );
 
-              final List<SubwayDirectionStationModel> stationList = [];
-
-              final tempList = subwayArrivalList!.where((element) => element.subwayId == dummyData.subwayId);
-
-              groupBy(tempList, (p0) => p0.updnLine).forEach((key, arrivalList) {
-                final isUp = arrivalList.first.ordkey.startsWith("0");
-                var nameList = SubwayUtil.findSubwayNameList(
-                  subwayId: arrivalList.first.subwayId,
-                  currentStatnId: arrivalList.first.statnId,
-                  preStatnId: arrivalList.first.statnFid,
-                  nextStatnId: arrivalList.first.statnTid,
-                  destination: arrivalList.first.trainLineNm.split(" ").first,
-                  isUp: isUp,
-                  arvlMsg3: arrivalList.first.arvlMsg3,
-                );
-
-                final List<Pair<int, SubwayPositionModel?>> subwayPositionList =
-                    List<Pair<int, SubwayPositionModel?>>.filled(nameList.length * 2 - 1, Pair(-1, null));
-
-                for (var realTimeInfo in arrivalList) {
-                  var subwayIndex = 0;
-
-                  bool isFirstCharacterNumber(String input) {
-                    // 첫번째 메세지가 숫자인 경우
-                    if (input.isEmpty) return false;
-                    int? firstCharacter = int.tryParse(input[0]);
-                    return firstCharacter != null;
-                  }
-
-                  int? getNameIndex() {
-                    // 역 이름이 들어간 인덱스를 찾기 위한 함수. api에서 역 이름에 () 가 들어가는것 때문에 못찾는 경우가 있음.
-                    for (int index = 0; index < nameList.length; index++) {
-                      if (nameList[index].split("(").first.contains(realTimeInfo.arvlMsg3.split("(").first)) {
-                        return index;
-                      }
-                    }
-                    return null;
-                  }
-
-                  // n분 후 (역이름)
-                  if (getNameIndex() == null) {
-                    subwayIndex = -1;
-                  } else if (isFirstCharacterNumber(realTimeInfo.arvlMsg2)) {
-                    subwayIndex = (getNameIndex()! * 2);
-                  } else if (realTimeInfo.arvlMsg2 == "전전역 출발") {
-                    subwayIndex = (getNameIndex()! * 2) + (isUp ? 1 : -1);
-                  } else if (realTimeInfo.arvlMsg2 == "전역 도착") {
-                    subwayIndex = (getNameIndex()! * 2);
-                  } else {
-                    subwayIndex = (getNameIndex()! * 2) + getSubwayAlignment(realTimeInfo.arvlCd, isUp);
-                  }
-
-                  if (subwayIndex >= 0 && subwayIndex < subwayPositionList.length) {
-                    subwayPositionList[subwayIndex] = Pair(
-                        subwayIndex,
-                        SubwayPositionModel(
-                          subwayName: realTimeInfo.statnNm,
-                          destination: realTimeInfo.trainLineNm.split(" ").first.trim(),
-                          arvlCd: realTimeInfo.arvlCd,
-                          arvlMsg3: realTimeInfo.arvlMsg3,
-                          ordkey: realTimeInfo.ordkey,
-                        ));
-                  }
+              if (arrivalRes.status == 200) {
+                var arrivalInfo = arrivalRes.data;
+                if (CollectionUtil.isNullorEmpty(arrivalInfo?.realtimeArrivalList)) {
+                  continue;
                 }
 
-                final firstData = arrivalList.first;
-                stationList.add(SubwayDirectionStationModel(
-                  nameList: nameList,
-                  destination: firstData.trainLineNm.split("-").first.trim().toString(),
-                  nextStation: firstData.trainLineNm.split("-").last.trim().toString(),
-                  btrainSttus: firstData.btrainSttus.split("-").last.trim().toString(),
-                  subwayPositionList: subwayPositionList,
-                  updnLine: firstData.updnLine,
-                  arvlMsg2: firstData.arvlMsg2,
-                  ordkey: firstData.ordkey,
-                  arvlMsg3: firstData.arvlMsg3,
-                ));
-              });
-              dummyData.stations = stationList;
-              subwayDataList.add(dummyData);
-            }
-          }
+                final subwayArrivalList = arrivalInfo?.realtimeArrivalList!;
 
-          if (!CollectionUtil.isNullorEmpty(subwayDataList)) {
-            _changeUiState(
-              Success(
-                MainIntent(
-                  userRegion: userRegion,
-                  subwayItems: subwayDataList,
+                if (subwayLine.isEmpty) {
+                  continue;
+                }
+
+                final dummyData = SubwayModel(
+                  subwayId: SubwayUtil.subwayLineToId(subwayLine),
+                  subwayName: subwayName,
+                  subwayLine: subwayLine,
+                  distance: distance,
+                  mainColor: SubwayUtil.getMainColor(subwayLine),
+                  stations: [],
+                  latLng: LatLng(
+                    double.parse(element.latitude),
+                    double.parse(element.longitude),
+                  ),
+                );
+
+                final List<SubwayDirectionStationModel> stationList = [];
+
+                final tempList = subwayArrivalList!.where((element) => element.subwayId == dummyData.subwayId);
+
+                groupBy(tempList, (p0) => p0.updnLine).forEach((key, arrivalList) {
+                  final isUp = arrivalList.first.ordkey.startsWith("0");
+                  var nameList = SubwayUtil.findSubwayNameList(
+                    subwayId: arrivalList.first.subwayId,
+                    currentStatnId: arrivalList.first.statnId,
+                    preStatnId: arrivalList.first.statnFid,
+                    nextStatnId: arrivalList.first.statnTid,
+                    destination: arrivalList.first.trainLineNm.split(" ").first,
+                    isUp: isUp,
+                    arvlMsg3: arrivalList.first.arvlMsg3,
+                  );
+
+                  final List<Pair<int, SubwayPositionModel?>> subwayPositionList =
+                  List<Pair<int, SubwayPositionModel?>>.filled(nameList.length * 2 - 1, Pair(-1, null));
+
+                  for (var realTimeInfo in arrivalList) {
+                    var subwayIndex = 0;
+
+                    bool isFirstCharacterNumber(String input) {
+                      // 첫번째 메세지가 숫자인 경우
+                      if (input.isEmpty) return false;
+                      int? firstCharacter = int.tryParse(input[0]);
+                      return firstCharacter != null;
+                    }
+
+                    int? getNameIndex() {
+                      // 역 이름이 들어간 인덱스를 찾기 위한 함수. api에서 역 이름에 () 가 들어가는것 때문에 못찾는 경우가 있음.
+                      for (int index = 0; index < nameList.length; index++) {
+                        if (nameList[index].split("(").first.contains(realTimeInfo.arvlMsg3.split("(").first)) {
+                          return index;
+                        }
+                      }
+                      return null;
+                    }
+
+                    // n분 후 (역이름)
+                    if (getNameIndex() == null) {
+                      subwayIndex = -1;
+                    } else if (isFirstCharacterNumber(realTimeInfo.arvlMsg2)) {
+                      subwayIndex = (getNameIndex()! * 2);
+                    } else if (realTimeInfo.arvlMsg2 == "전전역 출발") {
+                      subwayIndex = (getNameIndex()! * 2) + (isUp ? 1 : -1);
+                    } else if (realTimeInfo.arvlMsg2 == "전역 도착") {
+                      subwayIndex = (getNameIndex()! * 2);
+                    } else {
+                      subwayIndex = (getNameIndex()! * 2) + getSubwayAlignment(realTimeInfo.arvlCd, isUp);
+                    }
+
+                    if (subwayIndex >= 0 && subwayIndex < subwayPositionList.length) {
+                      subwayPositionList[subwayIndex] = Pair(
+                          subwayIndex,
+                          SubwayPositionModel(
+                            subwayName: realTimeInfo.statnNm,
+                            destination: realTimeInfo.trainLineNm.split(" ").first.trim(),
+                            arvlCd: realTimeInfo.arvlCd,
+                            arvlMsg3: realTimeInfo.arvlMsg3,
+                            ordkey: realTimeInfo.ordkey,
+                          ));
+                    }
+                  }
+
+                  final firstData = arrivalList.first;
+                  stationList.add(SubwayDirectionStationModel(
+                    nameList: nameList,
+                    destination: firstData.trainLineNm.split("-").first.trim().toString(),
+                    nextStation: firstData.trainLineNm.split("-").last.trim().toString(),
+                    btrainSttus: firstData.btrainSttus.split("-").last.trim().toString(),
+                    subwayPositionList: subwayPositionList,
+                    updnLine: firstData.updnLine,
+                    arvlMsg2: firstData.arvlMsg2,
+                    ordkey: firstData.ordkey,
+                    arvlMsg3: firstData.arvlMsg3,
+                  ));
+                });
+                dummyData.stations = stationList;
+                subwayDataList.add(dummyData);
+              }
+            }
+
+            if (!CollectionUtil.isNullorEmpty(subwayDataList)) {
+              _changeUiState(
+                Success(
+                  MainIntent(
+                    userRegion: userRegion,
+                    subwayItems: subwayDataList,
+                  ),
                 ),
-              ),
-            );
-            _showToastSearchResult(context);
+              );
+              _showToastSearchResult(context);
+            } else {
+              _showToastNotFoundStation(context);
+              _changeUiState(Failure(ErrorType.not_available.name));
+            }
           } else {
+            debugPrint("@#@#@#1 subwayDataList is empty : ${await GetIt.instance<GetUserDistanceUseCase>().call()}");
             _showToastNotFoundStation(context);
+            debugPrint("addressList or nearByStationList is empty");
             _changeUiState(Failure(ErrorType.not_available.name));
           }
-        } else {
-          debugPrint("@#@#@#1 subwayDataList is empty : ${await GetIt.instance<GetUserDistanceUseCase>().call()}");
-          _showToastNotFoundStation(context);
-          debugPrint("addressList or nearByStationList is empty");
-          _changeUiState(Failure(ErrorType.not_available.name));
+        }else{
+          _changeUiState(Failure(_getAppLocalization.get().message_network_error));
         }
       }
     } else {

@@ -37,6 +37,7 @@ dependencies:
   app_tracking_transparency: ^2.0.4
   firebase_remote_config: ^4.2.3
   flutter_naver_map: ^1.0.0
+  connectivity_plus: ^4.0.1
 
 dev_dependencies:
   flutter_test:

@@ -9,6 +9,7 @@ import 'package:subway_ody/domain/models/local/LatLng.dart';
 import 'package:subway_ody/domain/models/remote/kakao/KakaoLocationResponse.dart';
 import 'package:subway_ody/presentation/utils/Common.dart';
 
+import 'Service.dart';
 
 // // 신분당 - 광교
 // final x = "127.0441";
@@ -262,7 +263,6 @@ import 'package:subway_ody/presentation/utils/Common.dart';
 // final x = "127.0550";
 // final y = "37.9275";
 
-
 class KakaoApi {
   KakaoApi();
 
@@ -284,85 +284,101 @@ class KakaoApi {
 
   /// 위치 권한 요청
   Future<ApiResponse<KakaoLocationResponse>> getRegion(LatLng latLng) async {
-    final params = {
-      'x': parseFixNumber(latLng.longitude.toString()),
-      'y': parseFixNumber(latLng.latitude.toString()),
-      // 'x': x,
-      // 'y': y,
-    };
+    if (await Service.isNetworkAvailable()) {
+      final params = {
+        'x': parseFixNumber(latLng.longitude.toString()),
+        'y': parseFixNumber(latLng.latitude.toString()),
+        // 'x': x,
+        // 'y': y,
+      };
 
-    final uri = Uri.https(
-      'dapi.kakao.com',
-      '/v2/local/geo/coord2address.json',
-      params,
-    );
-
-    debugPrint('request Url: $uri');
-
-    final response = await http.get(uri, headers: headers);
-    debugPrint('response auth: ${Environment.kakaoRestApiKey}');
-    debugPrint('response statusCode: ${response.statusCode}');
-    debugPrint('response body: ${response.body}');
-    debugPrint('response headers: ${response.headers}');
-
-    if (response.statusCode >= 500) {
-      return ApiResponse(
-        status: response.statusCode,
-        message: _getAppLocalization.get().message_server_error_5xx,
-        data: null,
+      final uri = Uri.https(
+        'dapi.kakao.com',
+        '/v2/local/geo/coord2address.json',
+        params,
       );
+
+      debugPrint('request Url: $uri');
+
+      final response = await http.get(uri, headers: headers);
+      debugPrint('response auth: ${Environment.kakaoRestApiKey}');
+      debugPrint('response statusCode: ${response.statusCode}');
+      debugPrint('response body: ${response.body}');
+      debugPrint('response headers: ${response.headers}');
+
+      if (response.statusCode >= 500) {
+        return ApiResponse(
+          status: response.statusCode,
+          message: _getAppLocalization.get().message_server_error_5xx,
+          data: null,
+        );
+      } else {
+        return ApiResponse(
+          status: response.statusCode,
+          message: _getAppLocalization.get().message_api_success,
+          data: KakaoLocationResponse.fromJson(
+            jsonDecode(response.body),
+          ),
+        );
+      }
     } else {
       return ApiResponse(
-        status: response.statusCode,
-        message: _getAppLocalization.get().message_api_success,
-        data: KakaoLocationResponse.fromJson(
-          jsonDecode(response.body),
-        ),
+        status: 406,
+        message: _getAppLocalization.get().message_network_error,
+        data: null,
       );
     }
   }
 
   /// 가까운 지하철역 구하기
   Future<ApiResponse<KakaoLocationResponse>> getNearBySubwayStation(LatLng latLng, int distance) async {
-    final params = {
-      'x': parseFixNumber(latLng.longitude.toString()),
-      'y': parseFixNumber(latLng.latitude.toString()),
-      // 'x': x,
-      // 'y': y,
-      'radius': distance.toString(),
-      'query': '역',
-      'category_group_code': 'SW8',
-      'sort': 'distance',
-    };
+    if (await Service.isNetworkAvailable()) {
+      final params = {
+        'x': parseFixNumber(latLng.longitude.toString()),
+        'y': parseFixNumber(latLng.latitude.toString()),
+        // 'x': x,
+        // 'y': y,
+        'radius': distance.toString(),
+        'query': '역',
+        'category_group_code': 'SW8',
+        'sort': 'distance',
+      };
 
-    final uri = Uri.https(
-      'dapi.kakao.com',
-      '/v2/local/search/keyword.json',
-      params,
-    );
-
-    debugPrint('request url: $uri');
-    debugPrint('request params: $params');
-
-    final response = await http.get(uri, headers: headers);
-    debugPrint('response auth: ${Environment.kakaoRestApiKey}');
-    debugPrint('response statusCode: ${response.statusCode}');
-    debugPrint('response body: ${response.body}');
-    debugPrint('response headers: ${response.headers}');
-
-    if (response.statusCode >= 500) {
-      return ApiResponse(
-        status: response.statusCode,
-        message: _getAppLocalization.get().message_server_error_5xx,
-        data: null,
+      final uri = Uri.https(
+        'dapi.kakao.com',
+        '/v2/local/search/keyword.json',
+        params,
       );
+
+      debugPrint('request url: $uri');
+      debugPrint('request params: $params');
+
+      final response = await http.get(uri, headers: headers);
+      debugPrint('response auth: ${Environment.kakaoRestApiKey}');
+      debugPrint('response statusCode: ${response.statusCode}');
+      debugPrint('response body: ${response.body}');
+      debugPrint('response headers: ${response.headers}');
+
+      if (response.statusCode >= 500) {
+        return ApiResponse(
+          status: response.statusCode,
+          message: _getAppLocalization.get().message_server_error_5xx,
+          data: null,
+        );
+      } else {
+        return ApiResponse(
+          status: response.statusCode,
+          message: _getAppLocalization.get().message_api_success,
+          data: KakaoLocationResponse.fromJson(
+            jsonDecode(response.body),
+          ),
+        );
+      }
     } else {
       return ApiResponse(
-        status: response.statusCode,
-        message: _getAppLocalization.get().message_api_success,
-        data: KakaoLocationResponse.fromJson(
-          jsonDecode(response.body),
-        ),
+        status: 406,
+        message: _getAppLocalization.get().message_network_error,
+        data: null,
       );
     }
   }

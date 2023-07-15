@@ -44,10 +44,11 @@ class ActiveContent extends HookWidget {
               },
               itemBuilder: (BuildContext context, int index) {
                 final model = item.stations[index];
+                final isUp = model.ordkey.startsWith("0");
 
                 return Column(
                   children: [
-                    const SizedBox(height: 22),
+                    SizedBox(height: isUp ? 22 : 44),
                     SubwayDirectionETA(stationInfo: model),
                     const SizedBox(height: 28),
                     SubwayListDivider(

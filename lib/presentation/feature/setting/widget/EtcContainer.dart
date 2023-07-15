@@ -7,6 +7,7 @@ import 'package:subway_ody/domain/usecases/local/GetAppModeUseCase.dart';
 import 'package:subway_ody/domain/usecases/local/PatchAppModeUseCase.dart';
 import 'package:subway_ody/domain/usecases/local/PostSaveUserLanguageUseCase.dart';
 import 'package:subway_ody/firebase/Analytics.dart';
+import 'package:subway_ody/firebase/FirebaseRemoteConfigService.dart';
 import 'package:subway_ody/presentation/components/popup/PopupUtil.dart';
 import 'package:subway_ody/presentation/feature/setting/models/LanguageType.dart';
 import 'package:subway_ody/presentation/ui/colors.dart';
@@ -171,19 +172,23 @@ class LanguageSelector extends HookWidget {
   }
 }
 
-class VersionText extends StatelessWidget {
+class VersionText extends HookWidget {
   const VersionText({
     super.key,
   });
 
-  Future<String> getAppVersion() async {
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    return packageInfo.version;
-  }
-
   @override
   Widget build(BuildContext context) {
     int hiddenMenuClickCount = 0;
+    final version = useState<String>("---");
+
+    useEffect(() {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        PackageInfo packageInfo = await PackageInfo.fromPlatform();
+        version.value = packageInfo.version;
+      });
+      return null;
+    },[]);
 
     return Container(
       margin: const EdgeInsets.only(top: 24),
@@ -197,35 +202,26 @@ class VersionText extends StatelessWidget {
                   fontSize: 16,
                 ),
           ),
-          FutureBuilder(
-            future: getAppVersion(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return GestureDetector(
-                  onTap: () async {
-                    hiddenMenuClickCount++;
-                    if (hiddenMenuClickCount == 10) {
-                      PopupUtil.showHiddenMenu(backgroundTouchCloseFlag: false);
-                      hiddenMenuClickCount = 0;
-                    }
-                  },
-                  child: Container(
-                    color: getColorScheme(context).light,
-                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-                    child: Text(
-                      snapshot.data.toString(),
-                      style: getTextTheme(context).medium.copyWith(
-                            color: getColorScheme(context).colorPrimary,
-                            fontSize: 14,
-                          ),
-                    ),
-                  ),
-                );
-              } else {
-                return Container();
+          GestureDetector(
+            onTap: () async {
+              hiddenMenuClickCount++;
+              if (hiddenMenuClickCount == 10) {
+                PopupUtil.showHiddenMenu(backgroundTouchCloseFlag: false);
+                hiddenMenuClickCount = 0;
               }
             },
-          ),
+            child: Container(
+              color: getColorScheme(context).light,
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+              child: Text(
+                version.value.toString(),
+                style: getTextTheme(context).medium.copyWith(
+                  color: getColorScheme(context).colorPrimary,
+                  fontSize: 14,
+                ),
+              ),
+            ),
+          )
         ],
       ),
     );
