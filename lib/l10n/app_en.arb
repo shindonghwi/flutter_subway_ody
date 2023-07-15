@@ -46,6 +46,8 @@
     "message_not_available": "There is no subway station nearby or\nThis area does not support the service yet",
     "message_server_error_5xx": "Server error has occurred\nPlease try again later",
     "message_api_success": "success",
+    "message_network_error": "Please check the network connection",
+    "message_gps_permission": "Location permission is required to use the app",
 
     "toast_not_found": "Search results within {distance}km.\nPlease increase the distance a little more",
     "@toast_not_found":{
@@ -61,5 +63,10 @@
     },
 
     "common_close": "Close",
-    "common_location": "Location"
+    "common_location": "Location",
+    "common_do_exit": "Shut Down",
+    "common_do_request": "Request",
+    "common_do_setting": "To set up"
+
 }
+
