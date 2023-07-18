@@ -132,6 +132,18 @@
       <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/path_provider_foundation/example/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/path_provider_foundation/example/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/path_provider_foundation/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/linux/flutter/ephemeral/.plugin_symlinks/connectivity_plus/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/linux/flutter/ephemeral/.plugin_symlinks/connectivity_plus/build" />
+      <excludeFolder url="file://$MODULE_DIR$/linux/flutter/ephemeral/.plugin_symlinks/connectivity_plus/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/linux/flutter/ephemeral/.plugin_symlinks/connectivity_plus/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/linux/flutter/ephemeral/.plugin_symlinks/connectivity_plus/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/linux/flutter/ephemeral/.plugin_symlinks/connectivity_plus/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/connectivity_plus/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/connectivity_plus/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/connectivity_plus/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/connectivity_plus/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/connectivity_plus/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ios/.symlinks/plugins/connectivity_plus/example/.dart_tool" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Dart SDK" level="project" />
