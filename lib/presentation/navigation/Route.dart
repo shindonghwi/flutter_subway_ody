@@ -23,7 +23,7 @@ enum RoutingScreen {
   static Map<String, WidgetBuilder> getAppRoutes() {
     return {
       RoutingScreen.Splash.route: (context) => const SplashScreen(),
-      RoutingScreen.Main.route: (context) => const MainScreen(),
+      RoutingScreen.Main.route: (context) => MainScreen(),
       RoutingScreen.Setting.route: (context) => const SettingScreen(),
       RoutingScreen.NaverMap.route: (context) => NaverMapScreen(),
       RoutingScreen.Hidden.route: (context) => HiddenScreen(),

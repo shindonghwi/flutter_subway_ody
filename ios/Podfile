@@ -41,4 +41,4 @@ post_install do |installer|
 end
 
 pod 'Google-Mobile-Ads-SDK'
-pod 'Ads-Global'
+# pod 'Ads-Global'
