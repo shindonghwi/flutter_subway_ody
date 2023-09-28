@@ -112,5 +112,5 @@ dependencies {
     implementation "com.google.android.gms:play-services-ads-identifier:$ads_identifier"
     implementation 'com.google.android.gms:play-services-location:21.0.1'
 
-    implementation 'com.pangle.global:ads-sdk:5.3.0.4'
+//    implementation 'com.pangle.global:ads-sdk:5.3.0.4'
 }

@@ -4,6 +4,8 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:subway_ody/app/env/Environment.dart';
 import 'package:subway_ody/presentation/components/ad/AdvertiseHelper.dart';
 
+import 'PangleAdBanner.dart';
+
 class GoogleAdmobBanner extends HookWidget {
   final AdSize size;
 
@@ -37,25 +39,16 @@ class GoogleAdmobBanner extends HookWidget {
     }
 
     useEffect(() {
-      if (Environment.buildType == BuildType.prod) {
-        loadAd();
-      }
+      loadAd();
       return null;
     }, []);
 
-    return Environment.buildType == BuildType.prod
-        ? bannerAd.value != null
-            ? Column(
-              children: [
-                const SizedBox(height: 20),
-                SizedBox(
-                  width: size.width.toDouble(),
-                  height: size.height.toDouble(),
-                  child: AdWidget(ad: bannerAd.value!),
-                ),
-              ],
-            )
-            : const SizedBox()
-        : const SizedBox();
+    return Center(
+      child: SizedBox(
+        width: size.width.toDouble(),
+        height: size.height.toDouble(),
+        child: bannerAd.value != null ? AdWidget(ad: bannerAd.value!) : const SizedBox(),
+      ),
+    );
   }
 }

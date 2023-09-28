@@ -36,3 +36,26 @@ PageRouteBuilder nextFadeInOutScreen(String route, {dynamic parameter}) {
     },
   );
 }
+
+
+PageRoute nextSlideUpScreen(String route, {dynamic parameter, fullScreen = false}) {
+  return PageRouteBuilder(
+    transitionDuration: const Duration(milliseconds: 300),
+    pageBuilder: (context, animation, secondaryAnimation) => RoutingScreen.getScreen(route, parameter: parameter),
+    reverseTransitionDuration: const Duration(milliseconds: 300),
+    fullscreenDialog: fullScreen,
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      var begin = const Offset(0, 1);
+      var end = const Offset(0, 0);
+      var curve = Curves.fastOutSlowIn;
+
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+      var curvedAnimation = animation.drive(tween);
+
+      return SlideTransition(
+        position: curvedAnimation,
+        child: child,
+      );
+    },
+  );
+}

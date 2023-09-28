@@ -1,14 +1,20 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_exit_app/flutter_exit_app.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:subway_ody/domain/usecases/local/GetIntroPopUpShowingUseCase.dart';
 import 'package:subway_ody/domain/usecases/local/PatchIntroPopUpShowingUseCase.dart';
 import 'package:subway_ody/firebase/Analytics.dart';
 import 'package:subway_ody/presentation/components/CircleLoading.dart';
+import 'package:subway_ody/presentation/components/ad/AdvertiseHelper.dart';
+import 'package:subway_ody/presentation/components/ad/GoogleAdmobBanner.dart';
 import 'package:subway_ody/presentation/components/popup/PopupUtil.dart';
-import 'package:subway_ody/presentation/components/toast/Toast.dart';
 import 'package:subway_ody/presentation/feature/main/MainIntent.dart';
 import 'package:subway_ody/presentation/feature/main/widget/MainAppBar.dart';
 import 'package:subway_ody/presentation/feature/main/widget/content/ActiveContent.dart';
@@ -22,10 +28,12 @@ import 'package:subway_ody/presentation/ui/colors.dart';
 import 'package:subway_ody/presentation/utils/Common.dart';
 import 'package:subway_ody/presentation/utils/LifecycleWatcher.dart';
 
-import '../../components/ad/PangleAdBanner.dart';
-
 class MainScreen extends HookConsumerWidget {
-  const MainScreen({Key? key}) : super(key: key);
+  InterstitialAd? fullAd;
+
+  MainScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -33,15 +41,7 @@ class MainScreen extends HookConsumerWidget {
     final uiStateRead = ref.read(mainUiStateProvider.notifier);
     final currentRegionRead = ref.read(currentRegionProvider.notifier);
     final floatingButtonState = useState<bool>(false);
-
     final mainIntentData = useState<MainIntent?>(null);
-
-    useEffect(() {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        uiStateRead.getSubwayData(context, null);
-      });
-      return null;
-    }, []);
 
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -65,8 +65,38 @@ class MainScreen extends HookConsumerWidget {
       return null;
     }, [uiState]);
 
+    void initFullAd() {
+      InterstitialAd.load(
+        adUnitId: AdvertiseHelper.admobFullBannerId,
+        request: const AdRequest(),
+        adLoadCallback: InterstitialAdLoadCallback(
+          onAdLoaded: (ad) {
+            fullAd = ad;
+            fullAd!.fullScreenContentCallback = FullScreenContentCallback(
+              onAdDismissedFullScreenContent: (ad) {
+                ad.dispose();
+                if (Platform.isAndroid) {
+                  SystemNavigator.pop(animated: true);
+                } else {
+                  FlutterExitApp.exitApp(iosForceExit: true);
+                }
+              },
+              onAdFailedToShowFullScreenContent: (ad, error) {
+                ad.dispose();
+              },
+            );
+          },
+          onAdFailedToLoad: (LoadAdError error) {
+            debugPrint('InterstitialAd failed to load: $error');
+          },
+        ),
+      );
+    }
+
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
+        initFullAd();
+        uiStateRead.getSubwayData(context, null);
         if (await GetIt.instance<GetIntroPopUpShowingUseCase>().call()) {
           await GetIt.instance<PatchIntroPopUpShowingUseCase>().call(false);
           PopupUtil.showIntro(backgroundTouchCloseFlag: true);
@@ -75,33 +105,43 @@ class MainScreen extends HookConsumerWidget {
       return null;
     }, []);
 
-    return LifecycleWatcher(
-      onLifeCycleChanged: (state) {
-        if (state == AppLifecycleState.resumed) {
-          Analytics.eventManualRefresh();
-          uiStateRead.getSubwayData(context, null);
+    return WillPopScope(
+      onWillPop: () async {
+        if (fullAd != null) {
+          fullAd?.show();
+          return false;
+        } else {
+          return true;
         }
       },
-      child: Scaffold(
-        appBar: const MainAppBar(),
-        backgroundColor: getColorScheme(context).light,
-        body: SafeArea(
-          child: Stack(
-            children: [
-              mainIntentData.value == null
-                  ? uiState is Success<MainIntent>
-                      ? ActiveContent(subwayModel: uiState.value)
-                      : const SizedBox()
-                  : ActiveContent(subwayModel: mainIntentData.value!),
-              if (uiState is Failure<MainIntent>)
-                uiState.errorMessage == ErrorType.gps_error.name
-                    ? const ErrorGpsContent()
-                    : uiState.errorMessage == ErrorType.not_available.name
-                        ? const ErrorNotAvailableContent()
-                        : const Error500Content(),
-              if (uiState is Loading) const CircleLoading(),
-              const BottomContent()
-            ],
+      child: LifecycleWatcher(
+        onLifeCycleChanged: (state) {
+          if (state == AppLifecycleState.resumed) {
+            Analytics.eventManualRefresh();
+            uiStateRead.getSubwayData(context, null);
+          }
+        },
+        child: Scaffold(
+          appBar: const MainAppBar(),
+          backgroundColor: getColorScheme(context).light,
+          body: SafeArea(
+            child: Stack(
+              children: [
+                mainIntentData.value == null
+                    ? uiState is Success<MainIntent>
+                        ? ActiveContent(subwayModel: uiState.value)
+                        : const SizedBox()
+                    : ActiveContent(subwayModel: mainIntentData.value!),
+                if (uiState is Failure<MainIntent>)
+                  uiState.errorMessage == ErrorType.gps_error.name
+                      ? const ErrorGpsContent()
+                      : uiState.errorMessage == ErrorType.not_available.name
+                          ? const ErrorNotAvailableContent()
+                          : const Error500Content(),
+                if (uiState is Loading) const CircleLoading(),
+                const BottomContent()
+              ],
+            ),
           ),
         ),
       ),
@@ -139,7 +179,8 @@ class BottomContent extends HookConsumerWidget {
               ),
             ),
           ),
-          const PangleAdBanner(),
+          const GoogleAdmobBanner(),
+          // const PangleAdBanner(),
         ],
       ),
     );
